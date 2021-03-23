@@ -73,39 +73,39 @@ $pdf->AddFont('OpenSans-Regular', '', 'OpenSans-Regular.php');
 $pdf->AddFont('OpenSans-Regular', 'B', 'OpenSans-Semibold.php');
 $pdf->Ln();
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.40, 0.30, utf8_decode('Paciente // Patient: '), 0, 0);
+$pdf->Cell(1.50, 0.30, utf8_decode('Paciente // Patient: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.45, 0.30, utf8_decode('Germán Noé González Cuevas'), 0, 0);
+$pdf->Cell(3.35, 0.30, utf8_decode('Germán Noé González Cuevas'), 0, 0);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(0.90, 0.30, utf8_decode('Sexo // Sex: '), 0, 0);
+$pdf->Cell(1.00, 0.30, utf8_decode('Sexo // Sex: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.95, 0.30, utf8_decode('Masculino // Male'), 0, 1);
+$pdf->Cell(1.85, 0.30, utf8_decode('Masculino // Male'), 0, 1);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.35, 0.30, utf8_decode('Expediente // File: '), 0, 0);
+$pdf->Cell(1.45, 0.30, utf8_decode('Expediente // File: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.50, 0.30, utf8_decode('RIZ157'), 0, 0);
+$pdf->Cell(3.40, 0.30, utf8_decode('RIZ157'), 0, 0);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(0.90, 0.30, utf8_decode('Edad // Age: '), 0, 0);
+$pdf->Cell(1.00, 0.30, utf8_decode('Edad // Age: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.95, 0.30, utf8_decode('33'), 0, 1);
+$pdf->Cell(1.85, 0.30, utf8_decode('33'), 0, 1);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(2.65, 0.30, utf8_decode('No. Pasaporte // Passport Number: '), 0, 0);
+$pdf->Cell(2.75, 0.30, utf8_decode('No. Pasaporte // Passport Number: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(2.20, 0.30, utf8_decode('L898902C'), 0, 0);
+$pdf->Cell(2.10, 0.30, utf8_decode('L898902C'), 0, 0);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.05, 0.30, utf8_decode('Fecha // Date: '), 0, 0);
+$pdf->Cell(1.15, 0.30, utf8_decode('Fecha // Date: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.80, 0.30, utf8_decode('3/22/2021'), 0, 1);
+$pdf->Cell(1.70, 0.30, utf8_decode('3/22/2021'), 0, 1);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode('Doctor // Physician: '), 0, 0);
+$pdf->Cell(1.55, 0.30, utf8_decode('Doctor // Physician: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.25, 0.30, utf8_decode('PhD Germán Noé Gonzále Cuevas'), 0, 1);
+$pdf->Cell(6.15, 0.30, utf8_decode('PhD Germán Noé Gonzále Cuevas'), 0, 1);
 
 $pdf->Ln();
 
@@ -130,19 +130,19 @@ $pdf->Cell('2.50', 0.30, utf8_decode('Negativo (-) // Negative (-)'), 0, 1, 'C')
 $pdf->Ln();
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode('Muestra // Sample: '), 0, 0);
+$pdf->Cell(1.50, 0.30, utf8_decode('Muestra // Sample: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.65, 0.30, utf8_decode('Nasofaringea // Nasopharyngeal'), 0, 1);
+$pdf->Cell(6.60, 0.30, utf8_decode('Nasofaringea // Nasopharyngeal'), 0, 1);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode('Método // Method: '), 0, 0);
+$pdf->Cell(1.50, 0.30, utf8_decode('Método // Method: '), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.65, 0.30, utf8_decode('Inmuno Ensayo Cromatográfico // Cromotography immunoassay'), 0, 1);
+$pdf->Cell(6.60, 0.30, utf8_decode('Inmuno Ensayo Cromatográfico // Cromotography immunoassay'), 0, 1);
 
 $pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode(''), 0, 0);
+$pdf->Cell(1.50, 0.30, utf8_decode(''), 0, 0);
 $pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.65, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
+$pdf->Cell(6.60, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
 
 $pdf->Ln();
 
