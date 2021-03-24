@@ -3,7 +3,8 @@ Create a PDF within a QR Code that redirects to the URL of the PDF
 
 # Requirements
 
-* php 5.6
+* php 7.4
+* mysql 8
 
 ## 1. Clone the App
 
@@ -11,7 +12,20 @@ Create a PDF within a QR Code that redirects to the URL of the PDF
 $ git clone https://github.com/germanngc/phpPDFQRCode.git
 ```
 
-## 2. Test
+## 2. Create .env file
+``` zsh
+$ cp .env.example .env
+$ vim .env
+# Add your local credentials
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=labsal
+DB_USERNAME=labsal_usr
+DB_PASSWORD=labsal_pss
+```
+
+## 3. Test
 ``` zsh
 $ php -S localhost:8000
 ```

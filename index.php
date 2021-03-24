@@ -1,174 +1,202 @@
 <?php
-require 'lib/fpdf/fpdf.php';
-require 'lib/phpqrcode/qrlib.php';
+require_once dirname(__FILE__) . '/config/config.php';
+?><html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<meta name="title" content="Zogen Generate PDF - by Nina Code">
+		<meta name="author" content="Nina Code">
+		<meta name="theme-color" content="#7952b3">
 
-// Data:
-//   Ancho del Doc: 8.5 Pulgadas
-//   Alto del Doc: 11 Pulgadas
-// Notar las posicoones representadas en numeros son en pulgadas
-class PDF extends FPDF
-{
-	// Cabecera de página
-	function Header()
-	{
-		// Logo Zogen (Arriba Derecha)
-		$this->Image('media/zogen-logo.png', 7, 0.4, 1);
+		<title>Zogen Generate PDF - by Nina Code</title>
 
-		// Logo Laboratorio Zalasar (Centrado)
-		$this->Image('media/laboratorio-salazar-logo.png', 3, 0.4, 2.4);
+		<!-- CSS only -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
-		// Arial bold 15
-		$this->SetFont('Helvetica', 'B', 10);
+		<style>
+			.bd-placeholder-img {
+				font-size: 1.125rem;
+				text-anchor: middle;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				user-select: none;
+			}
 
-		// Alineamos la posicion de las axis
-		$this->setXY(0.4, 1.4);
+			@media (min-width: 768px) {
+				.bd-placeholder-img-lg {
+					font-size: 3.5rem;
+				}
+			}
+		</style>
 
-		// Título
-		$this->Cell(0, 0.2, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 0, 'C');
-		$this->Ln();
-		$this->Cell(0, 0.2, utf8_decode('D.G.P. 1524713'), 0, 0, 'C');
-		$this->Ln();
-		$this->SetLineWidth(0.02);
-		$this->SetDrawColor(150, 150, 150);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->SetDrawColor(0, 0, 0);
+		<!-- Custom styles for this template -->
+    <link href="offcanvas.css" rel="stylesheet">
+	</head>
 
-		// Salto de línea
-		$this->Ln();
-	}
+	<body class="bg-light">
+		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">Offcanvas navbar</a>
+				<button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
-	// Pie de página
-	function Footer()
-	{
-		// Posición: a 1,5 cm del final
-		$this->SetY(-1.1);
+				<div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Dashboard</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Notifications</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Switch account</a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Settings</a>
 
-		// Arial italic 8
-		$this->SetFont('Helvetica', 'I', 8);
+							<ul class="dropdown-menu" aria-labelledby="dropdown01">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li><a class="dropdown-item" href="#">Something else here</a></li>
+							</ul>
+						</li>
+					</ul>
 
-		// Número de página
-		$this->SetLineWidth(0.02);
-		$this->SetDrawColor(150, 150, 150);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 0, 1);
-		$this->Cell(0, 0.2, utf8_decode('AV. Miguel Hidalgo# 704(Ruta 5) SN.92, MZA. 88 LT. 25, Cancún Q.ROO, C.P 77516, TEL. 888-91-10'), 0, 1, 'C');
-		$this->Cell(0, 0.2, utf8_decode('analisisclinicos@laboratoriosalazar.com.mx / www.laboratoriosalazar.com.mx'), 0, 1, 'C');
-		// $this->Cell(0, 0.2, utf8_decode('Página ' . $this->PageNo() . '/{nb}'), 0, 1, 'C');
-	}
-}
+					<form class="d-flex">
+						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form>
+				</div>
+			</div>
+		</nav>
 
-// Creación del objeto de la clase heredada
-// Data:
-//   Ancho del Doc: 8.5 Pulgadas
-//   Alto del Doc: 11 Pulgadas
-// Notar las posicoones representadas en numeros son en pulgadas
-$pdf = new PDF('P', 'in', 'Letter');
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->AddFont('OpenSans-Light', '', 'OpenSans-Light.php');
-$pdf->AddFont('OpenSans-Light', 'I', 'OpenSans-LightItalic.php');
-$pdf->AddFont('OpenSans-Regular', '', 'OpenSans-Regular.php');
-$pdf->AddFont('OpenSans-Regular', 'B', 'OpenSans-Semibold.php');
-$pdf->Ln();
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Paciente // Patient: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.35, 0.30, utf8_decode('Germán Noé González Cuevas'), 0, 0);
+		<div class="nav-scroller bg-body shadow-sm">
+			<nav class="nav nav-underline" aria-label="Secondary navigation">
+				<a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+				<a class="nav-link" href="#">
+					Friends
+					<span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+				</a>
+				<a class="nav-link" href="#">Explore</a>
+				<a class="nav-link" href="#">Suggestions</a>
+				<a class="nav-link" href="#">Link</a>
+				<a class="nav-link" href="#">Link</a>
+				<a class="nav-link" href="#">Link</a>
+				<a class="nav-link" href="#">Link</a>
+				<a class="nav-link" href="#">Link</a>
+			</nav>
+		</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.00, 0.30, utf8_decode('Sexo // Sex: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.85, 0.30, utf8_decode('Masculino // Male'), 0, 1);
+		<main class="container">
+			<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
+				<img class="me-3" src="/docs/5.0/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
+				<div class="lh-1">
+					<h1 class="h6 mb-0 text-white lh-1">Bootstrap</h1>
+					<small>Since 2011</small>
+				</div>
+			</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode('Expediente // File: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.40, 0.30, utf8_decode('RIZ157'), 0, 0);
+			<div class="my-3 p-3 bg-body rounded shadow-sm">
+				<h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.00, 0.30, utf8_decode('Edad // Age: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.85, 0.30, utf8_decode('33'), 0, 1);
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+						xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+						preserveAspectRatio="xMidYMid slice" focusable="false">
+						<title>Placeholder</title>
+						<rect width="100%" height="100%" fill="#007bff"/>
+						<text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+					</svg>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(2.75, 0.30, utf8_decode('No. Pasaporte // Passport Number: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(2.10, 0.30, utf8_decode('L898902C'), 0, 0);
+					<p class="pb-3 mb-0 small lh-sm border-bottom">
+						<strong class="d-block text-gray-dark">@username</strong>
+						Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
+					</p>
+				</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.15, 0.30, utf8_decode('Fecha // Date: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.70, 0.30, utf8_decode('3/22/2021'), 0, 1);
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+						xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+						preserveAspectRatio="xMidYMid slice" focusable="false">
+						<title>Placeholder</title>
+						<rect width="100%" height="100%" fill="#e83e8c"/>
+						<text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text>
+					</svg>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.55, 0.30, utf8_decode('Doctor // Physician: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.15, 0.30, utf8_decode('PhD Germán Noé Gonzále Cuevas'), 0, 1);
+					<p class="pb-3 mb-0 small lh-sm border-bottom">
+						<strong class="d-block text-gray-dark">@username</strong>
+						Some more representative placeholder content, related to this other user. Another status update, perhaps.
+					</p>
+				</div>
 
-$pdf->Ln();
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+						xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+						preserveAspectRatio="xMidYMid slice" focusable="false">
+						<title>Placeholder</title>
+						<rect width="100%" height="100%" fill="#6f42c1"/>
+						<text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text>
+					</svg>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(4.85, 0.30, utf8_decode('A quien corresponda // To whom it may concern,'), 0, 1);
+					<p class="pb-3 mb-0 small lh-sm border-bottom">
+						<strong class="d-block text-gray-dark">@username</strong>
+						This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
+					</p>
+				</div>
 
-$pdf->Ln();
+				<small class="d-block text-end mt-3">
+					<a href="#">All updates</a>
+				</small>
+			</div>
 
-$pdf->SetFont('OpenSans-Light', '', 10);
-$pdf->Cell('2.50', 0.30, utf8_decode('Examen // Test'), 'B', 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Resultado // Result'), 'B', 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Valor de Referencia // Reference Value'), 'B', 1, 'C');
-$pdf->SetFont('OpenSans-Regular', 'B', 10);
-$pdf->Cell('2.50', 0.30, utf8_decode('Antígeno // Antigen'), 0, 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Negativo (-) // Negative (-)'), 0, 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Negativo (-) // Negative (-)'), 0, 1, 'C');
+			<div class="my-3 p-3 bg-body rounded shadow-sm">
+				<h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
 
-$pdf->Ln();
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
+						xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
+						preserveAspectRatio="xMidYMid slice" focusable="false">
+						<title>Placeholder</title>
+						<rect width="100%" height="100%" fill="#007bff"/>
+						<text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+					</svg>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Muestra // Sample: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('Nasofaringea // Nasopharyngeal'), 0, 1);
+					<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+						<div class="d-flex justify-content-between">
+							<strong class="text-gray-dark">Full Name</strong>
+							<a href="#">Follow</a>
+						</div>
+						<span class="d-block">@username</span>
+					</div>
+				</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Método // Method: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('Inmuno Ensayo Cromatográfico // Cromotography immunoassay'), 0, 1);
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode(''), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
+					<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+						<div class="d-flex justify-content-between">
+							<strong class="text-gray-dark">Full Name</strong>
+							<a href="#">Follow</a>
+						</div>
+						<span class="d-block">@username</span>
+					</div>
+				</div>
 
-$pdf->Ln();
+				<div class="d-flex text-muted pt-3">
+					<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
 
-$currentY = $pdf->GetY();
+					<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+						<div class="d-flex justify-content-between">
+							<strong class="text-gray-dark">Full Name</strong>
+							<a href="#">Follow</a>
+						</div>
+						<span class="d-block">@username</span>
+					</div>
+				</div>
 
-// QRCode
-$stamp = 'qr-' . time();
-QRcode::png('https://ninacode.mx/?ref=' . $stamp, 'media/' . $stamp . '.png');
-// Logo Zogen (Arriba Derecha)
-$pdf->Image('media/' . $stamp . '.png', 0.40, $currentY - 0.1, 1.37);
+				<small class="d-block text-end mt-3">
+					<a href="#">All suggestions</a>
+				</small>
+			</div>
+		</main>
 
-if (file_exists('media/' . $stamp . '.png')) {
-	unlink('media/' . $stamp . '.png');
-}
-
-$pdf->SetFont('OpenSans-Light', 'I', 8);
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. // Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados positivos sugieren una infección reciente. // Positive results suggest a recent infection.'));
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. // Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
-
-$pdf->Ln();
-
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->MultiCell(0, 0.30, utf8_decode('La consulta en línea y/o la impresión de este documento no sustituye al original // Online consultation and / or printing of this document does not replace the original'));
-
-$pdf->Output();
+		<!-- JavaScript Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+	</body>
+</html>
