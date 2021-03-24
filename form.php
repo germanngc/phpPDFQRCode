@@ -13,24 +13,8 @@ require_once dirname(__FILE__) . '/config/config.php';
 		<!-- CSS only -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
-		<style>
-			.bd-placeholder-img {
-				font-size: 1.125rem;
-				text-anchor: middle;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				user-select: none;
-			}
-
-			@media (min-width: 768px) {
-				.bd-placeholder-img-lg {
-					font-size: 3.5rem;
-				}
-			}
-		</style>
-
 		<!-- Custom styles for this template -->
-    <link href="offcanvas.css" rel="stylesheet">
+		<link href="assets/style.css" rel="stylesheet">
 	</head>
 
 	<body class="bg-light">
@@ -92,98 +76,124 @@ require_once dirname(__FILE__) . '/config/config.php';
 				</div>
 			</div>
 
+            <div class="my-3 p-3 bg-body rounded shadow-sm">
+                <h1>SARS-CoV-2 (COVID-19) Royal Islander Individual Form</h1>
+                <p>One individual form per person is required / </p>
+            </div>
 			<div class="my-3 p-3 bg-body rounded shadow-sm">
                 <form>
                     <div class="mb-3">
+                        <div>
+                            <span class="form-required-star"></span>
+                            <span>Required</span>
+                        </div>
                         <h2>Personal Information </h2>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">1.Type of test</label>
+                        <label for="exampleInputEmail1" class="form-label">1.Type of test <span class="form-required-star"></span></label>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            COVID-19 Antigen Test (Free of charge)
-                        </label>
+                            <input class="form-check-input" type="radio" name="typetest" value="Antigen" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                COVID-19 Antigen Test (Free of charge)
+                            </label>
                         </div>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            COVID-19 PCR Test (USD $116)
-                        </label>
+                            <input class="form-check-input" type="radio" name="typetest" value="PCR" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                COVID-19 PCR Test (USD $116)
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">2.Names</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">As stated in your passport.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">3.Last Names</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
-                        <div id="emailHelp" class="form-text">As stated in your passport.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">5.Birthdate</label>
-                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">6.Sex</label>
+                        <label for="Names" class="form-label">2.Names <span class="form-required-star"></span></label>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                            <input type="text" class="form-control" name="name" id="Names" placeholder="Enter your answer">
+                            <div id="emailHelp" class="form-text">As stated in your passport.</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">3.Last Names <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter your answer">
+                            <div id="emailHelp" class="form-text">As stated in your passport.</div>
+                        </div>    
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputEmail1" class="form-label">4.Email <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input type="email" class="form-control" name="email" id="InputEmail1" aria-describedby="emailHelp" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Birthdate" class="form-label">5.Birthdate <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input type="date" name="birthdate" class="office-form-question-textbox form-control office-form-theme-focus-border border-no-radius datepicker" placeholder="Please input date in format of M/d/yyyy" aria-label="Please input date in format of M/d/yyyy">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Inputsex" class="form-label">6.Sex <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sex" value="female" id="flexsex1">
+                        <label class="form-check-label" for="flexsex1">
                             Female
                         </label>
                         </div>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="sex" value="male" checked id="flexsex2">
+                        <label class="form-check-label" for="flexsex2">
                             Male
                         </label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">7.Passport Number</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">8.Villa Number</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">9.Departure dater</label>
-                        <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">10.Are you booking as a Family/Group member or as an Individual member?</label>
+                        <label for="Passport" class="form-label">7.Passport Number <span class="form-required-star"></span></label>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                            <input type="text" name="passport" class="form-control" id="Passport" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputVilla" class="form-label">8.Villa Number <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input type="text" name="villa" class="form-control" id="InputVilla" placeholder="Enter your answer">
+                        </div>        
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputDeparture" class="form-label">9.Departure dater <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input type="date" id="InputDeparture" class="office-form-question-textbox form-control office-form-theme-focus-border border-no-radius datepicker" placeholder="Please input date in format of M/d/yyyy" aria-label="Please input date in format of M/d/yyyy">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">10.Are you booking as a Family/Group member or as an Individual member? <span class="form-required-star"></span></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="member" value="Individual" id="flexRadiomember">
+                            <label class="form-check-label" for="flexRadiomember">
                             Individual
-                        </label>
+                            </label>
                         </div>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="member" value="Family/Group" id="flexRadiomember2" checked>
+                            <label class="form-check-label" for="flexRadiomember2">
                             Family/Group
-                        </label>
+                            </label>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">11.Are you the main member of Family/Group and/or booking the appointment on behalf of all of them?</label>
+                        <label for="exampleInputEmail1" class="form-label">11.Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Yes - Please book your appointment on next link
-                        </label>
+                            <input class="form-check-input" type="radio" name="bookmember" value="Yes" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Yes - Please book your appointment on next link
+                            </label>
                         </div>
                         <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            No - Don't book any appointment
-                        </label>
+                            <input class="form-check-input" type="radio" name="bookmember" value="No" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                No - Don't book any appointment
+                            </label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">NEXT</button>
                 </form>
 			</div>
 		</main>
