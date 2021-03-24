@@ -18,56 +18,11 @@ require_once dirname(__FILE__) . '/config/config.php';
 	</head>
 
 	<body class="bg-light">
-		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="#">Offcanvas navbar</a>
-				<button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-				<div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Dashboard</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Notifications</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Switch account</a></li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Settings</a>
-
-							<ul class="dropdown-menu" aria-labelledby="dropdown01">
-								<li><a class="dropdown-item" href="#">Action</a></li>
-								<li><a class="dropdown-item" href="#">Another action</a></li>
-								<li><a class="dropdown-item" href="#">Something else here</a></li>
-							</ul>
-						</li>
-					</ul>
-
-					<form class="d-flex">
-						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-success" type="submit">Search</button>
-					</form>
-				</div>
-			</div>
-		</nav>
-
-		<div class="nav-scroller bg-body shadow-sm">
-			<nav class="nav nav-underline" aria-label="Secondary navigation">
-				<a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-				<a class="nav-link" href="#">
-					Friends
-					<span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-				</a>
-				<a class="nav-link" href="#">Explore</a>
-				<a class="nav-link" href="#">Suggestions</a>
-				<a class="nav-link" href="#">Link</a>
-				<a class="nav-link" href="#">Link</a>
-				<a class="nav-link" href="#">Link</a>
-				<a class="nav-link" href="#">Link</a>
-				<a class="nav-link" href="#">Link</a>
-			</nav>
-		</div>
+		<?php include dirname(__FILE__) . '/views/header.php'; ?> 
 
 		<main class="container">
+			<?php $phpPDFQRConfig::flashGet(); ?> 
+
 			<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
 				<img class="me-3" src="/docs/5.0/assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
 				<div class="lh-1">
