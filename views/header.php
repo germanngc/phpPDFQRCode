@@ -9,8 +9,17 @@
 			<?php if (isset($_SESSION["labsal_user"])): ?> 
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>">Dashboard</a></li>
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/form.php">Registros</a></li>
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/users.php">Usuarios</a></li>
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/form.php">Crear Registro</a></li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Usuarios</a>
+
+					<ul class="dropdown-menu" aria-labelledby="dropdown01">
+						<li><a class="dropdown-item" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/users.php?action=list">Ver Usuarios</a></li>
+						<li><a class="dropdown-item" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/users.php?action=create">Crear Usuario</a></li>
+					</ul>
+				</li>
+
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Configuración</a>
 

@@ -7,7 +7,9 @@ class phpPDFQRConfig
 	private static $envFile = '.env';
 	private static $logPath = 'logs/';
 	private static $environment = [];
+	private static $urlPostFix = '/';
 
+	public static $per_page = 25;
 	public static $con = null;
 	public static $rootURL = '/';
 
@@ -24,9 +26,11 @@ class phpPDFQRConfig
 			self::$envFile = dirname(__FILE__) . '/../' . $envFile;
 		}
 
+		self::$urlPostFix = $urlPostFix;
+
 		self::$environment = self::parseEnv();
 		self::$con = self::dbConnect();
-		self::$rootURL = self::buildServerUrl($urlPostFix);
+		self::$rootURL = self::buildServerUrl(self::$urlPostFix);
 		self::auth();
 	}
 
@@ -45,7 +49,7 @@ class phpPDFQRConfig
 			self::$rootURL . '/pdf',
 			self::$rootURL . '/favicon.ico'
 		];
-		$curURL = self::$rootURL . $_SERVER['REQUEST_URI'];
+		$curURL = self::$rootURL . '/' . preg_replace("#" . self::$urlPostFix . "#", "", $_SERVER['REQUEST_URI']);
 		$isClear = false;
 
 		foreach ($publicURL AS $url) {
@@ -75,8 +79,10 @@ class phpPDFQRConfig
 	private static function buildServerUrl($urlPostFix = '/')
 	{
 		$urlPostFix = preg_replace(["/\/\//", "/\/$/", "/^\//"], ["/", "", ""], $urlPostFix);
+		$urlPostFix = '/' . $urlPostFix;
+		self::$urlPostFix = $urlPostFix;
 
-		return self::$environment['APP_URL'] .  $urlPostFix; 
+		return preg_replace("/\/$/", "", self::$environment['APP_URL'] .  $urlPostFix); 
 	}
 
 	/**
