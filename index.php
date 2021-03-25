@@ -39,8 +39,8 @@ while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 							Ver PDF
 						</button>
-						<button type="button" class="btn btn-primary" onclick="location.href = '<?php echo $phpPDFQRConfig::$rootURL; ?>/form.php';">
-							Ver forma
+						<button type="button" class="btn btn-primary" onclick="location.href = '<?php echo $phpPDFQRConfig::$rootURL; ?>/form-edit.php?id=<?php echo $row['id']; ?>';">
+							Editar
 						</button>
 					</div>
 				</div>
