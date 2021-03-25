@@ -137,11 +137,11 @@ include dirname(__FILE__) . '/views/body.php';
 
 				<label for="email" class="form-label">11. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? // Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
 				<div class="form-check">
-					<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family" ']=='yes"'){ echo'checked';} ?> required>
+					<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family']=='yes"'){ echo'checked';} ?> required>
 					<label class="form-check-label" for="book_family1">Si - Reserver // Yes - Book</label>
 				</div>
 				<div class="form-check">
-					<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" <?php if($row['book_family" ']=='no"'){ echo'checked';} ?> required>
+					<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" <?php if($row['book_family']=='no"'){ echo'checked';} ?> required>
 					<label class="form-check-label" for="book_family2">No - No reservar // No - Don't book</label>
 				</div>
 			</div>
