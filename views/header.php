@@ -6,8 +6,11 @@
 		</button>
 
 		<div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+			<?php if (isset($_SESSION["labsal_user"])): ?> 
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/logout.php">Dashboard</a></li>
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>">Dashboard</a></li>
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/form.php">Registros</a></li>
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="<?php echo $phpPDFQRConfig::$rootURL; ?>/users.php">Usuarios</a></li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Configuración</a>
 
@@ -17,10 +20,11 @@
 				</li>
 			</ul>
 
-			<form class="d-flex">
+			<form class="d-flex mb-0">
 				<input class="form-control me-2" type="search" placeholder="Búsqueda" aria-label="Búsqueda">
 				<button class="btn btn-outline-success" type="submit">Búsqueda</button>
 			</form>
+			<?php endif; ?> 
 		</div>
 	</div>
 </nav>

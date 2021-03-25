@@ -1,4 +1,5 @@
 <?php
+// error_reporting(0);
 session_start();
 
 class phpPDFQRConfig
@@ -10,7 +11,7 @@ class phpPDFQRConfig
 	public static $con = null;
 	public static $rootURL = '/';
 
-	function __construct($envFile = null, $urlPrefix = '/')
+	function __construct($envFile = null, $urlPostFix = '/')
 	{
 		self::$envFile = dirname(__FILE__) . '/../' . self::$envFile;
 		self::$logPath = dirname(__FILE__) . '/../' . self::$logPath;
@@ -25,8 +26,7 @@ class phpPDFQRConfig
 
 		self::$environment = self::parseEnv();
 		self::$con = self::dbConnect();
-		// self::$rootURL = self::$environment['APP_URL'] .  $urlPrefix;
-		self::$rootURL = self::buildServerUrl($urlPrefix);
+		self::$rootURL = self::buildServerUrl($urlPostFix);
 		self::auth();
 	}
 
@@ -41,7 +41,9 @@ class phpPDFQRConfig
 		$publicURL = [
 			self::$rootURL . '/login.php',
 			self::$rootURL . '/logout.php',
-			self::$rootURL . '/pdf'
+			self::$rootURL . '/form.php',
+			self::$rootURL . '/pdf',
+			self::$rootURL . '/favicon.ico'
 		];
 		$curURL = self::$rootURL . $_SERVER['REQUEST_URI'];
 		$isClear = false;
@@ -57,10 +59,10 @@ class phpPDFQRConfig
 
 		if (!isset($_SESSION['labsal_user'])) {
 			self::log('error', 'An unknown user tried to access this page.');
-			self::flashSet("Error", "No existe una session activa.", "danger");
+			self::flashSet("Error", "No existe una session activa. // No active sessions.", "danger");
 			session_destroy();
 			header("location: " . self::$rootURL . "/login.php");
-			return;
+			die();
 		}
 
 		return;
@@ -70,11 +72,11 @@ class phpPDFQRConfig
 	 * buildServerUrl
 	 * 	Create the server URL for multiple envs
 	 */
-	private static function buildServerUrl($urlPrefix = '/')
+	private static function buildServerUrl($urlPostFix = '/')
 	{
-		$urlPrefix = preg_replace(["/\/\//", "/\/$/", "/^\//"], ["/", "", ""], $urlPrefix);
+		$urlPostFix = preg_replace(["/\/\//", "/\/$/", "/^\//"], ["/", "", ""], $urlPostFix);
 
-		return self::$environment['APP_URL'] .  $urlPrefix; 
+		return self::$environment['APP_URL'] .  $urlPostFix; 
 	}
 
 	/**
@@ -90,7 +92,23 @@ class phpPDFQRConfig
 		$user = self::$environment['DB_USERNAME'];
 		$password = self::$environment['DB_PASSWORD'];
 
-		return mysqli_connect($server, $user, $password, $database);
+		if (!$con = mysqli_connect($server, $user, $password, $database)) {
+			self::Log("error", "Database connection error " . print_r(mysqli_connect_errno(), true) . '::' . print_r(mysqli_connect_error(), true));
+			self::flashSet("Error", "Fallo la conección a la base de datos. // Database connection failure.", "danger");
+		}
+
+		return $con;
+	}
+
+	/**
+	 * dbClose
+	 * 	Close a Connection
+	 * 
+	 * @return void
+	 */
+	public static function dbClose()
+	{
+		mysqli_close(self::$con);
 	}
 
 	/**

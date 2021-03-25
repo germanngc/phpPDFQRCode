@@ -18,6 +18,14 @@ html, body {
 
 body {
 	padding-top: 56px;
+	padding-bottom: 56px;
+}
+
+#pagefooter {
+	bottom: 0;
+	border-top: 1px solid #cccccc;
+	position: fixed;
+	width: 100%;
 }
 
 @media (max-width: 991.98px) {

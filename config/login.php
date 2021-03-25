@@ -1,9 +1,8 @@
 <?php
 class phpPDFQRLogin extends phpPDFQRConfig
 {
-	function __construct()
-	{
-	}
+	// Do not remove or phpPDFQRConfig construct will be executed twice
+	public function __construct() {}
 
 	public static function doLogin($user, $password)
 	{
@@ -17,18 +16,18 @@ class phpPDFQRLogin extends phpPDFQRConfig
 
 		if (!isset($row["password"])) {
 			self::log("error", "Unknown user {$labsal_user}");
-			self::flashSet("Error", "No existe el usuario {$labsal_user}", "danger");
-			// header("location: " . self::$rootURL . "/login.php");
-			// return;
+			self::flashSet("Error", "No existe el usuario {$labsal_user}. // User {$labsal_user} does not exist.", "danger");
+			header("location: " . self::$rootURL . "/login.php");
+			die();
 		} else if (!password_verify($password, $row["password"])) {
 			self::log("error", "password missmatch for {$labsal_user}");
-			self::flashSet("Error", "La contraseña no coincide para {$labsal_user}", "danger");
-			// header("location: " . self::$rootURL . "/login.php");
-			// return;
+			self::flashSet("Error", "La contraseña no coincide para {$labsal_user}. // Password for {$labsal_user} do not match/.", "danger");
+			header("location: " . self::$rootURL . "/login.php");
+			die();
 		} else {
 			$_SESSION['labsal_user'] = $labsal_user;
 			header("location: " . self::$rootURL . "/");
-			return;
+			die();
 		}
 	}
 
@@ -36,7 +35,7 @@ class phpPDFQRLogin extends phpPDFQRConfig
 	{
 		session_destroy();
 		header("location: " . self::$rootURL . "/login.php");
-		return;
+		die();
 	}
 }
 
