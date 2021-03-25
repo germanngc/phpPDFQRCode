@@ -49,7 +49,8 @@ class phpPDFQRConfig
 			self::$rootURL . '/pdf',
 			self::$rootURL . '/favicon.ico'
 		];
-		$curURL = self::$rootURL . '/' . preg_replace("#" . self::$urlPostFix . "#", "", $_SERVER['REQUEST_URI']);
+		$curURL =  '/' . preg_replace("#" . self::$urlPostFix . "#", "", $_SERVER['REQUEST_URI']);
+		$curURL = self::$rootURL . preg_replace("/\/\//", "/", $curURL);
 		$isClear = false;
 
 		foreach ($publicURL AS $url) {

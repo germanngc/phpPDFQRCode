@@ -195,13 +195,6 @@ include dirname(__FILE__) . '/views/body.php';
 				<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method']; ?>" placeholder="" required>
 			</div>
 
-			<div class="mb-3">
-				<hr>
-
-				<label for="covid_testscol" class="form-label">19. COVID testscol // COVID testscol <span class="form-required-star"></span></label>
-				<input type="text" class="form-control" id="covid_testscol" name="covid_testscol" value="<?php echo $row['covid_testscol']; ?>" placeholder="" required>
-			</div>
-
 			<input type="hidden" name="reCaptcha" id="reCaptcha" value="">
 			<button type="submit" class="btn btn-primary mb-3">Guardar // Save</button>
 		</form>

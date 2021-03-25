@@ -36,10 +36,18 @@ while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
 				<div class="d-flex justify-content-between">
 					<strong class="text-gray-dark"><?php echo $row['first_name'] . ' ' . $row['last_name'] . ' Villa #' . $row['villa']; ?></strong>
 					<div>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<?php if ($row["test_date_taken"]): ?> 
+						<button type="button" class="btn btn-primary"
+							onclick="window.open('<?php echo $phpPDFQRConfig::$rootURL; ?>/pdf-generate.php?itemId=<?php echo $row['id']; ?>', '_blank');">
 							Ver PDF
 						</button>
-						<button type="button" class="btn btn-primary" onclick="location.href = '<?php echo $phpPDFQRConfig::$rootURL; ?>/form-edit.php?id=<?php echo $row['id']; ?>';">
+						<button type="button" class="btn btn-primary"
+							onclick="javascript:void(0);">
+							Enviar Email
+						</button>
+						<?php endif; ?> 
+						<button type="button" class="btn btn-primary"
+							onclick="location.href = '<?php echo $phpPDFQRConfig::$rootURL; ?>/form-edit.php?id=<?php echo $row['id']; ?>';">
 							Editar
 						</button>
 					</div>

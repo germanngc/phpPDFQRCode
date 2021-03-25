@@ -42,7 +42,6 @@ CREATE TABLE `covid_tests` (
   `test_reference` varchar(255) DEFAULT NULL,
   `test_sample` varchar(255) DEFAULT NULL,
   `test_method` varchar(255) DEFAULT NULL,
-  `covid_testscol` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)

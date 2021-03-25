@@ -1,6 +1,8 @@
 .env
 logs/*
-!logs/.gitkeep 
+!logs/.gitkeep
+pdf/*
+!pdf/.gitkeep
 
 # Docker
 docker-compose/mysql/persistent/*

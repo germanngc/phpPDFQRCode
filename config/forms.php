@@ -55,12 +55,11 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_date_result = mysqli_real_escape_string(self::$con, $data["test_date_result"]);
 		$test_reference = mysqli_real_escape_string(self::$con, $data["test_reference"]);
 		$test_method = mysqli_real_escape_string(self::$con, $data["test_method"]);
-		$covid_testscol = mysqli_real_escape_string(self::$con, $data["covid_testscol"]);
 
 		$sql = "UPDATE covid_tests " .
 			"SET first_name='{$name}', last_name='{$lastname}', email='{$email}', birthdate='{$birthdate}', sex='{$sex}', passport='{$passport}', villa='{$villa}'," .
 			"departuredate='{$departuredate}', book_type='{$book_type}', book_family='{$book_family}', test_type='{$test_type}', test_result='{$test_result}', test_sample='{$test_sample}'," .
-			"expedient='{$expedient}', test_date_taken='{$test_date_taken}', test_date_result='{$test_date_result}', test_reference='{$test_reference}', test_method='{$test_method}', covid_testscol='{$covid_testscol}', updated_at='" . date('Y-m-d H:i:s'). "'".
+			"expedient='{$expedient}', test_date_taken='{$test_date_taken}', test_date_result='{$test_date_result}', test_reference='{$test_reference}', test_method='{$test_method}', updated_at='" . date('Y-m-d H:i:s'). "'".
 			"WHERE id='{$id}'";
 
 		if (!mysqli_query(self::$con, $sql)) {
