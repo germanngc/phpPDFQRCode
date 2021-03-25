@@ -35,7 +35,7 @@ while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
 			<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
 				<div class="d-flex justify-content-between">
 					<strong class="text-gray-dark"><?php echo $row['first_name'] . ' ' . $row['last_name'] . ' Villa #' . $row['villa']; ?></strong>
-					<a href="#">Ver forma</a>
+					<a href="form-edit.php?id=<?php echo $row['id']; ?>">Ver forma</a>
 				</div>
 				<span class="d-block">Tipo de Test: <?php echo $row["test_type"]; ?> / Fecha de Salida: <?php echo $row["departuredate"]; ?> </span>
 			</div>
