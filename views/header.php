@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" aria-label="Main navigation" style="border-bottom: 1px solid #cccccc;">
+<nav id="mainNavigation"
+	class="navbar navbar-expand-lg fixed-top navbar-light bg-white"
+	aria-label="Main navigation">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#">Zogen | Laborario Salazar</a>
+		<a class="navbar-brand" href="<?php echo $phpPDFQRConfig::$rootURL; ?>">zogen | Laboratorio Salazar</a>
 		<button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -29,10 +31,10 @@
 				</li>
 			</ul>
 
-			<form class="d-flex mb-0">
+			<!--<form class="d-flex mb-0">
 				<input class="form-control me-2" type="search" placeholder="Búsqueda" aria-label="Búsqueda">
 				<button class="btn btn-outline-success" type="submit">Búsqueda</button>
-			</form>
+			</form>-->
 			<?php endif; ?> 
 		</div>
 	</div>

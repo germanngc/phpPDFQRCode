@@ -10,8 +10,8 @@ include dirname(__FILE__) . '/views/body.php';
 
 	<div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
 		<div class="lh-1">
-			<h1 class="h6 mb-1 text-white lh-1">Zogen | Laborario Salazar</h1>
-			<small>Administrador de Pruebas SARS COVID 19</small>
+			<h1 class="h6 mb-1 text-white lh-1">zogen | Laboratorio Salazar</h1>
+			<small>Administrador de Pruebas SARS-CoV-2 (COVID 19)</small>
 		</div>
 	</div>
 

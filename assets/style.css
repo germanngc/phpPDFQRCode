@@ -16,16 +16,23 @@ html, body {
 	overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
-body {
-	padding-top: 56px;
-	padding-bottom: 56px;
+html {
+	height: 100%;
+	box-sizing: border-box;
 }
 
-#pagefooter {
-	bottom: 0;
-	border-top: 1px solid #cccccc;
-	position: fixed;
-	width: 100%;
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	padding-top: 56px;
+	padding-bottom: 56px;
+	position: relative;
 }
 
 @media (max-width: 991.98px) {
@@ -98,4 +105,58 @@ body {
 
 .form-check {
     margin-left: 15px;
+}
+
+/**
+ * --------
+ * Custom Stles
+ */
+.bg-labsal {
+	background-color: #09a9f4;
+}
+
+.btn-labsal {
+	background-color: #09a9f4;
+	border-color: #09a9f4;
+	color: #f8f9fa;
+}
+
+.btn-labsal:hover {
+	background-color: #0899d0;
+	border-color: #0899d0;
+	color: #f7e9d8;
+}
+
+.text-labsal {
+	color: #f8f9fa;
+}
+
+nav#mainNavigation {
+	border-bottom: 1px solid #cccccc;
+}
+
+#pagefooter {
+	bottom: 0;
+	font-size: 80%;
+	left: 0;
+	position: absolute;
+	right: 0;
+}
+
+/*#pagefooter {
+	font-size: 80%;
+	bottom: 0;
+	border-top: 1px solid #cccccc;
+	position: fixed;
+	width: 100%;
+}*/
+
+#pagefooter #CopyFooter {
+	background-color: #09a9f4;
+	color: #f8f9fa;
+}
+
+#pagefooter #CopyFooter a,
+#pagefooter #CopyFooter a:hover {
+	color: #f8f9fa;
 }
