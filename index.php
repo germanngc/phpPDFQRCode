@@ -16,7 +16,7 @@ include dirname(__FILE__) . '/views/body.php';
 	</div>
 
 	<div class="d-flex align-items-center justify-content-end my-0 p-3 pt-0">
-		<a href="<?php $phpPDFQRConfig::$rootURL; ?>/list.php"
+		<a href="<?php echo $phpPDFQRConfig::$rootURL; ?>/list.php"
 			class="btn btn-success text-small"
 			style="border-top-left-radius: 0; border-top-right-radius: 0;">
 			<i class="fas fa-file-excel"></i> &nbsp; Vista de Excel</a>
