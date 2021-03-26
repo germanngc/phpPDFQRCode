@@ -97,7 +97,6 @@ $results = mysqli_query($phpPDFQRConfig::$con, $sql);
 					</tfoot>
 				</table>
 				</div>
-				<span class="d-block">Tipo de Test: <?php echo $row["test_type"]; ?> / Fecha de Salida: <?php echo $row["departuredate"]; ?> </span>
 			</div>
 		</div>
 		<?php
