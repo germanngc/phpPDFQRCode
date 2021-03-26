@@ -160,3 +160,21 @@ nav#mainNavigation {
 #pagefooter #CopyFooter a:hover {
 	color: #f8f9fa;
 }
+
+.dataTables_wrapper {
+    width: 100%;
+}
+
+.buttons-excel{
+	color: #FFFFFF !important;
+    background-color: #4CAF50 !important;
+}
+.buttons-excel::before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f1c3";  margin-right: 7px;
+  }
+
+  .btn-list{
+    float: right;
+    right: 15px;
+    position: absolute;
+}

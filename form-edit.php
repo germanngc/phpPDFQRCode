@@ -174,6 +174,11 @@ $row = $phpPDFQRForms::showForm($id);
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
 <script>
+	var date = new Date();
+	date.setDate(date.getDate() + 1);
+	var today = date.toISOString().split('T')[0];
+	document.getElementsByName("departuredate")[0].setAttribute('min', today);
+
 	function submitForm() {
 		grecaptcha.enterprise.ready(function() {
 			grecaptcha.enterprise.execute('6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw', {action: 'submit_covid_test_form'}).then(function(token) {
