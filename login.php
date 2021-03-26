@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$phpPDFQRLogin::doLogin($_POST['username'], $_POST['password']);
 }
 
-$pageTitle = "Inicio de Sesión // Login";
+$pageTitle = "Inicio de Sesión";
 
 include dirname(__FILE__) . '/views/body.php';
 ?> 

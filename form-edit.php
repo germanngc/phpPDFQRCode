@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$phpPDFQRForms::updateForm($_POST);
 }
 
-$pageTitle = "Formulario de Registro // Registry Form";
+$pageTitle = "Edición de Registro";
 
 include dirname(__FILE__) . '/views/body.php';
 
@@ -147,7 +147,7 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_reference" class="form-label">16. Referencia de Test // Test Reference <span class="form-required-star"></span></label>
+					<label for="test_reference" class="form-label">16. Reference of the Reference <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="test_reference" name="test_reference" value="<?php echo $row['test_reference']; ?>" placeholder="" required>
 				</div>
 
