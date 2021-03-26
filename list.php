@@ -27,6 +27,7 @@ $results = mysqli_query($phpPDFQRConfig::$con, $sql);
 				<table id="myTable" class="table table-striped table-bordered cell-border" style="width:100%">
 					<thead>
 						<tr>
+							<th><i class="fas fa-file-pdf"></i></th>
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Email</th>
@@ -52,6 +53,7 @@ $results = mysqli_query($phpPDFQRConfig::$con, $sql);
 						while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
 						?>
 						<tr>
+							<td><input type="checkbox" name="export" value="<?php echo $row['id']; ?>" /></td>
 							<td><?php echo $row['first_name']; ?></td>
 							<td><?php echo $row['last_name']; ?></td>
 							<td><?php echo $row['email']; ?></td>
@@ -75,6 +77,7 @@ $results = mysqli_query($phpPDFQRConfig::$con, $sql);
 					</tbody>
 					<tfoot>
 						<tr>
+							<th><i class="fas fa-file-pdf"></i></th>
 							<th>First Name</th>
 							<th>Last Name</th>
 							<th>Email</th>
