@@ -143,12 +143,28 @@ $row = $phpPDFQRForms::showForm($id);
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="test_result" class="form-label">15. Result of the Test <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_result" name="test_result" value="<?php echo $row['test_result']; ?>" placeholder="" required>
+					<!--<input type="text" class="form-control" id="test_result" name="test_result" value="<?php echo $row['test_result']; ?>" placeholder="" required>-->
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="test_result" id="test_result1" value="negative"<?php echo $row['test_result'] != 'positive' ? ' checked' : ''; ?> required>
+						<label class="form-check-label" for="test_result1">Negative (-)</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="test_result" id="test_result2" value="positive"<?php echo $row['test_result'] == 'positive' ? ' checked' : ''; ?> required>
+						<label class="form-check-label" for="test_result2">Positive (+)</label>
+					</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_reference" class="form-label">16. Reference of the Reference <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_reference" name="test_reference" value="<?php echo $row['test_reference']; ?>" placeholder="" required>
+					<label for="test_reference" class="form-label">16. Reference of the Test <span class="form-required-star"></span></label>
+					<!--<input type="text" class="form-control" id="test_reference" name="test_reference" value="<?php echo $row['test_reference']; ?>" placeholder="" required>-->
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="test_reference" id="test_reference1" value="negative"<?php echo $row['test_result'] != 'positive' ? ' checked' : ''; ?> required>
+						<label class="form-check-label" for="test_reference1">Negative (-)</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="test_reference" id="test_reference2" value="positive"<?php echo $row['test_result'] == 'positive' ? ' checked' : ''; ?> required>
+						<label class="form-check-label" for="test_reference2">Positive (+)</label>
+					</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
@@ -174,9 +190,10 @@ $row = $phpPDFQRForms::showForm($id);
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
 <script>
-	var date = new Date();
+	let date = new Date();
 	date.setDate(date.getDate() + 1);
-	var today = date.toISOString().split('T')[0];
+
+	let today = date.toISOString().split('T')[0];
 	document.getElementsByName("departuredate")[0].setAttribute('min', today);
 
 	function submitForm() {
@@ -206,6 +223,14 @@ $row = $phpPDFQRForms::showForm($id);
 					book_family_container.style.display = 'none';
 				}
 			});
+		});
+
+		// Merging Dates
+		let test_date_taken = document.getElementById('test_date_taken'),
+			test_date_result = document.getElementById('test_date_result');
+		
+		test_date_taken.addEventListener('change', function(event) {
+			test_date_result.value = this.value;
 		});
 	});
 </script>

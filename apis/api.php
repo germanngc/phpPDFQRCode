@@ -2,9 +2,14 @@
 header("Content-Type: application/json;charset=utf-8");
 
 require_once dirname(__FILE__) . '/../config/config.php';
+require_once dirname(__FILE__) . '/../config/forms.php';
+require_once dirname(__FILE__) . '/../lib/fpdf/fpdf-form.php';
+
 
 class phpPDFQRAPI extends phpPDFQRConfig
 {
+	public static $phpPDFQRForms = [];
+
 	// Do not remove or phpPDFQRConfig construct will be executed twice
 	public function __construct() {}
 
@@ -14,27 +19,28 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			0 => 'checkbox_',
 			1 => 'pdf_',
 			2 => 'email_',
-			3 => 'id',
-			4 => 'first_name',
-			5 => 'last_name',
-			6 => 'email',
-			7 => 'birthdate',
-			8 => 'sex',
-			9 => 'passport',
-			10 => 'villa',
-			11 => 'reservation_number',
-			12 => 'departuredate',
-			13 => 'book_type',
-			14 => 'book_family',
-			15 => 'test_type',
-			16 => 'test_date_taken',
-			17 => 'test_date_result',
-			18 => 'test_result',
-			19 => 'test_reference',
-			20 => 'test_sample',
-			21 => 'test_method',
-			22 => 'created_at',
-			23 => 'updated_at'
+			3 => 'edit_',
+			4 => 'id',
+			5 => 'first_name',
+			6 => 'last_name',
+			7 => 'email',
+			8 => 'birthdate',
+			9 => 'sex',
+			10 => 'passport',
+			11 => 'villa',
+			12 => 'reservation_number',
+			13 => 'departuredate',
+			14 => 'book_type',
+			15 => 'book_family',
+			16 => 'test_type',
+			17 => 'test_date_taken',
+			18 => 'test_date_result',
+			19 => 'test_result',
+			20 => 'test_reference',
+			21 => 'test_sample',
+			22 => 'test_method',
+			23 => 'created_at',
+			24 => 'updated_at'
 		];
 
 		$where = "";
@@ -98,10 +104,23 @@ class phpPDFQRAPI extends phpPDFQRConfig
 		$results = [];
 
 		while ($row = mysqli_fetch_array($resultsQuery, MYSQLI_ASSOC)) {
+			$disabbled = false;
+
+			if (!$row['test_date_result'] || !$row['test_result']) {
+				$disabbled = true;
+			}
+
 			$results[] = [
-				'<input type="checkbox" name="id[]" value="' . $row["id"] . '">',
-				'<button type="button" class="btn btn-sm btn-primary" onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">Ver PDF</button>',
-				'<button type="button" class="btn btn-sm btn-primary" onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">Ver PDF</button>',
+				'<input class="checkDataTable" type="checkbox" name="id[]" value="' . $row["id"] . '"' . ($disabbled ? ' disabled' : '') . '>',
+				'<button type="button" class="btn btn-primary" ' .
+					'onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">' .
+					'<i class="fas fa-download"></i> &nbsp; <i class="far fa-file-pdf"></i></button>',
+				'<button type="button" class="btn btn-primary' . ($disabbled ? ' disabled' : '') . '" ' .
+					'onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">' .
+					'&nbsp;<i class="fas fa-envelope-open-text"></i>&nbsp;</button>',
+				'<button type="button" class="btn btn-primary" ' .
+					'onclick="window.open(\'' . self::$rootURL . '/form-edit.php?id=' . $row['id'] . '\', \'_self\');">' .
+					'&nbsp;<i class="fas fa-edit"></i>&nbsp;</button>',
 				'RIH' . str_pad($row['id'], 7, "0", STR_PAD_LEFT),
 				$row['first_name'],
 				$row['last_name'],
@@ -117,8 +136,8 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				$row['test_type'] == 'antigen' ? 'COVID-19 Antigen Test' : 'COVID-19 RT-PCR Test',
 				$row['test_date_taken'],
 				$row['test_date_result'],
-				$row['test_result'],
-				$row['test_reference'],
+				$row['test_result'] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative',
+				$row['test_reference'] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative',
 				$row['test_sample'],
 				$row['test_method'],
 				$row['created_at'],
@@ -133,20 +152,48 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			"data" => $results
 		];
 
-		self::Log('xGNGCx', print_r($json_data, true));
-
 		return json_encode($json_data);
+	}
+
+	public static function bulkPDF($itemsId)
+	{
+		if ($_SERVER["REQUEST_METHOD"] != "POST") {
+			$phpPDFQRForms::Log("Error", "Invalid request by " . $_SESSION['labsal_user']);
+			$phpPDFQRForms::flashSet("Error", "Petición inválida al servidor.", "danger");
+			header("location: " . $phpPDFQRForms::$rootURL . "/");
+			die();
+		}
+
+		$collectionNames = [];
+
+		foreach ($itemsId AS $id) {
+			$formData = self::$phpPDFQRForms::showForm($id);
+
+			if (!$formData['test_date_result'] || !$formData['test_result']) return;
+
+			$pdf = new formPDF($formData);
+			$collectionNames[] = dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename;
+			$pdf->Output(dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename, 'F');
+			unset($pdf);
+		}
+
+		return $collectionNames;
 	}
 }
 
 $phpPDFQRAPI = new phpPDFQRAPI();
 
 $action = isset($_REQUEST["action"]) ? $_REQUEST["action"] : false;
+$itemsId = isset($_REQUEST["itemsId"]) ? $_REQUEST["itemsId"] : [];
+$itemsId = is_array($itemsId) ? $itemsId : [];
 $dataSent = '{}';
 
 switch ($action) {
 	case 'getForms':
 		$dataSent = $phpPDFQRAPI::getForms(); break;
+	case 'bulkPDF':
+		$phpPDFQRAPI::$phpPDFQRForms = $phpPDFQRForms;
+		$dataSent = $phpPDFQRAPI::bulkPDF($itemsId); break;
 }
 
 echo json_decode(json_encode($dataSent, JSON_UNESCAPED_SLASHES));

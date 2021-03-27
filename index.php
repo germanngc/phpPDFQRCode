@@ -22,12 +22,13 @@ include dirname(__FILE__) . '/views/body.php';
 	</div>
 
 	<div class="my-3 p-3 bg-body rounded shadow-sm">
-		<table id="myTable" class="dataTable stripe nowrap order-column" data-order='[[ 3, "desc" ]]' style="font-size: 1rem; width: 100%">
+		<table id="myTable" class="dataTable stripe nowrap order-column" data-order='[[ 4, "desc" ]]' style="font-size: 1rem; width: 100%">
 			<thead>
 				<tr>
 					<th></th>
 					<th><i class="far fa-file-pdf"></i></th>
 					<th><i class="fas fa-envelope-open-text"></i></th>
+					<th><i class="fas fa-edit"></i></th>
 					<th>File</th>
 					<th>First Name</th>
 					<th>Last Name</th>
@@ -56,7 +57,7 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="bulkPDFModal" tabindex="-1" aria-labelledby="bulkPDFModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -76,6 +77,14 @@ include dirname(__FILE__) . '/views/body.php';
 
 <script>
 	document.addEventListener("DOMContentLoaded", function(event) {
+		let bulkPDFModal = new bootstrap.Modal(document.getElementById('bulkPDFModal'), {
+			keyboard: false
+		});
+
+		console.log(bulkPDFModal);
+
+		//bulkPDFModal.addEventListener('shown.bs.modal', function () {});
+
 		let buttonCommon = {
 			exportOptions: {
 				format: {
@@ -104,14 +113,14 @@ include dirname(__FILE__) . '/views/body.php';
 			columnDefs: [{
 				orderable: false,
 				className: 'select-checkbox',
-				targets: [0, 1, 2]
+				targets: [0, 1, 2, 3]
 			}],
 			buttons: [
 				$.extend(true, {}, buttonCommon, {
 					extend: 'excelHtml5',
 					text: 'Export to Excel',
 					exportOptions: {
-						columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 					}
 				}),
 				{
@@ -119,7 +128,10 @@ include dirname(__FILE__) . '/views/body.php';
 					className: 'buttons-bulk-pdf',
 					action: function ( e, dt, node, config ) {
 						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
-						console.log('xgngcx', selected);
+
+						if (selected < 0) {
+							bulkPDFModal.show();
+						}
 					}
 				}
 			]

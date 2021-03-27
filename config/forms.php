@@ -60,8 +60,8 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_reference = mysqli_real_escape_string(self::$con, $data["test_reference"]);
 		$test_method = mysqli_real_escape_string(self::$con, $data["test_method"]);
 
-		$sql = "UPDATE covid_tests " .
-			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
+		$sql = "UPDATE `covid_tests` " .
+			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email` = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
 			"`passport` = '{$passport}', `villa` = '{$villa}', `reservation_number` = '{$reservation_number}', `departuredate` = '{$departuredate}', " .
 			"`book_type` = '{$book_type}', `book_family` = '{$book_family}', `test_type` = '{$test_type}', `test_result` = '{$test_result}', " .
 			"`test_sample` = '{$test_sample}', `test_date_taken` = '{$test_date_taken}', `test_date_result` = '{$test_date_result}', " .
@@ -74,8 +74,8 @@ class phpPDFQRForms extends phpPDFQRConfig
 			return;
 		}
 
-		self::flashSet("Success", "Form successfully saved, we will be in touch with you shortly.", "success");
-		header("location: " . self::$rootURL . "/form-edit.php?id=" . $id);
+		self::flashSet("Success", "Formulario actualizado, Folio: " . 'RIH' . str_pad($id, 7, "0", STR_PAD_LEFT) . ".", "success");
+		header("location: " . self::$rootURL . "/");
 		die();
 	}
 
