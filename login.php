@@ -25,13 +25,13 @@ include dirname(__FILE__) . '/views/body.php';
 
 		<form action="<?php echo $phpPDFQRConfig::$rootURL; ?>/login.php" method="POST">
 			<div class="form-group mb-4">
-				<label for="username" class="sr-only form-label">Usuario:</label><br>
+				<label for="username" class="sr-only form-label">Usuario:</label>
 				<input type="email" name="username" id="username" class="form-control" placeholder="correo@ejemplo.com">
 			</div>
 
 			<div class="form-group mb-4">
-				<label for="password" class="sr-only form-label">Contraseña:</label><br>
-				<input type="password" name="password" id="password" class="form-control" placeholder="********">
+				<label for="password" class="sr-only form-label">Contraseña:</label>
+				<input type="password" name="password" id="password" class="form-control" placeholder="contraseña">
 			</div>
 
 			<div class="form-group mb-4">

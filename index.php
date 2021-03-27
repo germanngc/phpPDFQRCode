@@ -5,7 +5,13 @@ $pageTitle = "Dashboard";
 
 include dirname(__FILE__) . '/views/body.php';
 ?> 
-<main class="container">
+<style>
+	.dataTables_wrapper .dt-buttons {
+		margin-bottom: .75rem;
+	}
+</style>
+
+<main class="container-fluid">
 	<?php $phpPDFQRConfig::flashGet(); ?> 
 
 	<div class="d-flex align-items-center p-3 my-3 mb-0 bg-labsal text-labsal rounded shadow-sm" style="position:relative">
@@ -15,59 +21,37 @@ include dirname(__FILE__) . '/views/body.php';
 		</div>
 	</div>
 
-	<div class="d-flex align-items-center justify-content-end my-0 p-3 pt-0">
-		<a href="<?php echo $phpPDFQRConfig::$rootURL; ?>/list.php"
-			class="btn btn-success text-small"
-			style="border-top-left-radius: 0; border-top-right-radius: 0;">
-			<i class="fas fa-file-excel"></i> &nbsp; Vista de Excel</a>
-	</div>
-
 	<div class="my-3 p-3 bg-body rounded shadow-sm">
-		<h6 class="border-bottom pb-2 mb-0">Ultimos Registros</h6>
-
-		<?php
-$sql = "SELECT * FROM covid_tests ORDER BY created_at DESC LIMIT 10;";
-$results = mysqli_query($phpPDFQRConfig::$con, $sql);
-
-while ($row = mysqli_fetch_array($results, MYSQLI_ASSOC)) {
-		?><div class="d-flex text-muted pt-3">
-			<svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32"
-				xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32"
-				preserveAspectRatio="xMidYMid slice" focusable="false">
-				<title>Placeholder</title>
-				<rect width="100%" height="100%" fill="#007bff"/>
-				<text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-			</svg>
-
-			<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-				<div class="d-flex justify-content-between">
-					<strong class="text-gray-dark"><?php echo $row['first_name'] . ' ' . $row['last_name'] . ' Villa #' . $row['villa']; ?></strong>
-					<div>
-						<?php if ($row["test_date_taken"]): ?> 
-						<button type="button" class="btn btn-primary"
-							onclick="window.open('<?php echo $phpPDFQRConfig::$rootURL; ?>/pdf-generate.php?itemId=<?php echo $row['id']; ?>', '_blank');">
-							Ver PDF
-						</button>
-						<button type="button" class="btn btn-primary"
-							onclick="javascript:void(0);">
-							Enviar Email
-						</button>
-						<?php endif; ?> 
-						<button type="button" class="btn btn-primary"
-							onclick="location.href = '<?php echo $phpPDFQRConfig::$rootURL; ?>/form-edit.php?id=<?php echo $row['id']; ?>';">
-							Editar
-						</button>
-					</div>
-				</div>
-				<span class="d-block">Tipo de Test: <?php echo $row["test_type"]; ?> / Fecha de Salida: <?php echo $row["departuredate"]; ?> </span>
-			</div>
-		</div>
-		<?php
-}
-
-// Free result set
-mysqli_free_result($results);
-		?> 
+		<table id="myTable" class="dataTable stripe nowrap order-column" data-order='[[ 3, "desc" ]]' style="font-size: 1rem; width: 100%">
+			<thead>
+				<tr>
+					<th></th>
+					<th><i class="far fa-file-pdf"></i></th>
+					<th><i class="fas fa-envelope-open-text"></i></th>
+					<th>File</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Birth date</th>
+					<th>Sex</th>
+					<th>Passport</th>
+					<th>Villa</th>
+					<th>Reservation number</th>
+					<th>Departure date</th>
+					<th>Book type</th>
+					<th>Book family</th>
+					<th>Test type</th>
+					<th>Test date taken</th>
+					<th>Test date result</th>
+					<th>Test reference</th>
+					<th>Test method</th>
+					<th>Test result</th>
+					<th>Test sample</th>
+					<th>Created at</th>
+					<th>Updated at</th>
+				</tr>
+			</thead>
+		</table>
 	</div>
 </main>
 
@@ -89,5 +73,58 @@ mysqli_free_result($results);
 		</div>
 	</div>
 </div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function(event) {
+		let buttonCommon = {
+			exportOptions: {
+				format: {
+					body: function (data, row, column, node) {
+						return column === 5 ?
+							data.replace( /[$,]/g, '' ) :
+							data;
+					}
+				}
+			}
+		};
+
+		$('.dataTable').DataTable({
+			pageLength: 100,
+			autoWidth: 'false',
+			processing: true,
+			serverSide: true,
+			ajax: {
+				url: "<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=getForms",
+				type: "post",
+				error: function() {}
+			},
+			scrollX: 'true',
+			dom: 'Bfrtip',
+			responsive: true,
+			columnDefs: [{
+				orderable: false,
+				className: 'select-checkbox',
+				targets: [0, 1, 2]
+			}],
+			buttons: [
+				$.extend(true, {}, buttonCommon, {
+					extend: 'excelHtml5',
+					text: 'Export to Excel',
+					exportOptions: {
+						columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+					}
+				}),
+				{
+					text: 'Generate PDF Batch from Selected',
+					className: 'buttons-bulk-pdf',
+					action: function ( e, dt, node, config ) {
+						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
+						console.log('xgngcx', selected);
+					}
+				}
+			]
+		});
+	});
+</script>
 
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 
