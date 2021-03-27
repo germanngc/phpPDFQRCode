@@ -36,15 +36,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
 		<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-		
 		<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 		<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
-		
-
-
 
 		<script>
 			document.addEventListener("DOMContentLoaded", function(event) {
@@ -54,38 +50,6 @@
 				var bootstrapButton = $.fn.button.noConflict() // return $.fn.button to previously assigned value
 				$.fn.bootstrapBtn = bootstrapButton // give $().bootstrapBtn the Bootstrap functionality
 			});
-
-
-			$( document ).ready(function() {
-				console.log( "ready!" );
-				var buttonCommon = {
-					exportOptions: {
-						format: {
-							body: function ( data, row, column, node ) {
-								// Strip $ from salary column to make it numeric
-								return column === 5 ?
-									data.replace( /[$,]/g, '' ) :
-									data;
-							}
-						}
-					}
-				};
-			
-				$('#myTable').DataTable( {
-					autoWidth: 'false',
-					scrollX: 'true',
-					dom: 'Bfrtip',
-					buttons: [
-						$.extend( true, {}, buttonCommon, {
-							extend: 'excelHtml5',
-							exportOptions: {
-								columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ]
-							}
-						} )
-					]
-				} );
-			});
-
 		</script>
 	</body>
 </html>

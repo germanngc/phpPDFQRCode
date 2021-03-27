@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$phpPDFQRForms::createForm($_POST);
 }
 
-$pageTitle = "Formulario de Registro // Registry Form";
+$pageTitle = "Registry Form";
 
 include dirname(__FILE__) . '/views/body.php';
 ?> 
@@ -65,12 +65,12 @@ include dirname(__FILE__) . '/views/body.php';
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="email" class="form-label">6. Sex <span class="form-required-star"></span></label>
 					<div class="form-check">
-						<input class="form-check-input" type="radio" name="sex" id="sex1" value="male" checked required>
-						<label class="form-check-label" for="sex1">Male</label>
+						<input class="form-check-input" type="radio" name="sex" id="sex2" value="female" checked required>
+						<label class="form-check-label" for="sex2">Female</label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input" type="radio" name="sex" id="sex2" value="female" required>
-						<label class="form-check-label" for="sex2">Female</label>
+						<input class="form-check-input" type="radio" name="sex" id="sex1" value="male" required>
+						<label class="form-check-label" for="sex1">Male</label>
 					</div>
 				</div>
 

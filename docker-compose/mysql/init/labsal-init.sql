@@ -31,10 +31,10 @@ CREATE TABLE `covid_tests` (
   `sex` enum('male','female') NOT NULL DEFAULT 'male',
   `passport` char(12) NOT NULL,
   `villa` varchar(250) NOT NULL,
+  `reservation_number` varchar(250) NOT NULL,
   `departuredate` date NOT NULL,
   `book_type` enum('individual','group') NOT NULL DEFAULT 'individual',
   `book_family` enum('yes','no') NOT NULL DEFAULT 'no',
-  `expedient` varchar(255) DEFAULT NULL,
   `test_type` enum('antigen','pcr') NOT NULL DEFAULT 'antigen',
   `test_date_taken` date DEFAULT NULL,
   `test_date_result` date DEFAULT NULL,
@@ -42,10 +42,11 @@ CREATE TABLE `covid_tests` (
   `test_reference` varchar(255) DEFAULT NULL,
   `test_sample` varchar(255) DEFAULT NULL,
   `test_method` varchar(255) DEFAULT NULL,
+  `covid_testscol` varchar(45) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

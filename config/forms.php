@@ -12,6 +12,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$birthdate = mysqli_real_escape_string(self::$con, $data["birthdate"]);
 		$sex = mysqli_real_escape_string(self::$con, $data["sex"]);
 		$passport = mysqli_real_escape_string(self::$con, $data["passport"]);
+		$reservation_number = mysqli_real_escape_string(self::$con, $data["reservation_number"]);
 		$villa = mysqli_real_escape_string(self::$con, $data["villa"]);
 		$departuredate = mysqli_real_escape_string(self::$con, $data["departuredate"]);
 		$book_type = mysqli_real_escape_string(self::$con, $data["book_type"]);
@@ -19,18 +20,21 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_type = mysqli_real_escape_string(self::$con, $data["test_type"]);
 
 		$sql = "INSERT INTO covid_tests " .
-			"(first_name, last_name, email, birthdate, sex, passport, villa, departuredate, book_type, book_family, test_type, created_at) " .
+			"(`first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `reservation_number`, `villa`, `departuredate`, `book_type`, " .
+			"`book_family`, `test_type`, `created_at`) " .
 			"VALUES " .
-			"('{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$villa}', '{$departuredate}', '{$book_type}', '{$book_family}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
+			"('{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$reservation_number}', '{$villa}', '{$departuredate}', " .
+			"'{$book_type}', '{$book_family}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
 
 		if (!mysqli_query(self::$con, $sql)) {
 			self::log('error', 'Unable to insert a record. ' . mysqli_error(self::$con));
-			self::flashSet("Error", "No se pudo crear su registro, contacte con soporte. // Could not create the record, please contact support.", "danger");
+			self::flashSet("Error", "Could not create the record, please contact support.", "danger");
 			return;
 		}
 
-		self::flashSet("Success", "Se ha creado con éxito nos pondremos en contacto con usted. // Form successfully submited, we will be in touch with you shortly.", "success");
-		header("location: " . self::$rootURL . "/form.php");
+		self::flashSet("Success", "Form successfully submited, we will be in touch with you shortly.", "success");
+		$_SESSION["tmp_expedient"] = 'RIH' . str_pad(mysqli_insert_id(self::$con), 7, "0", STR_PAD_LEFT);
+		header("location: " . self::$rootURL . "/form-thanks.php");
 		die();
 	}
 
@@ -57,18 +61,20 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_method = mysqli_real_escape_string(self::$con, $data["test_method"]);
 
 		$sql = "UPDATE covid_tests " .
-			"SET first_name='{$name}', last_name='{$lastname}', email='{$email}', birthdate='{$birthdate}', sex='{$sex}', passport='{$passport}', villa='{$villa}', reservation_number='{$reservation_number}', " .
-			"departuredate='{$departuredate}', book_type='{$book_type}', book_family='{$book_family}', test_type='{$test_type}', test_result='{$test_result}', test_sample='{$test_sample}'," .
-			"test_date_taken='{$test_date_taken}', test_date_result='{$test_date_result}', test_reference='{$test_reference}', test_method='{$test_method}', updated_at='" . date('Y-m-d H:i:s'). "'".
-			"WHERE id='{$id}'";
+			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
+			"`passport` = '{$passport}', `villa` = '{$villa}', `reservation_number` = '{$reservation_number}', `departuredate` = '{$departuredate}', " .
+			"`book_type` = '{$book_type}', `book_family` = '{$book_family}', `test_type` = '{$test_type}', `test_result` = '{$test_result}', " .
+			"`test_sample` = '{$test_sample}', `test_date_taken` = '{$test_date_taken}', `test_date_result` = '{$test_date_result}', " .
+			"`test_reference` = '{$test_reference}', `test_method` = '{$test_method}', `updated_at` = '" . date('Y-m-d H:i:s'). "' ".
+			"WHERE `id` = '{$id}' LIMIT 1;";
 
 		if (!mysqli_query(self::$con, $sql)) {
 			self::log('error', 'Unable to insert a record. ' . mysqli_error(self::$con));
-			self::flashSet("Error", "No se pudo actualizar su registro, contacte con soporte. // Could not update the record, please contact support.". mysqli_error(self::$con), "danger");
+			self::flashSet("Error", "Could not update the record, please contact support.". mysqli_error(self::$con), "danger");
 			return;
 		}
 
-		self::flashSet("Success", "Se ha guarado con éxito nos pondremos en contacto con usted. // Form successfully saved, we will be in touch with you shortly.", "success");
+		self::flashSet("Success", "Form successfully saved, we will be in touch with you shortly.", "success");
 		header("location: " . self::$rootURL . "/form-edit.php?id=" . $id);
 		die();
 	}
