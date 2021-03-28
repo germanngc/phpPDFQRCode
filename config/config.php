@@ -50,7 +50,7 @@ class phpPDFQRConfig
 			self::$rootURL . '/favicon.ico'
 		];
 		$curURL =  '/' . preg_replace("#" . self::$urlPostFix . "#", "/", $_SERVER['REQUEST_URI']);
-		$curURL = self::$rootURL . preg_replace("/\/\//", "/", $curURL);
+		$curURL = self::$rootURL . preg_replace('#/+#', '/', $curURL);
 		$isClear = false;
 
 		foreach ($publicURL AS $url) {
@@ -79,7 +79,7 @@ class phpPDFQRConfig
 	 */
 	private static function buildServerUrl($urlPostFix = '/')
 	{
-		$urlPostFix = preg_replace(["/\/\//", "/\/$/", "/^\//"], ["/", "", ""], $urlPostFix);
+		$urlPostFix = preg_replace(['#/+#', '#/$#', '#^/#'], ["/", "", ""], $urlPostFix);
 		$urlPostFix = '/' . $urlPostFix;
 		self::$urlPostFix = $urlPostFix;
 
