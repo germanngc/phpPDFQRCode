@@ -4,15 +4,13 @@ require dirname(__FILE__) . '/../phpqrcode/qrlib.php';
 
 class formPDF extends FPDF
 {
-	public $filename = '';
-
+	public $pdfFilename = '';
 	private $currentY = 0.4;
 
 	public function __construct($formData)
 	{
 		parent::__construct('P', 'in', 'Letter');
 
-		// $pdf = new FPDF('P', 'in', 'Letter');
 		$this->AddPage();
 		$this->AddFont('OpenSans-Light', '', 'OpenSans-Light.php');
 		$this->AddFont('OpenSans-Light', 'I', 'OpenSans-LightItalic.php');
@@ -28,10 +26,10 @@ class formPDF extends FPDF
 	function Header()
 	{
 		// Logo Zogen (Arriba Derecha)
-		$this->Image('../../media/zogen-logo.png', 7, 0.4, 1);
+		$this->Image(dirname(__FILE__) . '/../../media/zogen-logo.png', 7, 0.4, 1);
 
 		// Logo Laboratorio Zalasar (Centrado)
-		$this->Image('../../media/laboratorio-salazar-logo.png', 3, 0.4, 2.4);
+		$this->Image(dirname(__FILE__) . '/../../media/laboratorio-salazar-logo.png', 3, 0.4, 2.4);
 
 		// Arial bold 15
 		$this->SetFont('Helvetica', 'B', 10);
@@ -73,7 +71,7 @@ class formPDF extends FPDF
 		$this->SetFont('OpenSans-Light', '', 11);
 		$this->Cell(1.30, 0.25, utf8_decode('Expediente / File: '), 0, 0);
 		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(3.55, 0.25, utf8_decode($formData["expedient"]), 0, 0);
+		$this->Cell(3.55, 0.25, utf8_decode('RIH' . str_pad($formData['id'], 7, "0", STR_PAD_LEFT)), 0, 0);
 
 		$this->SetFont('OpenSans-Light', '', 11);
 		$this->Cell(0.85, 0.25, utf8_decode('Edad / Age: '), 0, 0);
@@ -131,38 +129,47 @@ class formPDF extends FPDF
 		$qrURL = 'qr-url-' . time();
 		$qrPDF = 'qr-pdf-' . time();
 
-		$this->filename = $pdfFilename = hash("sha256", $id) . '.pdf';
+		$this->pdfFilename = $pdfFilename = hash("sha256", $id) . '.pdf';
 
-		QRcode::png('https://www.gob.mx/cms/uploads/attachment/file/604645/SARS-CoV-2_Rapid_Antigen_Test__Productos_Roche__S.A._de_C.V._.pdf', '../../media/' . $qrTest . '.png');
-		QRcode::png('https://laboratoriosalazar.com.mx', '../../media/' . $qrURL . '.png');
-		QRcode::png('https://laboratoriosalazar.com.mx/zonge_admin/pdf/' . $pdfFilename . '?source=QR&ref=' . $qrPDF, '../../media/' . $qrPDF . '.png');
+		QRcode::png(
+			'https://www.gob.mx/cms/uploads/attachment/file/604645/SARS-CoV-2_Rapid_Antigen_Test__Productos_Roche__S.A._de_C.V._.pdf',
+			dirname(__FILE__) . '/../../media/' . $qrTest . '.png'
+		);
+		QRcode::png(
+			'https://laboratoriosalazar.com.mx',
+			dirname(__FILE__) . '/../../media/' . $qrURL . '.png'
+		);
+		QRcode::png(
+			'https://laboratoriosalazar.com.mx/zonge_admin/pdf/' . $pdfFilename . '?source=QR&ref=' . $qrPDF,
+			dirname(__FILE__) . '/../../media/' . $qrPDF . '.png'
+		);
 
 		// Logo Zogen (Arriba Derecha)
-		$this->Image('../../media/' . $qrTest . '.png', 0.40, $currentY, 1.37);
+		$this->Image(dirname(__FILE__) . '/../../media/' . $qrTest . '.png', 0.40, $currentY, 1.37);
 		$this->SetXY(0.40, $currentY + 1.37 - 0.15);
 		$this->SetFont('OpenSans-Light', 'I', 7);
 		$this->Cell(6.60, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
 
-		$this->Image('../../media/' . $qrURL . '.png', 3.57, $currentY, 1.37);
+		$this->Image(dirname(__FILE__) . '/../../media/' . $qrURL . '.png', 3.57, $currentY, 1.37);
 		$this->SetXY(3.57, $currentY + 1.37 - 0.15);
 		$this->SetFont('OpenSans-Light', 'I', 7);
 		$this->Cell(6.60, 0.30, utf8_decode('Sitio Web / Web Site'), 0, 1);
 
-		$this->Image('../../media/' . $qrPDF . '.png', 6.73, $currentY, 1.37);
+		$this->Image(dirname(__FILE__) . '/../../media/' . $qrPDF . '.png', 6.73, $currentY, 1.37);
 		$this->SetXY(6.73, $currentY + 1.37 - 0.15);
 		$this->SetFont('OpenSans-Light', 'I', 7);
 		$this->Cell(6.60, 0.30, utf8_decode('Resultados / Results'), 0, 1);
 
-		if (file_exists('../../media/' . $qrTest . '.png')) {
-			unlink('../../media/' . $qrTest . '.png');
+		if (file_exists(dirname(__FILE__) . '/../../media/' . $qrTest . '.png')) {
+			unlink(dirname(__FILE__) . '/../../media/' . $qrTest . '.png');
 		}
 
-		if (file_exists('../../media/' . $qrURL . '.png')) {
-			unlink('../../media/' . $qrURL . '.png');
+		if (file_exists(dirname(__FILE__) . '/../../media/' . $qrURL . '.png')) {
+			unlink(dirname(__FILE__) . '/../../media/' . $qrURL . '.png');
 		}
 
-		if (file_exists('../../media/' . $qrPDF . '.png')) {
-			unlink('../../media/' . $qrPDF . '.png');
+		if (file_exists(dirname(__FILE__) . '/../../media/' . $qrPDF . '.png')) {
+			unlink(dirname(__FILE__) . '/../../media/' . $qrPDF . '.png');
 		}
 
 		$this->SetY($currentY + 1.37 + 0.15);
@@ -182,7 +189,7 @@ class formPDF extends FPDF
 
 		$this->currentY = $currentY = $this->GetY();
 
-		$this->Image('../../media/signature.png', 3.57, $currentY - 1.00, 1.37);
+		$this->Image(dirname(__FILE__) . '/../../media/signature.png', 3.57, $currentY - 1.00, 1.37);
 		$this->SetFont('OpenSans-Light', 'I', 11);
 		$this->Cell(0, 0.30, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 1, 'C');
 

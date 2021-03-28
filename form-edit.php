@@ -123,11 +123,6 @@ $row = $phpPDFQRForms::showForm($id);
 						<label class="form-check-label" for="book_family2">No - Don't book</label>
 					</div>
 				</div>
-
-				<!--<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="expedient" class="form-label">13. File Record <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="expedient" name="expedient" value="RIF<?php echo str_pad($row['id'], 7, "0", STR_PAD_LEFT); ?>" placeholder="" readonly>
-				</div>-->
 			
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="test_date_taken" class="form-label">13. Date of Test Taken <span class="form-required-star"></span></label>
@@ -169,12 +164,12 @@ $row = $phpPDFQRForms::showForm($id);
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="test_sample" class="form-label">17. Sample for the Test <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_sample" name="test_sample" value="<?php echo $row['test_sample']; ?>" placeholder="" required>
+					<input type="text" class="form-control" id="test_sample" name="test_sample" value="<?php echo $row['test_sample'] ? $row['test_sample'] : 'Nasofaringea / Nasopharyngeal'; ?>" placeholder="" required>
 				</div>
 			
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="test_method" class="form-label">18. Method of the Test <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method']; ?>" placeholder="" required>
+					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : 'Nasofaringea / Nasopharyngeal'; ?>" placeholder="" required>
 				</div>
 
 				<div class="col-md-12 mb-3" id="book_type_container">

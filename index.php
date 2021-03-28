@@ -9,6 +9,10 @@ include dirname(__FILE__) . '/views/body.php';
 	.dataTables_wrapper .dt-buttons {
 		margin-bottom: .75rem;
 	}
+
+	button.dt-button.buttons-bulk-emails {
+
+	}
 </style>
 
 <main class="container-fluid">
@@ -25,7 +29,7 @@ include dirname(__FILE__) . '/views/body.php';
 		<table id="myTable" class="dataTable stripe nowrap order-column" data-order='[[ 4, "desc" ]]' style="font-size: 1rem; width: 100%">
 			<thead>
 				<tr>
-					<th></th>
+					<th><input id="dataTableChecker" type="checkbox"></th>
 					<th><i class="far fa-file-pdf"></i></th>
 					<th><i class="fas fa-envelope-open-text"></i></th>
 					<th><i class="fas fa-edit"></i></th>
@@ -61,15 +65,14 @@ include dirname(__FILE__) . '/views/body.php';
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				<h5 class="modal-title"></h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
 			<div class="modal-body"></div>
 
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
 	</div>
@@ -80,10 +83,6 @@ include dirname(__FILE__) . '/views/body.php';
 		let bulkPDFModal = new bootstrap.Modal(document.getElementById('bulkPDFModal'), {
 			keyboard: false
 		});
-
-		console.log(bulkPDFModal);
-
-		//bulkPDFModal.addEventListener('shown.bs.modal', function () {});
 
 		let buttonCommon = {
 			exportOptions: {
@@ -97,6 +96,18 @@ include dirname(__FILE__) . '/views/body.php';
 			}
 		};
 
+		document
+			.getElementById("dataTableChecker")
+			.addEventListener("change", function() {
+				let inputs = $('.dataTable td.select-checkbox input[type=checkbox]'),
+					isChecked = this.checked;
+
+				inputs.each(function(i, o) {
+					if (o.disabled) return;
+					$(o).prop('checked', isChecked);
+				});
+			});
+
 		$('.dataTable').DataTable({
 			pageLength: 100,
 			autoWidth: 'false',
@@ -105,7 +116,13 @@ include dirname(__FILE__) . '/views/body.php';
 			ajax: {
 				url: "<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=getForms",
 				type: "post",
-				error: function() {}
+				error: function() {
+					$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+					$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+					$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+					$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado al cargar la lista, contactar con soporte.');
+					bulkPDFModal.show();
+				}
 			},
 			scrollX: 'true',
 			dom: 'Bfrtip',
@@ -113,29 +130,152 @@ include dirname(__FILE__) . '/views/body.php';
 			columnDefs: [{
 				orderable: false,
 				className: 'select-checkbox',
-				targets: [0, 1, 2, 3]
+				targets: [0]
+			},{
+				orderable: false,
+				targets: [1, 2, 3]
 			}],
 			buttons: [
 				$.extend(true, {}, buttonCommon, {
 					extend: 'excelHtml5',
-					text: 'Export to Excel',
+					text: 'Exportar a Excel',
+					className: 'btn',
 					exportOptions: {
 						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 					}
 				}),
 				{
-					text: 'Generate PDF Batch from Selected',
-					className: 'buttons-bulk-pdf',
-					action: function ( e, dt, node, config ) {
+					text: 'Generar paquete de PDFs',
+					className: 'buttons-bulk-pdf btn btn-labsal',
+					action: function(e, dt, node, config) {
+						$('.loading').show();
 						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
 
-						if (selected < 0) {
+						if (selected.length <= 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-exclamation-triangle"></i> Advertencia');
+							$('#bulkPDFModal').find('.modal-body').html('Debe seleccionar al menos un checkox en la lista para ejecutar esta función.');
+							$('.loading').hide();
 							bulkPDFModal.show();
+							return;
 						}
+
+						let data = [];
+
+						selected.each(function(i, o) {
+							data.push(o.value);
+						});
+
+						$.ajax({
+							url: '<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=bulkPDF',
+							data: {itemsId: data},
+							method: 'POST',
+							success: function(result, status, xhr) {
+								$('.loading').hide();
+
+								if (result.response) {
+									$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-success');
+									$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Generado Correctamente');
+									$('#bulkPDFModal').find('.modal-footer').html('<a class="btn btn-success" href="' + result.filename + '">Descargar</a> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+									$('#bulkPDFModal').find('.modal-body').html(result.message);
+									bulkPDFModal.show();
+								} else {
+									$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+									$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+									$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+									$('#bulkPDFModal').find('.modal-body').html(result.message);
+									bulkPDFModal.show();
+								}
+							},
+							error: function(xhr, status, error) {
+								$('.loading').hide();
+
+								$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+								$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+								$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+								$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado, contactar con soporte.');
+								bulkPDFModal.show();
+							}
+						});
+					}
+				},
+				{
+					text: 'Envio Masivo de Correos',
+					className: 'buttons-bulk-emails btn btn-labsal',
+					action: function(e, dt, node, config) {
+						$('.loading').show();
+						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
+
+						if (selected.length <= 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-exclamation-triangle"></i> Advertencia');
+							$('#bulkPDFModal').find('.modal-body').html('Debe seleccionar al menos un checkox en la lista para ejecutar esta función.');
+							$('.loading').hide();
+							bulkPDFModal.show();
+							return;
+						}
+
+						let data = [];
+
+						selected.each(function(i, o) {
+							data.push(o.value);
+						});
+
+						sendEmailFunction(data);
 					}
 				}
 			]
 		});
+
+		$('body').on('click', '.sendEmail', function(e) {
+			$('.loading').show();
+
+			let itemsId = [$(this).data('id')];
+
+			sendEmailFunction(itemsId);
+		});
+
+		function sendEmailFunction(itemsId)
+		{
+			$.ajax({
+				url: '<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=bulkEmail',
+				data: {itemsId},
+				method: 'POST',
+				success: function(result, status, xhr) {
+					$('.loading').hide();
+
+					if (result.response) {
+						if (result.data_err.length > 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Algunos Enviado Correctamente');
+						} else {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-success');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Enviado Correctamente');
+						}
+
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(result.message);
+						
+						bulkPDFModal.show();
+					} else {
+						$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+						$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(result.message);
+						bulkPDFModal.show();
+					}
+				},
+				error: function(xhr, status, error) {
+					$('.loading').hide();
+
+					$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+					$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+					$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+					$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado, contactar con soporte.');
+					bulkPDFModal.show();
+				}
+			});
+		}
 	});
 </script>
 

@@ -179,7 +179,7 @@ class phpPDFQRConfig
 	 * 
 	 * @return array
 	 */
-	private static function parseEnv()
+	public static function parseEnv()
 	{
 		$envs = parse_ini_file(self::$envFile, true);
 

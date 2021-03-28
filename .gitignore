@@ -3,6 +3,8 @@ logs/*
 !logs/.gitkeep
 pdf/*
 !pdf/.gitkeep
+zip/*
+!zip/.gitkeep
 
 # Docker
 docker-compose/mysql/persistent/*

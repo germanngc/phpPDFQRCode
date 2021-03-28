@@ -3,12 +3,14 @@ header("Content-Type: application/json;charset=utf-8");
 
 require_once dirname(__FILE__) . '/../config/config.php';
 require_once dirname(__FILE__) . '/../config/forms.php';
+require_once dirname(__FILE__) . '/../config/email.php';
 require_once dirname(__FILE__) . '/../lib/fpdf/fpdf-form.php';
 
 
 class phpPDFQRAPI extends phpPDFQRConfig
 {
 	public static $phpPDFQRForms = [];
+	public static $phpPDFQREmail = null;
 
 	// Do not remove or phpPDFQRConfig construct will be executed twice
 	public function __construct() {}
@@ -115,8 +117,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				'<button type="button" class="btn btn-primary" ' .
 					'onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">' .
 					'<i class="fas fa-download"></i> &nbsp; <i class="far fa-file-pdf"></i></button>',
-				'<button type="button" class="btn btn-primary' . ($disabbled ? ' disabled' : '') . '" ' .
-					'onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">' .
+				'<button type="button" data-id="' . $row['id'] . '" class="btn btn-primary sendEmail' . ($disabbled ? ' disabled' : '') . '">' .
 					'&nbsp;<i class="fas fa-envelope-open-text"></i>&nbsp;</button>',
 				'<button type="button" class="btn btn-primary" ' .
 					'onclick="window.open(\'' . self::$rootURL . '/form-edit.php?id=' . $row['id'] . '\', \'_self\');">' .
@@ -157,24 +158,100 @@ class phpPDFQRAPI extends phpPDFQRConfig
 
 	public static function bulkPDF($itemsId)
 	{
+		$collectionNames = [
+			'data' => [],
+			'filename' => '',
+			'message' => 'Paquete Generado con Éxito.',
+			'response' => true
+		];
+
 		if ($_SERVER["REQUEST_METHOD"] != "POST") {
-			$phpPDFQRForms::Log("Error", "Invalid request by " . $_SESSION['labsal_user']);
-			$phpPDFQRForms::flashSet("Error", "Petición inválida al servidor.", "danger");
-			header("location: " . $phpPDFQRForms::$rootURL . "/");
-			die();
+			self::Log("Error", "Invalid request by " . $_SESSION['labsal_user']);
+			self::flashSet("Error", "Petición inválida al servidor.", "danger");
+
+			$collectionNames['message'] = 'Metodo no soportado.';
+			$collectionNames['response'] = false;
+
+			return $collectionNames;
 		}
 
-		$collectionNames = [];
+		$zip = new ZipArchive;
+		$zipPath = dirname(__FILE__) . '/../zip/' . hash("sha256", $_SESSION['labsal_user']) . '/';
+		$zipName = 'zogen_admin_pdf_package.zip';
+
+		if (!file_exists($zipPath)) {
+			mkdir($zipPath, 0775, true);
+		}
+
+		if ($zip->open($zipPath . $zipName,  ZipArchive::CREATE)) {
+			foreach ($itemsId AS $id) {
+				$formData = self::$phpPDFQRForms::showForm($id);
+
+				if (!$formData['test_date_result'] || !$formData['test_result']) return;
+
+				$pdf = new formPDF($formData);
+				$collectionNames['data'][] = dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename;
+				$zip->addFile(dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename, $pdf->pdfFilename);
+				$pdf->Output(dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename, 'F');
+				unset($pdf);
+			}
+
+			$zip->close();
+		} else {
+			self::Log("Error", "Unable to generate ZIP archive of PDF by " . $_SESSION['labsal_user']);
+
+			$collectionNames['message'] = 'No fue posible generar el paquete.';
+			$collectionNames['response'] = false;
+		}
+
+		$collectionNames['filename'] = self::$rootURL . '/zip/' . hash("sha256", $_SESSION['labsal_user']) . '/' . $zipName . '?requesttime=' . time();
+
+		return $collectionNames;
+	}
+
+	public static function bulkEmail($itemsId)
+	{
+		$collectionNames = [
+			'data_err' => ['john@doe.com'],
+			'data_success' => [],
+			'message' => 'Correos Evniados con Éxito.',
+			'response' => true
+		];
+
+		if ($_SERVER["REQUEST_METHOD"] != "POST") {
+			self::Log("Error", "Invalid request by " . $_SESSION['labsal_user']);
+			self::flashSet("Error", "Petición inválida al servidor.", "danger");
+
+			$collectionNames['message'] = 'Metodo no soportado.';
+			$collectionNames['response'] = false;
+
+			return $collectionNames;
+		}
+
+		$subject = "Laboratorio Salazar - Your SARS-CoV-2 (COVID-19) test is ready";
 
 		foreach ($itemsId AS $id) {
 			$formData = self::$phpPDFQRForms::showForm($id);
 
-			if (!$formData['test_date_result'] || !$formData['test_result']) return;
+			$body = "<h5>Hi " . $formData["first_name"] . " " . $formData["last_name"] . ",</h5>" .
+				"<p>Your SARS-CoV-2 (COVID-19) test is ready, you can download from the link below:</p>" .
+				"<p><a href='" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf'>[ Download results ]</a></p>" .
+				"<p>If you have troubles click on the linke above, you can copy the below url and paste directly to your browser.</p>" .
+				"<p><code>" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf</code></p>";
 
-			$pdf = new formPDF($formData);
-			$collectionNames[] = dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename;
-			$pdf->Output(dirname(__FILE__) . '/../pdf/' . $pdf->pdfFilename, 'F');
-			unset($pdf);
+			$newEmail = new phpPDFQREmail();
+
+			if ($newEmail->sendEmail($formData["email"], $subject, $body)) {
+				$collectionNames['data_success'][] = $formData["email"];
+			} else {
+				$collectionNames['data_err'][] = $formData["email"];
+			}
+
+			unset($newEmail);
+		}
+
+		if (sizeof($collectionNames['data_err'])) {
+			$collectionNames['message'] = 'Ocurrio un error al enviar los siguientes correos: ' . implode(", ", $collectionNames['data_err']);
 		}
 
 		return $collectionNames;
@@ -190,10 +267,16 @@ $dataSent = '{}';
 
 switch ($action) {
 	case 'getForms':
-		$dataSent = $phpPDFQRAPI::getForms(); break;
+		$dataSent = json_decode(json_encode($phpPDFQRAPI::getForms(), JSON_UNESCAPED_UNICODE), true);
+		break;
 	case 'bulkPDF':
 		$phpPDFQRAPI::$phpPDFQRForms = $phpPDFQRForms;
-		$dataSent = $phpPDFQRAPI::bulkPDF($itemsId); break;
+		$dataSent = json_encode($phpPDFQRAPI::bulkPDF($itemsId), JSON_UNESCAPED_UNICODE); break;
+	case 'bulkEmail':
+		$phpPDFQRAPI::$phpPDFQRForms = $phpPDFQRForms;
+		$phpPDFQRAPI::$phpPDFQREmail = $phpPDFQREmail;
+		$dataSent = json_encode($phpPDFQRAPI::bulkEmail($itemsId), JSON_UNESCAPED_UNICODE); break;
 }
 
-echo json_decode(json_encode($dataSent, JSON_UNESCAPED_SLASHES));
+echo $dataSent;
+die();
