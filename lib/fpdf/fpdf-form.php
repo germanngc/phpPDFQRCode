@@ -140,7 +140,7 @@ class formPDF extends FPDF
 			dirname(__FILE__) . '/../../media/' . $qrURL . '.png'
 		);
 		QRcode::png(
-			'https://laboratoriosalazar.com.mx/zonge_admin/pdf/' . $pdfFilename . '?source=QR&ref=' . $qrPDF,
+			'https://laboratoriosalazar.com.mx/zogen_admin/pdf/' . $pdfFilename . '?_labsal=true&_sourceScan=QR&_cache=' . $qrPDF,
 			dirname(__FILE__) . '/../../media/' . $qrPDF . '.png'
 		);
 

@@ -113,7 +113,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 
 			$results[] = [
 				'<input class="checkDataTable" type="checkbox" name="id[]" value="' . $row["id"] . '"' . ($disabbled ? ' disabled' : '') . '>',
-				'<button type="button" class="btn btn-primary" ' .
+				'<button type="button" class="btn btn-primary' . ($disabbled ? ' disabled' : '') . '" ' .
 					'onclick="window.open(\'' . self::$rootURL . '/pdf-generate.php?itemId=' . $row['id'] . '\', \'_blank\');">' .
 					'<i class="fas fa-download"></i> &nbsp; <i class="far fa-file-pdf"></i></button>',
 				'<button type="button" data-id="' . $row['id'] . '" class="btn btn-primary sendEmail' . ($disabbled ? ' disabled' : '') . '">' .
@@ -204,7 +204,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			$collectionNames['response'] = false;
 		}
 
-		$collectionNames['filename'] = self::$rootURL . '/zip/' . hash("sha256", $_SESSION['labsal_user']) . '/' . $zipName . '?requesttime=' . time();
+		$collectionNames['filename'] = self::$rootURL . '/zip/' . hash("sha256", $_SESSION['labsal_user']) . '/' . $zipName . '?_labsal=true&_cache=' . time();
 
 		return $collectionNames;
 	}
