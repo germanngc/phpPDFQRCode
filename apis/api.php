@@ -251,7 +251,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				"<p>Your SARS-CoV-2 (COVID-19) test is ready, you can download from the link below:</p>" .
 				"<p><a href='" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf' style='display: inline-block; font-weight: 400; line-height: 1.5; color: #212529; text-align: center; text-decoration: none; vertical-align: middle; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; user-select: none; background-color: transparent; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; border-radius: .25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; background-color: #09a9f4 !important; border-color: #09a9f4 !important; color: #f8f9fa !important;'>Download results</a></p>" .
 				"<p>If you have troubles click on the linke above, you can copy the below url and paste directly to your browser.</p>" .
-				"<p style='border-top:1px solid #888888; color:#888888; padding:0.5rem 0;'><code style='word-break: break-all;'>" . str_replace('://', ':<span>//', self::$rootURL) . "/pdf/" . hash("sha256", $formData['id']) . ".pdf</code></p>",
+				"<p style='border-top:1px solid #888888; color:#888888; padding:0.5rem 0;'><code style='word-break: break-all;'>" . str_replace('://', ':<span>//', self::$rootURL) . "/pdf/" . hash("sha256", $formData['id']) . ".pdf</span></p>",
 				$bodyHTML
 			);
 
