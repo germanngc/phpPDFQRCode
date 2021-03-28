@@ -95,8 +95,14 @@ include dirname(__FILE__) . '/views/body.php';
 					<div id="departuredateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
+				<div class="col-md-12 mb-3 border-bottom py-4">
+					<label for="symptoms" class="form-label">11. Symptoms </label>
+					<textarea class="form-control" id="symptoms" name="symptoms"></textarea>
+					<div id="symptomsHelp" class="form-text">Please describe if you have any.</div>
+				</div>
+
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
-					<label for="email" class="form-label">11. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">12. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" checked required>
 						<label class="form-check-label" for="book_type1">Myself</label>
@@ -108,7 +114,7 @@ include dirname(__FILE__) . '/views/body.php';
 				</div>
 
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: none;">
-					<label for="email" class="form-label">12. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">13. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" required>
 						<label class="form-check-label" for="book_family1">Yes - Book</label>

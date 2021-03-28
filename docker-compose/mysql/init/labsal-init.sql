@@ -33,6 +33,7 @@ CREATE TABLE `covid_tests` (
   `villa` varchar(250) NOT NULL,
   `reservation_number` varchar(250) NOT NULL,
   `departuredate` date NOT NULL,
+  `symptoms` text NULL DEFAULT NULL,
   `book_type` enum('individual','group') NOT NULL DEFAULT 'individual',
   `book_family` enum('yes','no') NOT NULL DEFAULT 'no',
   `test_type` enum('antigen','pcr') NOT NULL DEFAULT 'antigen',

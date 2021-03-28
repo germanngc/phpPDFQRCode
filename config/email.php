@@ -32,8 +32,6 @@ class phpPDFQREmail extends phpPDFQRConfig
 
 	public function sendEmail($to, $subject, $message)
 	{
-		$to = 'germanngc@gmail.com';
-
 		try {
 			$mail = new PHPMailer(true);
 			$mail->isSMTP();

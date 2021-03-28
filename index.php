@@ -18,7 +18,7 @@ include dirname(__FILE__) . '/views/body.php';
 <main class="container-fluid">
 	<?php $phpPDFQRConfig::flashGet(); ?> 
 
-	<div class="d-flex align-items-center p-3 my-3 mb-0 bg-labsal text-labsal rounded shadow-sm" style="position:relative">
+	<div class="d-flex align-items-center p-3 my-3 mb-0 bg-labsal text-labsal rounded shadow-sm">
 		<div class="lh-1">
 			<h1 class="h2 mb-1 lh-3">zogen | Laboratorio Salazar</h1>
 			<small>Administrador de Pruebas SARS-CoV-2 (COVID 19)</small>
@@ -141,7 +141,7 @@ include dirname(__FILE__) . '/views/body.php';
 					text: 'Exportar a Excel',
 					className: 'btn',
 					exportOptions: {
-						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
 					}
 				}),
 				{

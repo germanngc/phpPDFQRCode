@@ -49,7 +49,7 @@ class phpPDFQRConfig
 			self::$rootURL . '/pdf',
 			self::$rootURL . '/favicon.ico'
 		];
-		$curURL =  '/' . preg_replace("#" . self::$urlPostFix . "#", "", $_SERVER['REQUEST_URI']);
+		$curURL =  '/' . preg_replace("#" . self::$urlPostFix . "#", "/", $_SERVER['REQUEST_URI']);
 		$curURL = self::$rootURL . preg_replace("/\/\//", "/", $curURL);
 		$isClear = false;
 
@@ -64,7 +64,7 @@ class phpPDFQRConfig
 
 		if (!isset($_SESSION['labsal_user'])) {
 			self::log('error', 'An unknown user tried to access this page.');
-			self::flashSet("Error", "No existe una session activa. // No active sessions.", "danger");
+			self::flashSet("Error", "No existe una session activa.", "danger");
 			session_destroy();
 			header("location: " . self::$rootURL . "/login.php");
 			die();

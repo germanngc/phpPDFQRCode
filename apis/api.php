@@ -32,17 +32,18 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			11 => 'villa',
 			12 => 'reservation_number',
 			13 => 'departuredate',
-			14 => 'book_type',
-			15 => 'book_family',
-			16 => 'test_type',
-			17 => 'test_date_taken',
-			18 => 'test_date_result',
-			19 => 'test_result',
-			20 => 'test_reference',
-			21 => 'test_sample',
-			22 => 'test_method',
-			23 => 'created_at',
-			24 => 'updated_at'
+			14 => 'symptoms',
+			15 => 'book_type',
+			16 => 'book_family',
+			17 => 'test_type',
+			18 => 'test_date_taken',
+			19 => 'test_date_result',
+			20 => 'test_result',
+			21 => 'test_reference',
+			22 => 'test_sample',
+			23 => 'test_method',
+			24 => 'created_at',
+			25 => 'updated_at'
 		];
 
 		$where = "";
@@ -73,6 +74,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				"OR `villa` LIKE '" . $search_value . "%' " .
 				"OR `reservation_number` LIKE '" . $search_value . "%' " .
 				"OR `departuredate` LIKE '" . $search_value . "%' " .
+				"OR `symptoms` LIKE '" . $search_value . "%' " .
 				"OR `book_type` LIKE '" . $search_value . "%' " .
 				"OR `book_family` LIKE '" . $search_value . "%' " .
 				"OR `test_type` LIKE '" . $search_value . "%' " .
@@ -92,12 +94,9 @@ class phpPDFQRAPI extends phpPDFQRConfig
 		$totalRecordsFetch = mysqli_fetch_array($totalRecordsQuery, MYSQLI_ASSOC);
 		$totalRecords = isset($totalRecordsFetch["total"]) ? $totalRecordsFetch["total"] : 0;
 
-		$resultsSql = "SELECT `covid_tests`.`id`, `covid_tests`.`first_name`, `covid_tests`.`last_name`, `covid_tests`.`email`, " .
-			"`covid_tests`.`birthdate`, `covid_tests`.`sex`, `covid_tests`.`passport`, `covid_tests`.`villa`, " .
-			"`covid_tests`.`reservation_number`, `covid_tests`.`departuredate`, `covid_tests`.`book_type`, " .
-			"`covid_tests`.`book_family`, `covid_tests`.`test_type`, `covid_tests`.`test_date_taken`, `covid_tests`.`test_date_result`, " .
-			"`covid_tests`.`test_result`, `covid_tests`.`test_reference`, `covid_tests`.`test_sample`, `covid_tests`.`test_method`, " .
-			"`covid_tests`.`created_at`, `covid_tests`.`updated_at` " .
+		$resultsSql = "SELECT `id`, `first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `villa`, `reservation_number`, `departuredate`, " .
+			"`symptoms`, `book_type`, `book_family`, `test_type`, `test_date_taken`, `test_date_result`, `test_result`, `test_reference`, `test_sample`, " .
+			"`test_method`, `created_at`, `updated_at` " .
 			"FROM `covid_tests` {$where} " .
 			"{$order_by} " .
 			"{$limit}" .
@@ -132,6 +131,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				$row['villa'],
 				$row['reservation_number'],
 				$row['departuredate'],
+				$row['symptoms'],
 				$row['book_type'] == 'individual' ? 'Myself' : 'Group or family',
 				$row['book_family'] == 'yes' ? 'Yes' : 'No',
 				$row['test_type'] == 'antigen' ? 'COVID-19 Antigen Test' : 'COVID-19 RT-PCR Test',
@@ -212,7 +212,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 	public static function bulkEmail($itemsId)
 	{
 		$collectionNames = [
-			'data_err' => ['john@doe.com'],
+			'data_err' => [],
 			'data_success' => [],
 			'message' => 'Correos Evniados con Éxito.',
 			'response' => true
@@ -232,16 +232,32 @@ class phpPDFQRAPI extends phpPDFQRConfig
 
 		foreach ($itemsId AS $id) {
 			$formData = self::$phpPDFQRForms::showForm($id);
+			$pdfFileName = hash("sha256", $formData['id'] . '.pdf');
 
-			$body = "<h5>Hi " . $formData["first_name"] . " " . $formData["last_name"] . ",</h5>" .
+			if (!file_exists(dirname(__FILE__) . '/../pdf/' . $pdfFileName)) {
+				$pdf = new formPDF($formData);
+				$pdf->Output(dirname(__FILE__) . '/../pdf/' . $pdfFileName, 'F');
+				unset($pdf);
+			}
+
+			$bodyHTML = file_get_contents(dirname(__FILE__) . '/../views/_mail_template.php');
+			$bodyHTML = $bodyHTML !== false ? $bodyHTML : '__HEADER_IMG__ __HEADER_TITLE__ __BODY__';
+			$bodyHTML = utf8_decode($bodyHTML);
+			$bodyHTML = str_replace('__HEADER_IMG__', self::$rootURL . '/media/laboratorio-salazar-logo.png', $bodyHTML);
+			$bodyHTML = str_replace('__HEADER_TITLE__', 'Your SARS-CoV-2 (COVID-19) test is ready', $bodyHTML);
+			$bodyHTML = str_replace(
+				'__BODY__',
+				"<h2 style='margin: 0 0 .5rem 0;'>Hi " . $formData["first_name"] . " " . $formData["last_name"] . ",</h2>" .
 				"<p>Your SARS-CoV-2 (COVID-19) test is ready, you can download from the link below:</p>" .
-				"<p><a href='" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf'>[ Download results ]</a></p>" .
+				"<p><a href='" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf' style='display: inline-block; font-weight: 400; line-height: 1.5; color: #212529; text-align: center; text-decoration: none; vertical-align: middle; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; user-select: none; background-color: transparent; border: 1px solid transparent; padding: .375rem .75rem; font-size: 1rem; border-radius: .25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; background-color: #09a9f4 !important; border-color: #09a9f4 !important; color: #f8f9fa !important;'>Download results</a></p>" .
 				"<p>If you have troubles click on the linke above, you can copy the below url and paste directly to your browser.</p>" .
-				"<p><code>" . self::$rootURL . "/pdf/" . hash("sha256", $formData['id']) . ".pdf</code></p>";
+				"<p style='border-top:1px solid #888888; color:#888888; padding:0.5rem 0;'><code style='word-break: break-all;'>" . str_replace('://', ':<span>//', self::$rootURL) . "/pdf/" . hash("sha256", $formData['id']) . ".pdf</code></p>",
+				$bodyHTML
+			);
 
 			$newEmail = new phpPDFQREmail();
 
-			if ($newEmail->sendEmail($formData["email"], $subject, $body)) {
+			if ($newEmail->sendEmail($formData["email"], $subject, $bodyHTML)) {
 				$collectionNames['data_success'][] = $formData["email"];
 			} else {
 				$collectionNames['data_err'][] = $formData["email"];

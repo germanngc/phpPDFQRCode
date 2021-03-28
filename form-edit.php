@@ -100,8 +100,14 @@ $row = $phpPDFQRForms::showForm($id);
 					<div id="departuredateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
+				<div class="col-md-12 mb-3 border-bottom py-4">
+					<label for="symptoms" class="form-label">11. Symptoms </label>
+					<textarea class="form-control" id="symptoms" name="symptoms"><?php echo $row['symptoms']; ?></textarea>
+					<div id="symptomsHelp" class="form-text">Please describe if you have any.</div>
+				</div>
+
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
-					<label for="email" class="form-label">11. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">12. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" <?php if($row['book_type']=='individual'){ echo'checked';} ?> required>
 						<label class="form-check-label" for="book_type1">Myself</label>
@@ -113,7 +119,7 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" <?php if($row['book_type']=='individual'){ echo'style="display: none;" ';} ?>>
-					<label for="email" class="form-label">12. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">13. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family']=='yes'){ echo'checked';} ?> required>
 						<label class="form-check-label" for="book_family1">Yes - Book</label>
@@ -125,20 +131,19 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 			
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_date_taken" class="form-label">13. Date of Test Taken <span class="form-required-star"></span></label>
+					<label for="test_date_taken" class="form-label">14. Date of Test Taken <span class="form-required-star"></span></label>
 					<input type="date" class="form-control" id="test_date_taken" name="test_date_taken" value="<?php echo $row['test_date_taken']; ?>" placeholder="" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_date_result" class="form-label">14. Date of Test Results <span class="form-required-star"></span></label>
+					<label for="test_date_result" class="form-label">15. Date of Test Results <span class="form-required-star"></span></label>
 					<input type="date" class="form-control" id="test_date_result" name="test_date_result" value="<?php echo $row['test_date_result']; ?>" placeholder="" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_result" class="form-label">15. Result of the Test <span class="form-required-star"></span></label>
-					<!--<input type="text" class="form-control" id="test_result" name="test_result" value="<?php echo $row['test_result']; ?>" placeholder="" required>-->
+					<label for="test_result" class="form-label">16. Result of the Test <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="test_result" id="test_result1" value="negative"<?php echo $row['test_result'] != 'positive' ? ' checked' : ''; ?> required>
 						<label class="form-check-label" for="test_result1">Negative (-)</label>
@@ -150,8 +155,7 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_reference" class="form-label">16. Reference of the Test <span class="form-required-star"></span></label>
-					<!--<input type="text" class="form-control" id="test_reference" name="test_reference" value="<?php echo $row['test_reference']; ?>" placeholder="" required>-->
+					<label for="test_reference" class="form-label">17. Reference of the Test <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="test_reference" id="test_reference1" value="negative"<?php echo $row['test_result'] != 'positive' ? ' checked' : ''; ?> required>
 						<label class="form-check-label" for="test_reference1">Negative (-)</label>
@@ -163,7 +167,7 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_sample" class="form-label">17. Sample for the Test <span class="form-required-star"></span></label>
+					<label for="test_sample" class="form-label">18. Sample for the Test <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="test_sample" name="test_sample" value="<?php echo $row['test_sample'] ? $row['test_sample'] : 'Nasofaringea / Nasopharyngeal'; ?>" placeholder="" required>
 				</div>
 			
