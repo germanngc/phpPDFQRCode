@@ -63,7 +63,7 @@ $row = $phpPDFQRForms::showForm($id);
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="birthdate" class="form-label">5. Date of Birth <span class="form-required-star"></span></label>
-					<input type="date" class="form-control" id="birthdate" name="birthdate" value="<?php echo $row['birthdate']; ?>" placeholder="" required>
+					<input type="text" class="form-control datePicker" id="birthdate" name="birthdate" value="<?php echo date("m/d/Y", strtotime($row['birthdate'])); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="birthdateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
@@ -179,13 +179,13 @@ $symptoms_arr = explode(';', $row['symptoms']);
 			
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="test_date_taken" class="form-label">13. Date of Test Taken <span class="form-required-star"></span></label>
-					<input type="date" class="form-control" id="test_date_taken" name="test_date_taken" value="<?php echo $row['test_date_taken']; ?>" placeholder="" required>
+					<input type="text" class="form-control datePicker" id="test_date_taken" name="test_date_taken" value="<?php echo date("m/d/Y", strtotime($row['test_date_taken'])); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="test_date_result" class="form-label">14. Date of Test Results <span class="form-required-star"></span></label>
-					<input type="date" class="form-control" id="test_date_result" name="test_date_result" value="<?php echo $row['test_date_result']; ?>" placeholder="" required>
+					<input type="text" class="form-control datePicker" id="test_date_result" name="test_date_result" value="<?php echo date("m/d/Y", strtotime($row['test_date_result'])); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
@@ -208,7 +208,7 @@ $symptoms_arr = explode(';', $row['symptoms']);
 			
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="test_method" class="form-label">17. Method of the Test <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : 'Nasofaringea / Nasopharyngeal'; ?>" placeholder="" required>
+					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : 'Inmuno Ensayo Cromatográfico / Cromotography immunoassay'; ?>" placeholder="" required>
 				</div>
 
 				<div class="col-md-12 mb-3" id="book_type_container">
@@ -224,5 +224,5 @@ $symptoms_arr = explode(';', $row['symptoms']);
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210329"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 

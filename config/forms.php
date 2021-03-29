@@ -9,7 +9,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$name = mysqli_real_escape_string(self::$con, $data["name"]);
 		$lastname = mysqli_real_escape_string(self::$con, $data["lastname"]);
 		$email = mysqli_real_escape_string(self::$con, $data["email"]);
-		$birthdate = mysqli_real_escape_string(self::$con, $data["birthdate"]);
+		$birthdate = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["birthdate"])));
 		$sex = mysqli_real_escape_string(self::$con, $data["sex"]);
 		$passport = mysqli_real_escape_string(self::$con, $data["passport"]);
 		$reservation_number = mysqli_real_escape_string(self::$con, $data["reservation_number"]);
@@ -20,7 +20,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 
 		$sql = "INSERT INTO covid_tests " .
 			"(`first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `reservation_number`, `villa`, " .
-			"`symptoms`, `book_type`, `book_family`, `test_type`, `created_at`) " .
+			"`book_type`, `book_family`, `test_type`, `created_at`) " .
 			"VALUES " .
 			"('{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$reservation_number}', '{$villa}', " .
 			"'{$book_type}', '{$book_family}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
@@ -43,7 +43,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$name = mysqli_real_escape_string(self::$con, $data["name"]);
 		$lastname = mysqli_real_escape_string(self::$con, $data["lastname"]);
 		$email = mysqli_real_escape_string(self::$con, $data["email"]);
-		$birthdate = mysqli_real_escape_string(self::$con, $data["birthdate"]);
+		$birthdate = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["birthdate"])));
 		$sex = mysqli_real_escape_string(self::$con, $data["sex"]);
 		$passport = mysqli_real_escape_string(self::$con, $data["passport"]);
 		$villa = mysqli_real_escape_string(self::$con, $data["villa"]);
@@ -54,8 +54,8 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_sample = mysqli_real_escape_string(self::$con, $data["test_sample"]);
 		$book_family = mysqli_real_escape_string(self::$con, $data["book_family"]);
 		$test_type = mysqli_real_escape_string(self::$con, $data["test_type"]);
-		$test_date_taken = mysqli_real_escape_string(self::$con, $data["test_date_taken"]);
-		$test_date_result = mysqli_real_escape_string(self::$con, $data["test_date_result"]);
+		$test_date_taken = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["test_date_taken"])));
+		$test_date_result = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["test_date_result"])));
 		$test_reference = mysqli_real_escape_string(self::$con, $data["test_reference"]);
 		$test_method = mysqli_real_escape_string(self::$con, $data["test_method"]);
 

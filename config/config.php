@@ -46,6 +46,7 @@ class phpPDFQRConfig
 			self::$rootURL . '/login.php',
 			self::$rootURL . '/logout.php',
 			self::$rootURL . '/form.php',
+			self::$rootURL . '/form-thanks.php',
 			self::$rootURL . '/pdf',
 			self::$rootURL . '/favicon.ico'
 		];

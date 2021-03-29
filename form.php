@@ -58,7 +58,7 @@ include dirname(__FILE__) . '/views/body.php';
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="birthdate" class="form-label">5. Date of Birth <span class="form-required-star"></span></label>
-					<input type="date" class="form-control" id="birthdate" name="birthdate" placeholder="" required>
+					<input type="text" class="form-control datePicker" id="birthdate" name="birthdate" placeholder="mm/dd/yyyy" required>
 					<div id="birthdateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
@@ -128,5 +128,5 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210329"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 

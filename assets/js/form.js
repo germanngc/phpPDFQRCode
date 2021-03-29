@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			$bookFamilyOptions.hide();
 		}
 	});
+
+	$(".datePicker").datepicker();
 	
 	// Merging Dates
 	let test_date_taken = document.getElementById('test_date_taken'),
