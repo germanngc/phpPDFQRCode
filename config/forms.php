@@ -14,18 +14,16 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$passport = mysqli_real_escape_string(self::$con, $data["passport"]);
 		$reservation_number = mysqli_real_escape_string(self::$con, $data["reservation_number"]);
 		$villa = mysqli_real_escape_string(self::$con, $data["villa"]);
-		$departuredate = mysqli_real_escape_string(self::$con, $data["departuredate"]);
-		$symptoms = mysqli_real_escape_string(self::$con, $data["symptoms"]);
 		$book_type = mysqli_real_escape_string(self::$con, $data["book_type"]);
 		$book_family = mysqli_real_escape_string(self::$con, $data["book_family"]);
 		$test_type = mysqli_real_escape_string(self::$con, $data["test_type"]);
 
 		$sql = "INSERT INTO covid_tests " .
-			"(`first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `reservation_number`, `villa`, `departuredate`, `symptoms`, " .
-			"`book_type`, `book_family`, `test_type`, `created_at`) " .
+			"(`first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `reservation_number`, `villa`, " .
+			"`symptoms`, `book_type`, `book_family`, `test_type`, `created_at`) " .
 			"VALUES " .
-			"('{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$reservation_number}', '{$villa}', '{$departuredate}', " .
-			"'{$symptoms}', '{$book_type}', '{$book_family}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
+			"('{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$reservation_number}', '{$villa}', " .
+			"'{$book_type}', '{$book_family}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
 
 		if (!mysqli_query(self::$con, $sql)) {
 			self::log('error', 'Unable to insert a record. ' . mysqli_error(self::$con));
@@ -50,8 +48,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$passport = mysqli_real_escape_string(self::$con, $data["passport"]);
 		$villa = mysqli_real_escape_string(self::$con, $data["villa"]);
 		$reservation_number = mysqli_real_escape_string(self::$con, $data["reservation_number"]);
-		$departuredate = mysqli_real_escape_string(self::$con, $data["departuredate"]);
-		$symptoms = mysqli_real_escape_string(self::$con, $data["symptoms"]);
+		$symptoms = mysqli_real_escape_string(self::$con, implode(";", isset($data["symptoms"]) ? $data["symptoms"] : []));
 		$book_type = mysqli_real_escape_string(self::$con, $data["book_type"]);
 		$test_result = mysqli_real_escape_string(self::$con, $data["test_result"]);
 		$test_sample = mysqli_real_escape_string(self::$con, $data["test_sample"]);
@@ -64,7 +61,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 
 		$sql = "UPDATE `covid_tests` " .
 			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email` = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
-			"`passport` = '{$passport}', `villa` = '{$villa}', `reservation_number` = '{$reservation_number}', `departuredate` = '{$departuredate}', " .
+			"`passport` = '{$passport}', `villa` = '{$villa}', `reservation_number` = '{$reservation_number}', " .
 			"`symptoms` = '{$symptoms}', `book_type` = '{$book_type}', `book_family` = '{$book_family}', `test_type` = '{$test_type}', " .
 			"`test_result` = '{$test_result}', `test_sample` = '{$test_sample}', `test_date_taken` = '{$test_date_taken}', " .
 			"`test_date_result` = '{$test_date_result}', `test_reference` = '{$test_reference}', `test_method` = '{$test_method}', " .

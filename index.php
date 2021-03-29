@@ -40,18 +40,18 @@ include dirname(__FILE__) . '/views/body.php';
 					<th>Birth date</th>
 					<th>Sex</th>
 					<th>Passport</th>
-					<th>Villa</th>
 					<th>Reservation number</th>
-					<th>Departure date</th>
+					<th>Villa</th>
+					<th>Symptoms</th>
 					<th>Book type</th>
 					<th>Book family</th>
 					<th>Test type</th>
 					<th>Test date taken</th>
 					<th>Test date result</th>
-					<th>Test reference</th>
-					<th>Test method</th>
 					<th>Test result</th>
+					<th>Test reference</th>
 					<th>Test sample</th>
+					<th>Test method</th>
 					<th>Created at</th>
 					<th>Updated at</th>
 				</tr>
@@ -88,9 +88,11 @@ include dirname(__FILE__) . '/views/body.php';
 			exportOptions: {
 				format: {
 					body: function (data, row, column, node) {
-						return column === 5 ?
-							data.replace( /[$,]/g, '' ) :
-							data;
+						if (column == 9) {
+							data = data.replace(/<br\>/g, '');
+						}
+
+						return data;
 					}
 				}
 			}
@@ -141,7 +143,7 @@ include dirname(__FILE__) . '/views/body.php';
 					text: 'Exportar a Excel',
 					className: 'btn',
 					exportOptions: {
-						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
 					}
 				}),
 				{

@@ -31,18 +31,17 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			10 => 'passport',
 			11 => 'villa',
 			12 => 'reservation_number',
-			13 => 'departuredate',
-			14 => 'symptoms',
-			15 => 'book_type',
-			16 => 'book_family',
-			17 => 'test_type',
-			18 => 'test_date_taken',
-			19 => 'test_date_result',
-			20 => 'test_result',
-			21 => 'test_reference',
-			22 => 'test_sample',
-			23 => 'test_method',
-			24 => 'created_at',
+			13 => 'symptoms',
+			14 => 'book_type',
+			15 => 'book_family',
+			16 => 'test_type',
+			17 => 'test_date_taken',
+			18 => 'test_date_result',
+			19 => 'test_result',
+			20 => 'test_reference',
+			21 => 'test_sample',
+			22 => 'test_method',
+			23 => 'created_at',
 			25 => 'updated_at'
 		];
 
@@ -73,7 +72,6 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				"OR `passport` LIKE '" . $search_value . "%' " .
 				"OR `villa` LIKE '" . $search_value . "%' " .
 				"OR `reservation_number` LIKE '" . $search_value . "%' " .
-				"OR `departuredate` LIKE '" . $search_value . "%' " .
 				"OR `symptoms` LIKE '" . $search_value . "%' " .
 				"OR `book_type` LIKE '" . $search_value . "%' " .
 				"OR `book_family` LIKE '" . $search_value . "%' " .
@@ -94,9 +92,9 @@ class phpPDFQRAPI extends phpPDFQRConfig
 		$totalRecordsFetch = mysqli_fetch_array($totalRecordsQuery, MYSQLI_ASSOC);
 		$totalRecords = isset($totalRecordsFetch["total"]) ? $totalRecordsFetch["total"] : 0;
 
-		$resultsSql = "SELECT `id`, `first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `villa`, `reservation_number`, `departuredate`, " .
-			"`symptoms`, `book_type`, `book_family`, `test_type`, `test_date_taken`, `test_date_result`, `test_result`, `test_reference`, `test_sample`, " .
-			"`test_method`, `created_at`, `updated_at` " .
+		$resultsSql = "SELECT `id`, `first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `villa`, `reservation_number`, " .
+			"`symptoms`, `book_type`, `book_family`, `test_type`, `test_date_taken`, `test_date_result`, `test_result`, `test_reference`, " .
+			"`test_sample`, `test_method`, `created_at`, `updated_at` " .
 			"FROM `covid_tests` {$where} " .
 			"{$order_by} " .
 			"{$limit}" .
@@ -128,10 +126,9 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				$row['birthdate'],
 				$row['sex'] == 'male' ? 'Male' : 'Female',
 				$row['passport'],
-				$row['villa'],
 				$row['reservation_number'],
-				$row['departuredate'],
-				$row['symptoms'],
+				$row['villa'],
+				str_replace(";", "\n\r<br>", $row['symptoms']),
 				$row['book_type'] == 'individual' ? 'Myself' : 'Group or family',
 				$row['book_family'] == 'yes' ? 'Yes' : 'No',
 				$row['test_type'] == 'antigen' ? 'COVID-19 Antigen Test' : 'COVID-19 RT-PCR Test',
@@ -204,7 +201,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			$collectionNames['response'] = false;
 		}
 
-		$collectionNames['filename'] = self::$rootURL . '/zip/' . hash("sha256", $_SESSION['labsal_user']) . '/' . $zipName . '?_labsal=true&_cache=' . time();
+		$collectionNames['filename'] = self::$rootURL . '/zip/' . hash("sha256", $_SESSION['labsal_user']) . '/' . $zipName . '?_labsal=true&_stamp=' . time();
 
 		return $collectionNames;
 	}

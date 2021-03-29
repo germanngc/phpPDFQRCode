@@ -17,5 +17,5 @@ $formData = $phpPDFQRForms::showForm($itemId);
 $pdf = new formPDF($formData);
 $pdf->Output(dirname(__FILE__) . '/pdf/' . $pdf->pdfFilename, 'F');
 
-header("location: " . $phpPDFQRForms::$rootURL . "/pdf/" . $pdf->pdfFilename);
+header("location: " . $phpPDFQRForms::$rootURL . "/pdf/" . $pdf->pdfFilename . '?_labsal=true&_sourceScan=admin&_stamp=' . time());
 die();

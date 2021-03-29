@@ -29,6 +29,7 @@ include dirname(__FILE__) . '/views/body.php';
 		<hr>
 
 		<p>If you are not an Individual or the Main family member, please don't book any appointment.</p>
+		<p><mark class="small p-2 d-block"><strong class="text-danger">PLEASE NOTE: </strong> If you book an appointment please be advised on doing it 48 to 72 hours prior your departure date, otherwise your results may not come in time.</mark></p>
 	</div>
 	<?php endif; ?> 
 	<?php unset($_SESSION["tmp_expedient"]); ?> 

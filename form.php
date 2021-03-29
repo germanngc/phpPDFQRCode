@@ -39,13 +39,13 @@ include dirname(__FILE__) . '/views/body.php';
 					<div id="lastnameHelp" class="form-text">**Reverse Transcription Polymerase Chain Reaction.</div>
 				</div>
 
-				<div class="col-md-4 mb-3 border-bottom py-4">
+				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="name" class="form-label">2. First Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="name" name="name" placeholder="" required>
 					<div id="nameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
-				<div class="col-md-4 mb-3 border-bottom py-4">
+				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="lastname" class="form-label">3. Last Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="lastname" name="lastname" placeholder="" required>
 					<div id="lastnameHelp" class="form-text">As displayed in your passport.</div>
@@ -65,7 +65,7 @@ include dirname(__FILE__) . '/views/body.php';
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="email" class="form-label">6. Sex <span class="form-required-star"></span></label>
 					<div class="form-check">
-						<input class="form-check-input" type="radio" name="sex" id="sex2" value="female" checked required>
+						<input class="form-check-input" type="radio" name="sex" id="sex2" value="female" required>
 						<label class="form-check-label" for="sex2">Female</label>
 					</div>
 					<div class="form-check">
@@ -89,20 +89,8 @@ include dirname(__FILE__) . '/views/body.php';
 					<input type="text" class="form-control" id="villa" name="villa" placeholder="" required>
 				</div>
 
-				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="departuredate" class="form-label">10. Date of Departure <span class="form-required-star"></span></label>
-					<input type="date" class="form-control" id="departuredate" name="departuredate" placeholder="" required>
-					<div id="departuredateHelp" class="form-text">Use your browser selector.</div>
-				</div>
-
-				<div class="col-md-12 mb-3 border-bottom py-4">
-					<label for="symptoms" class="form-label">11. Symptoms </label>
-					<textarea class="form-control" id="symptoms" name="symptoms"></textarea>
-					<div id="symptomsHelp" class="form-text">Please describe if you have any.</div>
-				</div>
-
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
-					<label for="email" class="form-label">12. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
+					<label for="book_type" class="form-label">10. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" checked required>
 						<label class="form-check-label" for="book_type1">Myself</label>
@@ -113,15 +101,17 @@ include dirname(__FILE__) . '/views/body.php';
 					</div>
 				</div>
 
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: none;">
-					<label for="email" class="form-label">13. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="form-required-star"></span></label>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" required>
-						<label class="form-check-label" for="book_family1">Yes - Book</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" checked required>
-						<label class="form-check-label" for="book_family2">No - Don't book</label>
+				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container">
+					<label for="book_family" class="form-label text-muted">11. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class=""></span></label>
+					<div id="book_family_options" style="display: none;">
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" required>
+							<label class="form-check-label" for="book_family1">Yes - Book</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" checked required>
+							<label class="form-check-label" for="book_family2">No - Don't book</label>
+						</div>
 					</div>
 				</div>
 
@@ -138,35 +128,5 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script>
-	function submitForm() {
-		grecaptcha.enterprise.ready(function() {
-			grecaptcha.enterprise.execute('6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw', {action: 'submit_covid_test_form'}).then(function(token) {
-				console.log('Here there', token);
-
-				document.getElementById('reCaptcha').value = token;
-				document.getElementById('bookingFormRegister').submit();
-				return true;
-			});
-		});
-
-		return false;
-	}
-
-	document.addEventListener("DOMContentLoaded", function(event) {
-		const book_family_container = document.getElementById('book_family_container');
-		const book_type_action = document.getElementsByName('book_type');
-
-		book_type_action.forEach(function(elem) {
-			elem.addEventListener("change", function(event) {
-				if (this.value == 'group') {
-					book_family_container.style.display = 'block';
-				} else {
-					document.getElementById('book_family2').checked = true;
-					book_family_container.style.display = 'none';
-				}
-			});
-		});
-	});
-</script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 
