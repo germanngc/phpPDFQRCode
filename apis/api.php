@@ -251,7 +251,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 		$collectionNames = [
 			'data_err' => [],
 			'data_success' => [],
-			'message' => 'Correos Evniados con Éxito.',
+			'message' => 'Correos Enviados con Éxito.',
 			'response' => true
 		];
 
@@ -284,7 +284,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 
 			if ($formData["test_result"] == 'positive') {
 				if ($formData["test_type"] == 'antigen') {
-					$testResults = "<p>If you tested positive in the antigen test, please come visit us at Villa 4033 so we can further assist you, as you must now be tested by RT-PCR to confirm your antigen test result. A special price of $100 USD is available for all Royal Guests.</p>";
+					$testResults = "<p>If you tested positive in the antigen test, please come visit us at Villa 4430 so we can further assist you, as you must now be tested by RT-PCR to confirm your antigen test result. A special price of $100 USD is available for all Royal Guests.</p>";
 					$testResultsDisclaimer = "<p style=\"font-size:75%;font-style:italic;font-weight:bold;\">Appointments shall be made between 48 and 72 hours prior to the
 						date of departure.</p>";
 				}

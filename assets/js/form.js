@@ -39,9 +39,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 			$PCRContainer.find('input[type=radio]#pcr_interpretation1').prop('checked', true).change();
 			$('input[type=radio]#test_result1').prop('checked', true).change();
 			$('input[type=radio][name=test_result]').attr('readonly', false);
+			$('input[name=test_method]').val('Inmuno Ensayo Cromatográfico / Cromotography immunoassay');
 		} else {
 			$('input[type=radio]#test_result1').prop('checked', true).change();
 			$('input[type=radio][name=test_result]').attr('readonly', true);
+			$('input[name=test_method]').val('RT-PCR');
 			$PCRContainer.show();
 		}
 	});

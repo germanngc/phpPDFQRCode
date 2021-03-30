@@ -124,43 +124,43 @@ class formPDF extends FPDF
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
 			$this->Cell('2.50', 0.20, utf8_decode(''), 0, 1, 'C');
 
-			$pcr_observations_arr = explode(';', $row['pcr_observations'] ? $row['pcr_observations'] : '');
-			$pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample'] ? $row['pcr_observations_sample'] : '');
+			$pcr_observations_arr = explode(';', $formData['pcr_observations'] ? $formData['pcr_observations'] : '');
+			$pcr_observations_sample_arr = explode(';', $formData['pcr_observations_sample'] ? $formData['pcr_observations_sample'] : '');
 
 			$this->SetFont('OpenSans-Regular', 'B', 9);
 			$this->Cell('2.50', 0.20, utf8_decode('* Gen E:'), 0, 0, 'R');
 			$this->SetFont('OpenSans-Regular', '', 9);
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_e', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_e', $pcr_observations_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 0, 'C');
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_e', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_e', $pcr_observations_sample_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 1, 'C');
 
 			$this->SetFont('OpenSans-Regular', 'B', 9);
 			$this->Cell('2.50', 0.20, utf8_decode('* Gen N:'), 0, 0, 'R');
 			$this->SetFont('OpenSans-Regular', '', 9);
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_n', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_n', $pcr_observations_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 0, 'C');
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_n', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_n', $pcr_observations_sample_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 1, 'C');
 
 			$this->SetFont('OpenSans-Regular', 'B', 9);
 			$this->Cell('2.50', 0.20, utf8_decode('* RNAaseP:'), 0, 0, 'R');
 			$this->SetFont('OpenSans-Regular', '', 9);
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.10, utf8_decode(in_array('rnaasep', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('rnaasep', $pcr_observations_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 0, 'C');
 			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.20, utf8_decode(in_array('rnaasep', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('rnaasep', $pcr_observations_sample_arr) ? '(+) Detectado / Detected' : '(-) No Detectado / Not Detected'), 0, 1, 'C');
 
-			$this->SetFont('OpenSans-Regular', 'B', 10);
-			$this->Cell('2.50', 0.30, utf8_decode('Interpretación / Interpretation:'), 0, 0, 'R');
-			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.30, utf8_decode($formData["pcr_interpretation"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
-			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-			$this->Cell('2.50', 0.30, utf8_decode($formData["pcr_interpretation"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+			$this->Ln();
+
+			$this->SetFont('OpenSans-Light', '', 10);
+			$this->Cell(2.00, 0.30, utf8_decode('Interpretación / Interpretation: '), 0, 0);
+			$this->SetFont('OpenSans-Regular', 'B', 9);
+			$this->Cell(6.10, 0.30, utf8_decode($formData["pcr_interpretation"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1);
+		} else {
+			$this->Ln();
 		}
 		
-
-		$this->Ln();
 
 		$this->SetFont('OpenSans-Light', '', 10);
 		$this->Cell(1.20, 0.30, utf8_decode('Muestra / Sample: '), 0, 0);

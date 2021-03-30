@@ -230,17 +230,17 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 									<hr>
 
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_gen_e" value="gen_e" readonly <?php echo in_array('gen_e', $pcr_observations_sample_arr) ? 'checked' : ''; ?>>
+										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_gen_e" value="gen_e" readonly <?php echo in_array('gen_e', $pcr_observations_sample_arr) ? 'checked' : ''; ?> readonly>
 										<label class="form-check-label text-muted" for="pcr_observations_sample_gen_e">Gen E</label>
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_gen_n" value="gen_n" readonly <?php echo in_array('gen_n', $pcr_observations_sample_arr) ? 'checked' : ''; ?>>
+										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_gen_n" value="gen_n" readonly <?php echo in_array('gen_n', $pcr_observations_sample_arr) ? 'checked' : ''; ?> readonly>
 										<label class="form-check-label text-muted" for="pcr_observations_sample_gen_n">Gen N</label>
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_rnaasep" value="rnaasep" readonly <?php echo in_array('rnaasep', $pcr_observations_sample_arr) ? 'checked' : ''; ?>>
+										<input class="form-check-input" type="checkbox" name="pcr_observations_sample[]" id="pcr_observations_sample_rnaasep" value="rnaasep" readonly <?php echo in_array('rnaasep', $pcr_observations_sample_arr) ? 'checked' : ''; ?> checked readonly>
 										<label class="form-check-label text-muted" for="pcr_observations_sample_rnaasep">RNAaseP</label>
 									</div>
 								</div>
@@ -260,7 +260,7 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 									</div>
 
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" name="pcr_observations[]" id="pcr_observations_rnaasep" value="rnaasep" <?php echo in_array('rnaasep', $pcr_observations_arr) ? 'checked' : ''; ?>>
+										<input class="form-check-input" type="checkbox" name="pcr_observations[]" id="pcr_observations_rnaasep" value="rnaasep" readonly checked>
 										<label class="form-check-label" for="pcr_observations_rnaasep">RNAaseP</label>
 									</div>
 								</div>
@@ -294,5 +294,5 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_1"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 
