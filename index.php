@@ -52,6 +52,9 @@ include dirname(__FILE__) . '/views/body.php';
 					<th>Test reference</th>
 					<th>Test sample</th>
 					<th>Test method</th>
+					<th>RT-PCR Observations</th>
+					<th>RT-PCR Observations Reference</th>
+					<th>RT-PCR Interpretation</th>
 					<th>Created at</th>
 					<th>Updated at</th>
 				</tr>
@@ -118,6 +121,17 @@ include dirname(__FILE__) . '/views/body.php';
 			ajax: {
 				url: "<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=getForms",
 				type: "post",
+				dataSrc: function (json) {
+					if (!json._status) {
+						$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+						$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(json._message);
+						bulkPDFModal.show();
+					}
+
+					return json.data;
+				},
 				error: function() {
 					$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
 					$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');

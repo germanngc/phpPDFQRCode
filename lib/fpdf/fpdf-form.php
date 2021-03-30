@@ -5,6 +5,7 @@ require dirname(__FILE__) . '/../phpqrcode/qrlib.php';
 class formPDF extends FPDF
 {
 	public $pdfFilename = '';
+	private $currentX = 0.4;
 	private $currentY = 0.4;
 
 	public function __construct($formData)
@@ -42,14 +43,13 @@ class formPDF extends FPDF
 		$this->Ln();
 		$this->Cell(0, 0.2, utf8_decode('D.G.P. 1524713'), 0, 0, 'C');
 		$this->Ln();
-		$this->SetLineWidth(0.02);
-		$this->SetDrawColor(150, 150, 150);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->SetDrawColor(0, 0, 0);
-
-		// Salto de línea
 		$this->Ln();
+		$currentX = $this->GetX();
+		$currentY = $this->GetY();
+		$this->SetDrawColor(150, 150, 150);
+		$this->SetFillColor(150, 150, 150);
+		$this->Rect($currentX, $currentY, 7.70, 0.01);
+		$this->Rect($currentX, $currentY + 0.04, 7.70, 0.01);
 	}
 
 	function formInformation($formData)
@@ -58,40 +58,40 @@ class formPDF extends FPDF
 		$tmpNow = new DateTime();
 		$birthDay = $tmpBD->diff($tmpNow)->y;
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(1.35, 0.25, utf8_decode('Paciente / Patient: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(3.50, 0.25, utf8_decode($formData["first_name"] . ' ' . $formData["last_name"]), 0, 0);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(1.20, 0.20, utf8_decode('Paciente / Patient: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(3.65, 0.20, utf8_decode($formData["first_name"] . ' ' . $formData["last_name"]), 0, 0);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(0.85, 0.25, utf8_decode('Sexo / Sex: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(2.00, 0.25, utf8_decode($formData["sex"] == 'male' ? 'Masculino / Male' : 'Femenino / Female'), 0, 1);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(0.70, 0.20, utf8_decode('Sexo / Sex: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(2.15, 0.20, utf8_decode($formData["sex"] == 'male' ? 'Masculino / Male' : 'Femenino / Female'), 0, 1);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(1.30, 0.25, utf8_decode('Expediente / File: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(3.55, 0.25, utf8_decode('RIH' . str_pad($formData['id'], 7, "0", STR_PAD_LEFT)), 0, 0);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(1.15, 0.20, utf8_decode('Expediente / File: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(3.70, 0.20, utf8_decode('RIH' . str_pad($formData['id'], 7, "0", STR_PAD_LEFT)), 0, 0);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(0.85, 0.25, utf8_decode('Edad / Age: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(2.00, 0.25, utf8_decode($birthDay), 0, 1);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(0.75, 0.20, utf8_decode('Edad / Age: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(2.10, 0.20, utf8_decode($birthDay), 0, 1);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(2.45, 0.25, utf8_decode('No. Pasaporte / Passport Number: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(2.40, 0.25, utf8_decode($formData["passport"]), 0, 0);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(2.20, 0.20, utf8_decode('No. Pasaporte / Passport Number: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(2.65, 0.20, utf8_decode($formData["passport"]), 0, 0);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(1.00, 0.25, utf8_decode('Fecha / Date: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(1.85, 0.25, utf8_decode($formData["test_date_result"]), 0, 1);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(0.85, 0.20, utf8_decode('Fecha / Date: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(1.70, 0.20, utf8_decode($formData["test_date_result"]), 0, 1);
 
-		$this->SetFont('OpenSans-Light', '', 11);
-		$this->Cell(1.55, 0.25, utf8_decode('Doctor / Physician: '), 0, 1);
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell(4.85, 0.25, utf8_decode('A quien corresponda / To whom it may concern,'), 0, 1);
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(1.20, 0.20, utf8_decode('Doctor / Physician: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(6.50, 0.20, utf8_decode('A quien corresponda / To whom it may concern.'), 0, 1);
 
 		$this->Ln();
 
@@ -101,28 +101,81 @@ class formPDF extends FPDF
 		$this->Cell('2.50', 0.30, utf8_decode('Resultado / Result'), 'B', 0, 'C');
 		$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
 		$this->Cell('2.50', 0.30, utf8_decode('Valor de Referencia / Reference Value'), 'B', 1, 'C');
-		$this->SetFont('OpenSans-Regular', 'B', 10);
-		$this->Cell('2.50', 0.30, utf8_decode($formData["test_type"] == 'antigen' ? 'Antígeno / Antigen' : 'RT-PCR'), 0, 0, 'C');
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell('2.50', 0.30, utf8_decode($formData["test_type"] == 'antigen' ? 'Antígeno / Antigen' : 'SARS-CoV-2-PCR'), 0, 0, 'C');
 		$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-		$this->Cell('2.50', 0.30, utf8_decode($formData["test_result"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
-		$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-		$this->Cell('2.50', 0.30, utf8_decode($formData["test_reference"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
 
-		$this->Ln();
+		if (utf8_decode($formData["test_type"]) == 'antigen') {
+			$this->Cell('2.50', 0.30, utf8_decode($formData["test_result"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.30, utf8_decode($formData["test_reference"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+		} else {
+			$this->Cell('2.50', 0.30, utf8_decode('-'), 0, 0, 'C');
+			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.30, utf8_decode('-'), 0, 1, 'C');
+		}
 
-		$this->SetFont('OpenSans-Light', '', 12);
-		$this->Cell(1.50, 0.30, utf8_decode('Muestra / Sample: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 11);
-		$this->Cell(6.60, 0.30, utf8_decode($formData["test_sample"]), 0, 1);
+		if (utf8_decode($formData["test_type"]) != 'antigen') {
+			$this->SetFont('OpenSans-Regular', 'B', 9);
+			$this->Cell('2.50', 0.20, utf8_decode('Observaciones / Observations:'), 0, 0, 'R');
+			$this->SetFont('OpenSans-Regular', '', 9);
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.10, utf8_decode(''), 0, 0, 'C');
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.20, utf8_decode(''), 0, 1, 'C');
 
-		$this->SetFont('OpenSans-Light', '', 12);
-		$this->Cell(1.50, 0.30, utf8_decode('Método / Method: '), 0, 0);
-		$this->SetFont('OpenSans-Regular', 'B', 11);
-		$this->Cell(6.60, 0.30, utf8_decode($formData["test_method"]), 0, 1);
+			$pcr_observations_arr = explode(';', $row['pcr_observations'] ? $row['pcr_observations'] : '');
+			$pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample'] ? $row['pcr_observations_sample'] : '');
+
+			$this->SetFont('OpenSans-Regular', 'B', 9);
+			$this->Cell('2.50', 0.20, utf8_decode('* Gen E:'), 0, 0, 'R');
+			$this->SetFont('OpenSans-Regular', '', 9);
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_e', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_e', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+
+			$this->SetFont('OpenSans-Regular', 'B', 9);
+			$this->Cell('2.50', 0.20, utf8_decode('* Gen N:'), 0, 0, 'R');
+			$this->SetFont('OpenSans-Regular', '', 9);
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('gen_n', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('gen_n', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+
+			$this->SetFont('OpenSans-Regular', 'B', 9);
+			$this->Cell('2.50', 0.20, utf8_decode('* RNAaseP:'), 0, 0, 'R');
+			$this->SetFont('OpenSans-Regular', '', 9);
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.10, utf8_decode(in_array('rnaasep', $pcr_observations_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('0.09', 0.20, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.20, utf8_decode(in_array('rnaasep', $pcr_observations_sample_arr) ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+
+			$this->SetFont('OpenSans-Regular', 'B', 10);
+			$this->Cell('2.50', 0.30, utf8_decode('Interpretación / Interpretation:'), 0, 0, 'R');
+			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.30, utf8_decode($formData["pcr_interpretation"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 0, 'C');
+			$this->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
+			$this->Cell('2.50', 0.30, utf8_decode($formData["pcr_interpretation"] == 'positive' ? '(+) Positivo / Positive' : '(-) Negativo / Negative'), 0, 1, 'C');
+		}
+		
+
+		// $this->Ln();
+
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(1.20, 0.30, utf8_decode('Muestra / Sample: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(6.90, 0.30, utf8_decode($formData["test_sample"]), 0, 1);
+
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(1.20, 0.30, utf8_decode('Método / Method: '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(6.90, 0.30, utf8_decode($formData["test_method"]), 0, 1);
 	}
 
 	function formQRS($id)
 	{
+		$this->SetXY(0.40, 6.5);
 		$this->currentY = $currentY = $this->GetY();
 
 		$qrTest = 'qr-test-' . time();
@@ -177,24 +230,29 @@ class formPDF extends FPDF
 
 	function formDisclaimer()
 	{
-		$this->SetFont('OpenSans-Light', 'I', 8);
-		$this->MultiCell(0, 0.20, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. / Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
-		$this->MultiCell(0, 0.20, utf8_decode('* Los resultados positivos sugieren una infección reciente. / Positive results suggest a recent infection.'));
-		$this->MultiCell(0, 0.20, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. / Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
-
-		$this->Ln();
-		$this->Ln();
-		$this->Ln();
-		$this->Ln();
-
+		$this->currentX = $currentX = $this->GetX();
 		$this->currentY = $currentY = $this->GetY();
 
-		$this->Image(dirname(__FILE__) . '/../../media/signature.png', 3.57, $currentY - 1.00, 1.37);
-		$this->SetFont('OpenSans-Light', 'I', 11);
-		$this->Cell(0, 0.30, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 1, 'C');
+		$this->SetFont('OpenSans-Light', 'I', 8);
+		$this->SetX($currentX + 2.00);
+		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. / Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
+		$this->SetX($currentX + 2.00);
+		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados positivos sugieren una infección reciente. / Positive results suggest a recent infection.'));
+		$this->SetX($currentX + 2.00);
+		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. / Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
+		$this->Cell(0, 0.15, '', 0, 1);
+		// $this->SetY($currentY);
 
-		$this->SetFont('OpenSans-Light', '', 10);
-		$this->MultiCell(0, 0.30, utf8_decode('La consulta en línea y/o la impresión de este documento no sustituye al original / Online consultation and/or printing of this document does not replace the original'));
+		// $this->currentY = $currentY = $this->GetY();
+
+		$this->Image(dirname(__FILE__) . '/../../media/signature.png', 0.40, $currentY, 1.37);
+		$this->SetY($currentY + 1.0);
+		$this->SetFont('OpenSans-Light', 'I', 10);
+		$this->Cell(0, 0.30, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 1);
+
+		$this->SetY($currentY + 1.6);
+		$this->SetFont('OpenSans-Light', '', 9);
+		$this->MultiCell(0, 0.15, utf8_decode('La consulta en línea y/o la impresión de este documento no sustituye al original / Online consultation and/or printing of this document does not replace the original'));
 	}
 
 	function Footer()

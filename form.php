@@ -34,26 +34,26 @@ include dirname(__FILE__) . '/views/body.php';
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="test_type" id="test_type2" value="pcr" required>
-						<label class="form-check-label" for="test_type2">COVID-19 RT-PCR Test (USD $116)**</label>
+						<label class="form-check-label" for="test_type2">COVID-19 RT-PCR Test (USD $100)**</label>
 					</div>
 					<div id="lastnameHelp" class="form-text">**Reverse Transcription Polymerase Chain Reaction.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="name" class="form-label">2. First Name <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="name" name="name" placeholder="" required>
+					<input type="text" class="form-control" id="name" name="name" required>
 					<div id="nameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
 					<label for="lastname" class="form-label">3. Last Name <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="lastname" name="lastname" placeholder="" required>
+					<input type="text" class="form-control" id="lastname" name="lastname" required>
 					<div id="lastnameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="email" class="form-label">4. Email <span class="form-required-star"></span></label>
-					<input type="email" class="form-control" id="email" name="email" placeholder="" required>
+					<input type="email" class="form-control" id="email" name="email" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
@@ -81,12 +81,12 @@ include dirname(__FILE__) . '/views/body.php';
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="reservation_number" class="form-label">8. Reservation Number <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="reservation_number" name="reservation_number" placeholder="" required>
+					<input type="text" class="form-control" id="reservation_number" name="reservation_number" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="villa" class="form-label">9. Villa Number <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="villa" name="villa" placeholder="" required>
+					<label for="villa" class="form-label">9. Villa Number </label>
+					<input type="text" class="form-control" id="villa" name="villa">
 				</div>
 
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
@@ -115,7 +115,7 @@ include dirname(__FILE__) . '/views/body.php';
 					</div>
 				</div>
 
-				<div class="col-md-12 mb-3" id="book_type_container">
+				<div class="col-md-12 mb-3">
 					<div class="d-grid gap-2">
 						<button type="submit" class="btn btn-labsal btn-lg btn-block mb-3">Submit</button>
 					</div>

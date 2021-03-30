@@ -29,13 +29,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		}
 	});
 
-	$(".datePicker").datepicker();
+	$('input[name=test_type]').on('change', function() {
+		let $testType = $(this).val(),
+			$PCRContainer = $('#pcr_container');
+
+		if ($testType == 'antigen') {
+			$PCRContainer.hide();
+			$PCRContainer.find('input[type=checkbox]:checked').prop('checked', false);
+			$PCRContainer.find('input[type=radio]#pcr_interpretation1').prop('checked', true).change();
+			$('input[type=radio]#test_result1').prop('checked', true).change();
+			$('input[type=radio][name=test_result]').attr('readonly', false);
+		} else {
+			$('input[type=radio]#test_result1').prop('checked', true).change();
+			$('input[type=radio][name=test_result]').attr('readonly', true);
+			$PCRContainer.show();
+		}
+	});
+
+	let todayDate = new Date();
+	todayDate.setDate(todayDate.getDate() - 1);
+
+	$(".datePicker").datepicker({
+		dateFormat: 'mm/dd/yyyy',
+		defaultDate: todayDate
+	});
 	
 	// Merging Dates
-	let test_date_taken = document.getElementById('test_date_taken'),
-		test_date_result = document.getElementById('test_date_result');
+	let test_date_taken = document.getElementById('test_date_taken');
 
 	test_date_taken.addEventListener('change', function(event) {
-		test_date_result.value = this.value;
+		$("#test_date_result").val(this.value).datepicker('setDate', this.value)
 	});
 });

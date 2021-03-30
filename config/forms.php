@@ -58,6 +58,9 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_date_result = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["test_date_result"])));
 		$test_reference = mysqli_real_escape_string(self::$con, $data["test_reference"]);
 		$test_method = mysqli_real_escape_string(self::$con, $data["test_method"]);
+		$pcr_observations = mysqli_real_escape_string(self::$con, implode(";", isset($data["pcr_observations"]) ? $data["pcr_observations"] : []));
+		$pcr_observations_sample = mysqli_real_escape_string(self::$con, implode(";", isset($data["pcr_observations_sample"]) ? $data["pcr_observations_sample"] : []));
+		$pcr_interpretation = mysqli_real_escape_string(self::$con, $data["pcr_interpretation"]);
 
 		$sql = "UPDATE `covid_tests` " .
 			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email` = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
@@ -65,6 +68,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 			"`symptoms` = '{$symptoms}', `book_type` = '{$book_type}', `book_family` = '{$book_family}', `test_type` = '{$test_type}', " .
 			"`test_result` = '{$test_result}', `test_sample` = '{$test_sample}', `test_date_taken` = '{$test_date_taken}', " .
 			"`test_date_result` = '{$test_date_result}', `test_reference` = '{$test_reference}', `test_method` = '{$test_method}', " .
+			"`pcr_observations` = '{$pcr_observations}', `pcr_observations_sample` = '{$pcr_observations_sample}', `pcr_interpretation` = '{$pcr_interpretation}', " .
 			"`updated_at` = '" . date('Y-m-d H:i:s'). "' ".
 			"WHERE `id` = '{$id}' LIMIT 1;";
 

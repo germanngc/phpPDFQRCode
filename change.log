@@ -1,0 +1,6 @@
+# 2021-03-29
+ALTER TABLE `covid_tests` 
+ADD COLUMN `pcr_observations` TEXT NULL DEFAULT NULL AFTER `test_method`,
+ADD COLUMN `pcr_observations_sample` TEXT NULL DEFAULT NULL AFTER `pcr_observations`
+ADD COLUMN `pcr_interpretation` VARCHAR(255) NULL DEFAULT NULL AFTER `pcr_observations_sample`;
+
