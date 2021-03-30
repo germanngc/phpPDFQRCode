@@ -111,7 +111,7 @@ $row = $phpPDFQRForms::showForm($id);
 					<div id="book_family_options" style="display: <?php echo $row['book_type'] == 'individual' ? 'none': 'block'; ?>">
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family']=='yes'){ echo'checked';} ?> required>
-							<label class="form-check-label" for="book_family1">Yes - Book</label>
+							<label class="form-check-label" for="book_family1">Yes - Book (This form should be filled by all your family / group members individually)</label>
 						</div>
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" <?php if($row['book_family']=='no'){ echo'checked';} ?> required>

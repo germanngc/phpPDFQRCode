@@ -106,7 +106,7 @@ include dirname(__FILE__) . '/views/body.php';
 					<div id="book_family_options" style="display: none;">
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" required>
-							<label class="form-check-label" for="book_family1">Yes - Book</label>
+							<label class="form-check-label" for="book_family1">Yes - Book (This form should be filled by all your family / group members individually)</label>
 						</div>
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" checked required>
