@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		if ($bookType == 'group') {
 			$bookFamilyContainer.find('label').removeClass('text-muted');
 			$bookFamilyContainer.find('label span').addClass('form-required-star');
-			$bookFamilyOptions.show();
+			$bookFamilyContainer.show();
 		} else {
 			$bookFamilyDefault.prop('checked', true);
 			$bookFamilyContainer.find('label').addClass('text-muted');
 			$bookFamilyContainer.find('label span').removeClass('form-required-star');
-			$bookFamilyOptions.hide();
+			$bookFamilyContainer.hide();
 		}
 	});
 

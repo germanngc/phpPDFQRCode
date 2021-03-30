@@ -101,9 +101,9 @@ include dirname(__FILE__) . '/views/body.php';
 					</div>
 				</div>
 
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container">
+				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: none;">
 					<label for="book_family" class="form-label text-muted">11. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class=""></span></label>
-					<div id="book_family_options" style="display: none;">
+					<div id="book_family_options">
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" required>
 							<label class="form-check-label" for="book_family1">Yes - Book (This form should be filled by all your family / group members individually)</label>
@@ -128,5 +128,5 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_1"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_2"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 

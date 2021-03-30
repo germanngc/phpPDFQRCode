@@ -106,9 +106,9 @@ $row = $phpPDFQRForms::showForm($id);
 					</div>
 				</div>
 
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container">
+				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: <?php echo $row['book_type'] == 'individual' ? 'none': 'block'; ?>">
 					<label for="email" class="form-label<?php echo $row['book_type'] == 'individual' ? ' text-muted': ''; ?>">11. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="<?php echo $row['book_type'] == 'individual' ? '': 'form-required-star'; ?>"></span></label>
-					<div id="book_family_options" style="display: <?php echo $row['book_type'] == 'individual' ? 'none': 'block'; ?>">
+					<div id="book_family_options">
 						<div class="form-check">
 							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family']=='yes'){ echo'checked';} ?> required>
 							<label class="form-check-label" for="book_family1">Yes - Book (This form should be filled by all your family / group members individually)</label>
@@ -294,5 +294,5 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_1"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_2"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 
