@@ -46,6 +46,7 @@ include dirname(__FILE__) . '/views/body.php';
 					<th>Book type</th>
 					<th>Book family</th>
 					<th>Test type</th>
+					<th>Patient Day Number</th>
 					<th>Test date taken</th>
 					<th>Test date result</th>
 					<th>Test result</th>
@@ -157,7 +158,7 @@ include dirname(__FILE__) . '/views/body.php';
 					text: 'Exportar a Excel',
 					className: 'btn',
 					exportOptions: {
-						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
 					}
 				}),
 				{

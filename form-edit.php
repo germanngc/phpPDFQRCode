@@ -177,19 +177,24 @@ $symptoms_arr = explode(';', $row['symptoms']);
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="test_date_taken" class="form-label">13. Date of Test Taken <span class="form-required-star"></span></label>
+					<label for="patient_day_number" class="form-label">13. Patient Day Number</label>
+					<input type="text" class="form-control" id="patient_day_number" name="patient_day_number" value="<?php echo $row['patient_day_number']; ?>">
+				</div>
+
+				<div class="col-md-4 mb-3 border-bottom py-4">
+					<label for="test_date_taken" class="form-label">14. Date of Test Taken <span class="form-required-star"></span></label>
 					<input type="text" class="form-control datePicker" id="test_date_taken" name="test_date_taken" value="<?php echo date("m/d/Y", strtotime($row['test_date_taken'] ? $row['test_date_taken'] : 'now')); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="test_date_result" class="form-label">14. Date of Test Results <span class="form-required-star"></span></label>
+					<label for="test_date_result" class="form-label">15. Date of Test Results <span class="form-required-star"></span></label>
 					<input type="text" class="form-control datePicker" id="test_date_result" name="test_date_result" value="<?php echo date("m/d/Y", strtotime($row['test_date_result'] ? $row['test_date_result'] : 'now')); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="test_date_takenHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="test_result" class="form-label">15. Result of the Test <span class="form-required-star"></span></label>
+					<label for="test_result" class="form-label">16. Result of the Test <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="test_result" id="test_result1" value="negative"<?php echo $row['test_result'] != 'positive' ? ' checked' : ''; ?> required>
 						<label class="form-check-label" for="test_result1">Negative (-)</label>
@@ -200,20 +205,20 @@ $symptoms_arr = explode(';', $row['symptoms']);
 					</div>
 				</div>
 
-				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_sample" class="form-label">16. Sample for the Test <span class="form-required-star"></span></label>
+				<div class="col-md-4 mb-3 border-bottom py-4">
+					<label for="test_sample" class="form-label">17. Sample for the Test <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="test_sample" name="test_sample" value="<?php echo $row['test_sample'] ? $row['test_sample'] : 'Nasofaringea / Nasopharyngeal'; ?>" required>
 				</div>
 			
-				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="test_method" class="form-label">17. Method of the Test <span class="form-required-star"></span></label>
+				<div class="col-md-4 mb-3 border-bottom py-4">
+					<label for="test_method" class="form-label">18. Method of the Test <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : 'Inmuno Ensayo Cromatográfico / Cromotography immunoassay'; ?>" required>
 				</div>
 
 				<div class="col-md-12">
 					<div class="row" id="pcr_container" style="display:<?php echo $row['test_type'] == 'pcr' ? 'flex' : 'none' ?>">
 						<div class="col-md-6 mb-3 border-bottom py-4">
-							<label for="pcr_observations" class="form-label">18. RT-PCR Observations </label>
+							<label for="pcr_observations" class="form-label">19. RT-PCR Observations </label>
 							<div id="test_date_takenHelp" class="form-text">Mark if detected.</div>
 							<?php
 $pcr_observations_arr = explode(';', $row['pcr_observations']);
@@ -263,7 +268,7 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 						</div>
 
 						<div class="col-md-6 mb-3 border-bottom py-4">
-							<label for="pcr_interpretation" class="form-label">19. RT-PCR Interpretation <span class="form-required-star"></span></label>
+							<label for="pcr_interpretation" class="form-label">20. RT-PCR Interpretation <span class="form-required-star"></span></label>
 							<div class="form-check">
 								<input class="form-check-input" type="radio" name="pcr_interpretation" id="pcr_interpretation1" value="negative"<?php echo $row['pcr_interpretation'] != 'positive' ? ' checked' : ''; ?> required>
 								<label class="form-check-label" for="pcr_interpretation1">Negative (-)</label>

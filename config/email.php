@@ -30,7 +30,7 @@ class phpPDFQREmail extends phpPDFQRConfig
 		self::$sender_mail = self::$environment['SMTP_SENDER_MAIL'];
 	}
 
-	public function sendEmail($to, $subject, $message)
+	public function sendEmail($to, $subject, $message, $bbc = [])
 	{
 		try {
 			$mail = new PHPMailer(true);
@@ -46,7 +46,12 @@ class phpPDFQREmail extends phpPDFQRConfig
 
 			// Specify the message recipients.
 			$mail->addAddress($to);
-		
+
+			// Adding BBC
+			foreach ($bbc AS $bbc_mail) {
+				$mail->addBCC($bbc_mail);
+			}
+
 			// Specify the content of the message.
 			$mail->isHTML(true);
 			$mail->Subject = $subject;

@@ -54,6 +54,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 		$test_sample = mysqli_real_escape_string(self::$con, $data["test_sample"]);
 		$book_family = mysqli_real_escape_string(self::$con, $data["book_family"]);
 		$test_type = mysqli_real_escape_string(self::$con, $data["test_type"]);
+		$patient_day_number = mysqli_real_escape_string(self::$con, $data["patient_day_number"]);
 		$test_date_taken = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["test_date_taken"])));
 		$test_date_result = mysqli_real_escape_string(self::$con, date("Y-m-d", strtotime($data["test_date_result"])));
 		$test_reference = mysqli_real_escape_string(self::$con, $data["test_reference"]);
@@ -66,10 +67,10 @@ class phpPDFQRForms extends phpPDFQRConfig
 			"SET `first_name` = '{$name}', `last_name` = '{$lastname}', `email` = '{$email}', `birthdate` = '{$birthdate}', `sex` = '{$sex}', " .
 			"`passport` = '{$passport}', `villa` = '{$villa}', `reservation_number` = '{$reservation_number}', " .
 			"`symptoms` = '{$symptoms}', `book_type` = '{$book_type}', `book_family` = '{$book_family}', `test_type` = '{$test_type}', " .
-			"`test_result` = '{$test_result}', `test_sample` = '{$test_sample}', `test_date_taken` = '{$test_date_taken}', " .
-			"`test_date_result` = '{$test_date_result}', `test_reference` = '{$test_reference}', `test_method` = '{$test_method}', " .
-			"`pcr_observations` = '{$pcr_observations}', `pcr_observations_sample` = '{$pcr_observations_sample}', `pcr_interpretation` = '{$pcr_interpretation}', " .
-			"`updated_at` = '" . date('Y-m-d H:i:s'). "' ".
+			"`patient_day_number` = '{$patient_day_number}', `test_result` = '{$test_result}', `test_sample` = '{$test_sample}', " .
+			"`test_date_taken` = '{$test_date_taken}', `test_date_result` = '{$test_date_result}', `test_reference` = '{$test_reference}', " .
+			"`test_method` = '{$test_method}', `pcr_observations` = '{$pcr_observations}', `pcr_observations_sample` = '{$pcr_observations_sample}', " .
+			"`pcr_interpretation` = '{$pcr_interpretation}', `updated_at` = '" . date('Y-m-d H:i:s'). "' ".
 			"WHERE `id` = '{$id}' LIMIT 1;";
 
 		if (!mysqli_query(self::$con, $sql)) {
