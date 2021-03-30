@@ -16,7 +16,7 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" rel="stylesheet" crossorigin="anonymous" />
 
 		<!-- Custom styles for this template -->
-		<link href="assets/style.css?v=210329" rel="stylesheet">
+		<link href="assets/style.css?v=210330" rel="stylesheet">
 	</head>
 
 	<body id="pageBody" class="bg-light">
