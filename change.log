@@ -7,3 +7,8 @@ ADD COLUMN `pcr_interpretation` VARCHAR(255) NULL DEFAULT NULL AFTER `pcr_observ
 # 2021-03-30
 ALTER TABLE `covid_tests` 
 ADD COLUMN `patient_day_number` VARCHAR(255) NULL DEFAULT NULL AFTER `test_type`;
+
+# 2021-03-31
+ALTER TABLE `labsal`.`covid_tests` 
+ADD COLUMN `parent_id` INT NULL DEFAULT NULL AFTER `id`,
+ADD INDEX `parent_id_inx` (`parent_id` ASC) VISIBLE;
