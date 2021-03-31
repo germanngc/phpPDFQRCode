@@ -3,8 +3,7 @@ require_once dirname(__FILE__) . '/config/config.php';
 require_once dirname(__FILE__) . '/config/forms.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	echo "<pre>" . print_r($_REQUEST, true) . "</pre>";
-	// $phpPDFQRForms::createForm($_POST);
+	$phpPDFQRForms::createForm($_POST);
 }
 
 $pageTitle = "Registry Form";
@@ -127,31 +126,6 @@ include dirname(__FILE__) . '/views/body.php';
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<?php /* ?> 
-									<td class="col-sm-2">
-										<input type="text" class="form-control form-control-sm" name="party_members[0][first_name]" placeholder="First Name" required>
-									</td>
-									<td class="col-sm-2">
-										<input type="text" class="form-control form-control-sm" name="party_members[0][last_name]" placeholder="Last Name" required>
-									</td>
-									<td class="col-sm-2">
-										<input type="text" class="form-control form-control-sm datePicker" name="party_members[0][date_of_birth]" placeholder="mm/dd/yyyy" required>
-									</td>
-									<td class="col-sm-2">
-										<div class="row">
-											<div class="col-6"><input class="form-check-input" type="radio" name="party_members[0][sex]" value="female" required></div>
-											<div class="col-6"><input class="form-check-input" type="radio" name="party_members[0][sex]" value="male" required></div>
-										</div>
-									</td>
-									<td class="col-sm-3">
-										<input type="text" class="form-control form-control-sm" name="party_members[0][passport]" placeholder="L898902C" minlength="6" maxlength="9"  required>
-									</td>
-									<td class="col-sm-1 text-center">
-										<button type="button" class="ibtnDel btn btn-md btn-danger"><i class="fa fa-times"></i></button>
-									</td>
-									<?php /*/ ?> 
-								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
@@ -179,56 +153,5 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_2"></script>
-<script>
-	document.addEventListener("DOMContentLoaded", function(event) {
-		let counter = 0;
-
-		$("input[name=book_type]").on('click', function() {
-			$("#addrow").trigger('click');
-		});
-
-		$("#addrow").on("click", function() {
-			let newRow = $("<tr>"),
-				cols = "";
-
-			cols += '<td class="col-sm-2">' +
-				'<input type="text" class="form-control form-control-sm" name="party_members[' + counter + '][first_name]" placeholder="First Name" required>' +
-				'</td>' +
-				'<td class="col-sm-2">' +
-				'<input type="text" class="form-control form-control-sm" name="party_members[' + counter + '][last_name]" placeholder="Last Name" required>' +
-				'</td>' + 
-				'<td class="col-sm-2">' +
-				'<input type="text" class="form-control form-control-sm datePicker" name="party_members[' + counter + '][date_of_birth]" placeholder="mm/dd/yyyy" required>' +
-				'</td>' +
-				'<td class="col-sm-2">' +
-				'<div class="row">' +
-				'<div class="col-6"><input class="form-check-input" type="radio" name="party_members[' + counter + '][sex]" value="female" required></div>' +
-				'<div class="col-6"><input class="form-check-input" type="radio" name="party_members[' + counter + '][sex]" value="male" required></div>' +
-				'</div>' +
-				'</td>' +
-				'<td class="col-sm-2">' +
-				'<input type="text" class="form-control form-control-sm" name="party_members[' + counter + '][passport]" placeholder="L898902C" minlength="6" maxlength="9" required>' +
-				'</td>' + 
-				'<td class="col-sm-2 text-center">' +
-				'<button type="button" class="ibtnDel btn btn-md btn-danger"><i class="fa fa-times"></i></button>' +
-				'</td>';
-
-			newRow.append(cols);
-
-			$("table.order-list").append(newRow);
-
-			counter++;
-		});
-
-		$("table.order-list").on("click", ".ibtnDel", function (event) {
-    	    $(this).closest("tr").remove();
-    	    counter -= 1;
-    	});
-
-		$(document).on('focus',".datePicker", function() {
-			$(this).datepicker();
-		});
-	});
-</script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210331"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 

@@ -23,26 +23,30 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			2 => 'email_',
 			3 => 'edit_',
 			4 => 'id',
-			5 => 'first_name',
-			6 => 'last_name',
-			7 => 'email',
-			8 => 'birthdate',
-			9 => 'sex',
-			10 => 'passport',
-			11 => 'villa',
-			12 => 'reservation_number',
-			13 => 'symptoms',
-			14 => 'book_type',
-			15 => 'book_family',
+			5 => 'parent_id',
+			6 => 'first_name',
+			7 => 'last_name',
+			8 => 'email',
+			9 => 'birthdate',
+			10 => 'sex',
+			11 => 'passport',
+			12 => 'villa',
+			13 => 'reservation_number',
+			14 => 'symptoms',
+			15 => 'book_type',
 			16 => 'test_type',
-			17 => 'test_date_taken',
-			18 => 'test_date_result',
-			19 => 'test_result',
-			20 => 'test_reference',
-			21 => 'test_sample',
-			22 => 'test_method',
-			23 => 'created_at',
-			25 => 'updated_at'
+			17 => 'patient_day_number',
+			18 => 'test_date_taken',
+			19 => 'test_date_result',
+			20 => 'test_result',
+			21 => 'test_reference',
+			22 => 'test_sample',
+			23 => 'test_method',
+			24 => 'pcr_observations',
+			25 => 'pcr_observations_sample',
+			26 => 'pcr_interpretation',
+			27 => 'created_at',
+			28 => 'updated_at'
 		];
 
 		$json_data = [
@@ -73,6 +77,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 		if (!empty($search_value)) { 
 			$where .= " WHERE (" .
 				"`id` LIKE '" . $search_value . "%' " .
+				"OR `parent_id` LIKE '" . $search_value . "%' " .
 				"OR `first_name` LIKE '" . $search_value . "%' " .
 				"OR `last_name` LIKE '" . $search_value . "%' " .
 				"OR `email` LIKE '" . $search_value . "%' " .
@@ -83,7 +88,6 @@ class phpPDFQRAPI extends phpPDFQRConfig
 				"OR `reservation_number` LIKE '" . $search_value . "%' " .
 				"OR `symptoms` LIKE '" . $search_value . "%' " .
 				"OR `book_type` LIKE '" . $search_value . "%' " .
-				"OR `book_family` LIKE '" . $search_value . "%' " .
 				"OR `test_type` LIKE '" . $search_value . "%' " .
 				"OR `patient_day_number` LIKE '" . $search_value . "%' " .
 				"OR `test_date_taken` LIKE '" . $search_value . "%' " .
@@ -110,9 +114,9 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			$json_data["recordsTotal"] = $json_data["recordsFiltered"] = isset($totalRecordsFetch["total"]) ? $totalRecordsFetch["total"] : 0;
 		}
 
-		$resultsSql = "SELECT `id`, `first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `villa`, " .
-			"`reservation_number`, `symptoms`, `book_type`, `book_family`, `test_type`, `patient_day_number`, `test_date_taken`, " .
-			"`test_date_result`, `test_result`, `test_reference`, `test_sample`, `test_method`, `pcr_observations`, `pcr_observations_sample`, " .
+		$resultsSql = "SELECT `id`, `parent_id`, `first_name`, `last_name`, `email`, `birthdate`, `sex`, `passport`, `villa`, " .
+			"`reservation_number`, `symptoms`, `book_type`, `test_type`, `patient_day_number`, `test_date_taken`, `test_date_result`, " .
+			"`test_result`, `test_reference`, `test_sample`, `test_method`, `pcr_observations`, `pcr_observations_sample`, " .
 			"`pcr_interpretation`, `created_at`, `updated_at` " . 
 			"FROM `covid_tests` {$where} " .
 			"{$order_by} " .
@@ -160,6 +164,7 @@ class phpPDFQRAPI extends phpPDFQRConfig
 						'onclick="window.open(\'' . self::$rootURL . '/form-edit.php?id=' . $row['id'] . '\', \'_self\');">' .
 						'&nbsp;<i class="fas fa-edit"></i>&nbsp;</button>',
 					'RIH' . str_pad($row['id'], 7, "0", STR_PAD_LEFT),
+					$row['parent_id'] ? 'RIH' . str_pad($row['parent_id'], 7, "0", STR_PAD_LEFT) : '-',
 					$row['first_name'],
 					$row['last_name'],
 					$row['email'],
@@ -170,7 +175,6 @@ class phpPDFQRAPI extends phpPDFQRConfig
 					$row['villa'],
 					str_replace(";", "\n\r<br>", $row['symptoms']),
 					$row['book_type'] == 'individual' ? 'Myself' : 'Group or family',
-					$row['book_family'] == 'yes' ? 'Yes' : 'No',
 					$row['test_type'] == 'antigen' ? 'COVID-19 Antigen Test' : 'COVID-19 RT-PCR Test',
 					$row['patient_day_number'],
 					$row['test_date_taken'],

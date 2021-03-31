@@ -34,6 +34,7 @@ include dirname(__FILE__) . '/views/body.php';
 					<th><i class="fas fa-envelope-open-text"></i></th>
 					<th><i class="fas fa-edit"></i></th>
 					<th>File</th>
+					<th>Parent File</th>
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th>Email</th>
@@ -44,7 +45,6 @@ include dirname(__FILE__) . '/views/body.php';
 					<th>Villa</th>
 					<th>Symptoms</th>
 					<th>Book type</th>
-					<th>Book family</th>
 					<th>Test type</th>
 					<th>Patient Day Number</th>
 					<th>Test date taken</th>

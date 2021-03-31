@@ -9,6 +9,9 @@ ALTER TABLE `covid_tests`
 ADD COLUMN `patient_day_number` VARCHAR(255) NULL DEFAULT NULL AFTER `test_type`;
 
 # 2021-03-31
-ALTER TABLE `labsal`.`covid_tests` 
+ALTER TABLE `covid_tests` 
 ADD COLUMN `parent_id` INT NULL DEFAULT NULL AFTER `id`,
 ADD INDEX `parent_id_inx` (`parent_id` ASC) VISIBLE;
+
+ALTER TABLE `covid_tests` 
+DROP COLUMN `book_family`;

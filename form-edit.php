@@ -44,31 +44,43 @@ $row = $phpPDFQRForms::showForm($id);
 					<div id="lastnameHelp" class="form-text">**Reverse Transcription Polymerase Chain Reaction.</div>
 				</div>
 
+				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
+					<label for="email" class="form-label">2. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" <?php echo $row['book_type'] == 'individual' ? 'checked' : ''; ?> required>
+						<label class="form-check-label" for="book_type1">Myself</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="book_type" id="book_type2" value="group" <?php echo $row['book_type'] == 'group' ? 'checked' : ''; ?> required>
+						<label class="form-check-label" for="book_type2">Group or family</label>
+					</div>
+				</div>
+
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="name" class="form-label">2. First Name <span class="form-required-star"></span></label>
+					<label for="name" class="form-label">3. First Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="name" name="name" value="<?php echo $row['first_name']; ?>" required>
 					<div id="nameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="lastname" class="form-label">3. Last Name <span class="form-required-star"></span></label>
+					<label for="lastname" class="form-label">4. Last Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="lastname" name="lastname" value="<?php echo $row['last_name']; ?>" required>
 					<div id="lastnameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="email" class="form-label">4. Email <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">5. Email <span class="form-required-star"></span></label>
 					<input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="birthdate" class="form-label">5. Date of Birth <span class="form-required-star"></span></label>
+					<label for="birthdate" class="form-label">6. Date of Birth <span class="form-required-star"></span></label>
 					<input type="text" class="form-control datePicker" id="birthdate" name="birthdate" value="<?php echo date("m/d/Y", strtotime($row['birthdate'])); ?>" placeholder="mm/dd/yyyy" required>
 					<div id="birthdateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="email" class="form-label">6. Sex <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">7. Sex <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="sex" id="sex1" value="male" <?php if($row['sex']=='male'){ echo'checked';} ?> required>
 						<label class="form-check-label" for="sex1">Male</label>
@@ -80,44 +92,22 @@ $row = $phpPDFQRForms::showForm($id);
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="passport" class="form-label">7. Passport Number <span class="form-required-star"></span></label>
+					<label for="passport" class="form-label">8. Passport Number <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="passport" name="passport" value="<?php echo $row['passport']; ?>" placeholder="L898902C" minlength="6" maxlength="9" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="reservation_number" class="form-label">8. Reservation Number <span class="form-required-star"></span></label>
+					<label for="reservation_number" class="form-label">9. Reservation Number <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="reservation_number" name="reservation_number" value="<?php echo $row['reservation_number']; ?>" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="villa" class="form-label">9. Villa Number </label>
+					<label for="villa" class="form-label">10. Villa Number </label>
 					<input type="text" class="form-control" id="villa" name="villa" value="<?php echo $row['villa']; ?>">
 				</div>
 
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
-					<label for="email" class="form-label">10. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" <?php if($row['book_type']=='individual'){ echo'checked';} ?> required>
-						<label class="form-check-label" for="book_type1">Myself</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_type" id="book_type2" value="group" <?php if($row['book_type']=='group'){ echo'checked';} ?> required>
-						<label class="form-check-label" for="book_type2">Group or family</label>
-					</div>
-				</div>
-
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: <?php echo $row['book_type'] == 'individual' ? 'none': 'block'; ?>">
-					<label for="email" class="form-label<?php echo $row['book_type'] == 'individual' ? ' text-muted': ''; ?>">11. Are you the main member of Family/Group and/or booking the appointment on behalf of all of them? <span class="<?php echo $row['book_type'] == 'individual' ? '': 'form-required-star'; ?>"></span></label>
-					<div id="book_family_options">
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="book_family" id="book_family1" value="yes" <?php if($row['book_family']=='yes'){ echo'checked';} ?> required>
-							<label class="form-check-label" for="book_family1">Yes - Book (This form should be filled by all your family / group members individually)</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="book_family" id="book_family2" value="no" <?php if($row['book_family']=='no'){ echo'checked';} ?> required>
-							<label class="form-check-label" for="book_family2">No - Don't book</label>
-						</div>
-					</div>
+				<div class="col-md-12 mb-3 border-bottom py-4">
+					<label class="form-label">11. Family/group members (if any) edited on separate form.</label>
 				</div>
 
 				<div class="col-md-12 mb-3 border-bottom py-4">
@@ -212,7 +202,7 @@ $symptoms_arr = explode(';', $row['symptoms']);
 			
 				<div class="col-md-4 mb-3 border-bottom py-4">
 					<label for="test_method" class="form-label">18. Method of the Test <span class="form-required-star"></span></label>
-					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : 'Inmuno Ensayo Cromatográfico / Cromotography immunoassay'; ?>" required>
+					<input type="text" class="form-control" id="test_method" name="test_method" value="<?php echo $row['test_method'] ? $row['test_method'] : $row['test_type'] == 'antigen' ? 'Inmuno Ensayo Cromatográfico / Cromotography immunoassay' : 'RT-PCR'; ?>" required>
 				</div>
 
 				<div class="col-md-12">
@@ -294,5 +284,5 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210330_2"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210331"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 
