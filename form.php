@@ -39,38 +39,26 @@ include dirname(__FILE__) . '/views/body.php';
 					<div id="lastnameHelp" class="form-text">**Reverse Transcription Polymerase Chain Reaction.</div>
 				</div>
 
-				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
-					<label for="book_type" class="form-label">2. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" checked required>
-						<label class="form-check-label" for="book_type1">Myself</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="book_type" id="book_type2" value="group" required>
-						<label class="form-check-label" for="book_type2">Group or family</label>
-					</div>
-				</div>
-
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="name" class="form-label">3. First Name <span class="form-required-star"></span></label>
+					<label for="name" class="form-label">2. First Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="name" name="name" required>
 					<div id="nameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-6 mb-3 border-bottom py-4">
-					<label for="lastname" class="form-label">4. Last Name <span class="form-required-star"></span></label>
+					<label for="lastname" class="form-label">3. Last Name <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="lastname" name="lastname" required>
 					<div id="lastnameHelp" class="form-text">As displayed in your passport.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="birthdate" class="form-label">5. Date of Birth <span class="form-required-star"></span></label>
+					<label for="birthdate" class="form-label">4. Date of Birth <span class="form-required-star"></span></label>
 					<input type="text" class="form-control datePicker" id="birthdate" name="birthdate" placeholder="mm/dd/yyyy" required>
 					<div id="birthdateHelp" class="form-text">Use your browser selector.</div>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label class="form-label">6. Sex <span class="form-required-star"></span></label>
+					<label class="form-label">5. Sex <span class="form-required-star"></span></label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="sex" id="sex2" value="female" required>
 						<label class="form-check-label" for="sex2">Female</label>
@@ -82,61 +70,51 @@ include dirname(__FILE__) . '/views/body.php';
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="passport" class="form-label">7. Passport Number <span class="form-required-star"></span></label>
+					<label for="passport" class="form-label">6. Passport Number <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="passport" name="passport" placeholder="L898902C" minlength="6" maxlength="9" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="email" class="form-label">8. Email <span class="form-required-star"></span></label>
+					<label for="email" class="form-label">7. Email <span class="form-required-star"></span></label>
 					<input type="email" class="form-control" id="email" name="email" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="reservation_number" class="form-label">9. Reservation Number <span class="form-required-star"></span></label>
+					<label for="reservation_number" class="form-label">8. Reservation Number <span class="form-required-star"></span></label>
 					<input type="text" class="form-control" id="reservation_number" name="reservation_number" required>
 				</div>
 
 				<div class="col-md-4 mb-3 border-bottom py-4">
-					<label for="villa" class="form-label">10. Villa Number </label>
+					<label for="villa" class="form-label">9. Villa Number </label>
 					<input type="text" class="form-control" id="villa" name="villa">
+				</div>
+
+				<div class="col-md-12 mb-3 border-bottom py-4" id="book_type_container">
+					<label for="book_type" class="form-label">10. Please select the appropriate option: are you booking for yourself, or on behalf of a group or family? <span class="form-required-star"></span></label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="book_type" id="book_type1" value="individual" checked required>
+						<label class="form-check-label" for="book_type1">Myself</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="book_type" id="book_type2" value="group" required>
+						<label class="form-check-label" for="book_type2">Group or family</label>
+					</div>
 				</div>
 
 				<div class="col-md-12 mb-3 border-bottom py-4" id="book_family_container" style="display: none;">
 					<label class="form-label">11. Please add your family/group members</label>
 
-					<div class="book_family_container_options">
-						<table id="myTable" class="table order-list">
-							<thead>
-								<tr>
-									<th>First Name <span class="form-required-star"></span></th>
-									<th>Last Name <span class="form-required-star"></span></th>
-									<th>
-										Date of Birth <span class="form-required-star"></span>
-										<div id="" class="form-text">Use your browser selector.</div>
-									</th>
-									<th>
-										Sex <span class="form-required-star"></span>
-										<div class="row">
-											<div class="col-6">Female</div>
-											<div class="col-6">Male</div>
-										</div>
-									</th>
-									<th>Passport Number <span class="form-required-star"></span></th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-							<tfoot>
-								<tr>
-									<th colspan="5"></th>
-									<th class="col-sm-2 text-center">
-										<button type="button" class="btn btn-success btn-block" id="addrow"><i class="fa fa-plus"></i></button>
-									</th>
-								</tr>
-								<tr></tr>
-							</tfoot>
-						</table>
+					<div class="card">
+						<div class="card-body">
+							<div id="Guests" class="p-2" style="background-color: #09a9f455;">
+							</div>
+
+							<div class="d-flex flex-row-reverse">
+								<div class="p-2">
+									<button type="button" class="btn btn-success btn-block" id="addrow"><i class="fa fa-plus"></i></button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -153,5 +131,5 @@ include dirname(__FILE__) . '/views/body.php';
 </main>
 
 <script src="https://www.google.com/recaptcha/enterprise.js?render=6Le-Go0aAAAAAL0ee1HWs5TCJ5w3ODInxrpJlFgw"></script>
-<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210331"></script>
+<script src="<?php echo $phpPDFQRConfig::$rootURL; ?>/assets/js/form.js?v=210401"></script>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?> 

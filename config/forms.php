@@ -40,6 +40,7 @@ class phpPDFQRForms extends phpPDFQRConfig
 				$party_member['birthdate'] = $member['birthdate'];
 				$party_member['sex'] = $member['sex'];
 				$party_member['passport'] = $member['passport'];
+				$party_member['test_type'] = $member['test_type'];
 
 				if ($party_form_id = self::insertForm(self::$con, $party_member)) {
 					$party_members_id['success']['RIH' . str_pad($party_form_id, 7, "0", STR_PAD_LEFT)] = $party_member;
@@ -134,8 +135,6 @@ class phpPDFQRForms extends phpPDFQRConfig
 			"({$parent_id}, '{$name}', '{$lastname}', '{$email}', '{$birthdate}', '{$sex}', '{$passport}', '{$reservation_number}', " .
 			"'{$villa}', '{$book_type}', '{$test_type}', '" . date('Y-m-d H:i:s'). "');";
 
-		self::log('xGNGCx', print_r($data, true));
-		self::log('xGNGCx', $sql);
 		if (!mysqli_query($con, $sql)) {
 			self::log('error', 'Unable to insert a record. ' . mysqli_error($con));
 			return false;

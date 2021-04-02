@@ -182,7 +182,7 @@ class formPDF extends FPDF
 		$qrURL = 'qr-url-' . time();
 		$qrPDF = 'qr-pdf-' . time();
 
-		$this->pdfFilename = $pdfFilename = 'RIH' . str_pad($formData['id'], 7, "0", STR_PAD_LEFT) . '_' . hash("sha256", $id) . '.pdf';
+		$this->pdfFilename = $pdfFilename = 'RIH' . str_pad($id, 7, "0", STR_PAD_LEFT) . '_' . hash("sha256", $id) . '.pdf';
 
 		QRcode::png(
 			'https://www.gob.mx/cms/uploads/attachment/file/604645/SARS-CoV-2_Rapid_Antigen_Test__Productos_Roche__S.A._de_C.V._.pdf',

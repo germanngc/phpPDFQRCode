@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 		<meta name="title" content="<?php echo isset($pageTitle) ? $pageTitle . ' |' : ''; ?> zogen Generate PDF - by Nina Code">
 		<meta name="author" content="Nina Code">
-		<meta name="theme-color" content="#7952b3">
+		<meta name="theme-color" content="#09a9f4">
 
 		<title><?php echo isset($pageTitle) ? $pageTitle . ' |' : ''; ?> zogen Generate PDF - by Nina Code</title>
 

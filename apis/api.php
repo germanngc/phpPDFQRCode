@@ -224,6 +224,10 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			mkdir($zipPath, 0775, true);
 		}
 
+		if (file_exists($zipPath . $zipName)) {
+			unlink($zipPath . $zipName);
+		}
+
 		if ($zip->open($zipPath . $zipName,  ZipArchive::CREATE)) {
 			foreach ($itemsId AS $id) {
 				$formData = self::$phpPDFQRForms::showForm($id);
