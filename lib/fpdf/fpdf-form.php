@@ -79,6 +79,16 @@ class formPDF extends FPDF
 		$this->Cell(2.10, 0.20, utf8_decode($birthDay), 0, 1);
 
 		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(3.20, 0.20, utf8_decode('Fecha de Nacimiento / Date of Birth (mm/dd/yyyy): '), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(1.65, 0.20, utf8_decode(date('m/d/Y', strtotime($formData["birthdate"]))), 0, 0);
+
+		$this->SetFont('OpenSans-Light', '', 10);
+		$this->Cell(0.75, 0.20, utf8_decode(''), 0, 0);
+		$this->SetFont('OpenSans-Regular', 'B', 9);
+		$this->Cell(2.10, 0.20, utf8_decode(''), 0, 1);
+
+		$this->SetFont('OpenSans-Light', '', 10);
 		$this->Cell(2.20, 0.20, utf8_decode('No. Pasaporte / Passport Number: '), 0, 0);
 		$this->SetFont('OpenSans-Regular', 'B', 9);
 		$this->Cell(2.65, 0.20, utf8_decode($formData["passport"]), 0, 0);
@@ -171,6 +181,11 @@ class formPDF extends FPDF
 		$this->Cell(1.20, 0.30, utf8_decode('Método / Method: '), 0, 0);
 		$this->SetFont('OpenSans-Regular', 'B', 9);
 		$this->Cell(6.90, 0.30, utf8_decode($formData["test_method"]), 0, 1);
+
+		if (utf8_decode($formData["test_type"]) != 'antigen') {
+			$this->SetFont('OpenSans-Light', '', 8);
+			$this->MultiCell(0, 0.15, utf8_decode('La Organización Mundial de la Salud (OMS) recomendó que se considerara como caso positivo cuando se detecta la presencia de un solo gen del SARS-CoV-2. / The World Health Organization (WHO) recommended that it be considered a positive case when the presence of a single SARS-CoV-2 gene is detected.'));
+		}
 	}
 
 	function formQRS($id)
