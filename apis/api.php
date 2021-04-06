@@ -74,35 +74,21 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			$limit = 'LIMIT ' . $_REQUEST['start'] . "," . $_REQUEST['length'];
 		}
 
-		if (!empty($search_value)) { 
-			$where .= " WHERE (" .
-				"`id` LIKE '" . $search_value . "%' " .
-				"OR `parent_id` LIKE '" . $search_value . "%' " .
-				"OR `first_name` LIKE '" . $search_value . "%' " .
-				"OR `last_name` LIKE '" . $search_value . "%' " .
-				"OR `email` LIKE '" . $search_value . "%' " .
-				"OR `birthdate` LIKE '" . $search_value . "%' " .
-				"OR `sex` LIKE '" . $search_value . "%' " .
-				"OR `passport` LIKE '" . $search_value . "%' " .
-				"OR `villa` LIKE '" . $search_value . "%' " .
-				"OR `reservation_number` LIKE '" . $search_value . "%' " .
-				"OR `symptoms` LIKE '" . $search_value . "%' " .
-				"OR `book_type` LIKE '" . $search_value . "%' " .
-				"OR `test_type` LIKE '" . $search_value . "%' " .
-				"OR `patient_day_number` LIKE '" . $search_value . "%' " .
-				"OR `test_date_taken` LIKE '" . $search_value . "%' " .
-				"OR `test_date_result` LIKE '" . $search_value . "%' " .
-				"OR `test_result` LIKE '" . $search_value . "%' " .
-				"OR `test_reference` LIKE '" . $search_value . "%' " .
-				"OR `test_sample` LIKE '" . $search_value . "%' " .
-				"OR `test_method` LIKE '" . $search_value . "%' " .
-				"OR `pcr_observations` LIKE '" . $search_value . "%' " .
-				"OR `pcr_observations_sample` LIKE '" . $search_value . "%' " .
-				"OR `pcr_interpretation` LIKE '" . $search_value . "%' " .
-				"OR `created_at` LIKE '" . $search_value . "%' " .
-				"OR `updated_at` LIKE '" . $search_value . "%' " .
-				")";
+		$where = "WHERE `id` IS NOT NULL AND (";
+
+		foreach ($columns AS $i => $col) {
+			if (
+				isset($_REQUEST['columns']) &&
+				isset($_REQUEST['columns'][$i]) &&
+				isset($_REQUEST['columns'][$i]['search']) &&
+				!empty($_REQUEST['columns'][$i]['search']['value'])
+			) {
+				$where .= "`{$col}` LIKE '" . $_REQUEST['columns'][$i]['search']['value'] . "%' AND ";
+			}
 		}
+
+		$where .= ')';
+		$where = preg_replace(['/ AND \)$/', '/ AND \(\)$/'], [')', ''], $where);
 		
 		$totalRecordsSql = "SELECT count(`id`) AS `total` FROM `covid_tests` {$where};";
 
@@ -122,6 +108,8 @@ class phpPDFQRAPI extends phpPDFQRConfig
 			"{$order_by} " .
 			"{$limit}" .
 			";";
+
+		self::Log('xGNGCx', $resultsSql);
 
 		if (!$resultsQuery = mysqli_query(self::$con, $resultsSql)) {
 			self::Log('error', '[Line:' . __LINE__ . '] Unable to retrieve data for datatables `covid_tests`: ' . mysqli_error(self::$con));

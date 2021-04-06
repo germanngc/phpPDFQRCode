@@ -260,11 +260,11 @@ $pcr_observations_sample_arr = explode(';', $row['pcr_observations_sample']);
 						<div class="col-md-6 mb-3 border-bottom py-4">
 							<label for="pcr_interpretation" class="form-label">20. RT-PCR Interpretation <span class="form-required-star"></span></label>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="pcr_interpretation" id="pcr_interpretation1" value="negative"<?php echo $row['pcr_interpretation'] == 'negative' ? ' checked' : ''; ?> required>
+								<input class="form-check-input" type="radio" name="pcr_interpretation" id="pcr_interpretation1" value="negative"<?php echo $row['pcr_interpretation'] == 'negative' ? ' checked' : ''; ?>>
 								<label class="form-check-label" for="pcr_interpretation1">Negative (-)</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="pcr_interpretation" id="pcr_interpretation2" value="positive"<?php echo $row['pcr_interpretation'] == 'positive' ? ' checked' : ''; ?> required>
+								<input class="form-check-input" type="radio" name="pcr_interpretation" id="pcr_interpretation2" value="positive"<?php echo $row['pcr_interpretation'] == 'positive' ? ' checked' : ''; ?>>
 								<label class="form-check-label" for="pcr_interpretation2">Positive (+)</label>
 							</div>
 						</div>

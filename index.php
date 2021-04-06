@@ -10,9 +10,9 @@ include dirname(__FILE__) . '/views/body.php';
 		margin-bottom: .75rem;
 	}
 
-	button.dt-button.buttons-bulk-emails {
+	button.dt-button.buttons-bulk-emails {}
 
-	}
+	#myTable_filter {visibility: hidden;}
 </style>
 
 <main class="container-fluid">
@@ -114,7 +114,30 @@ include dirname(__FILE__) . '/views/body.php';
 				});
 			});
 
-		$('.dataTable').DataTable({
+		$('.dataTable thead tr').clone(true).appendTo('.dataTable thead');
+		$('.dataTable thead tr:eq(1) th').each(function(i) {
+            let title = $(this).text(),
+				html = '<input class="form-control form-control-sm" type="text" placeholder="Search ' + title + '" style="width:inherit;">';
+
+			if (i < 4) {
+				html = '';
+            }
+
+			$(this).html(html);
+
+			$('input', this).on('keyup change', function() {
+				if (dT.column(i).search() !== this.value) {
+					console.log('xGNGCx', this.value);
+					dT.column(i)
+						.search(this.value)
+						.draw();
+				}
+			});
+		});
+
+		let dT = $('.dataTable').DataTable({
+			orderCellsTop: true,
+			fixedHeader: true,
 			pageLength: 100,
 			autoWidth: 'false',
 			processing: true,
