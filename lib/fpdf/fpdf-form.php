@@ -21,7 +21,7 @@ class formPDF extends FPDF
 
 		$this->formInformation($formData);
 		$this->formQRS($formData['id']);
-		$this->formDisclaimer();
+		$this->formDisclaimer($formData['test_type']);
 	}
 
 	function Header()
@@ -181,16 +181,11 @@ class formPDF extends FPDF
 		$this->Cell(1.20, 0.30, utf8_decode('Método / Method: '), 0, 0);
 		$this->SetFont('OpenSans-Regular', 'B', 9);
 		$this->Cell(6.90, 0.30, utf8_decode($formData["test_method"]), 0, 1);
-
-		if (utf8_decode($formData["test_type"]) != 'antigen') {
-			$this->SetFont('OpenSans-Light', '', 8);
-			$this->MultiCell(0, 0.15, utf8_decode('La Organización Mundial de la Salud (OMS) recomendó que se considerara como caso positivo cuando se detecta la presencia de un solo gen del SARS-CoV-2. / The World Health Organization (WHO) recommended that it be considered a positive case when the presence of a single SARS-CoV-2 gene is detected.'));
-		}
 	}
 
 	function formQRS($id)
 	{
-		$this->SetXY(0.40, 6.5);
+		$this->SetXY(0.40, 6.0);
 		$this->currentY = $currentY = $this->GetY();
 
 		$qrTest = 'qr-test-' . time();
@@ -243,29 +238,38 @@ class formPDF extends FPDF
 		$this->SetY($currentY + 1.37 + 0.15);
 	}
 
-	function formDisclaimer()
+	function formDisclaimer($test_type)
 	{
 		$this->currentX = $currentX = $this->GetX();
 		$this->currentY = $currentY = $this->GetY();
 
 		$this->SetFont('OpenSans-Light', 'I', 8);
-		$this->SetX($currentX + 2.00);
-		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. / Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
-		$this->SetX($currentX + 2.00);
-		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados positivos sugieren una infección reciente. / Positive results suggest a recent infection.'));
-		$this->SetX($currentX + 2.00);
-		$this->MultiCell(5.66, 0.15, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. / Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
-		$this->Cell(0, 0.15, '', 0, 1);
-		// $this->SetY($currentY);
 
-		// $this->currentY = $currentY = $this->GetY();
+		if (utf8_decode($test_type) == 'antigen') {
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. / Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* Los resultados positivos sugieren una infección reciente. / Positive results suggest a recent infection.'));
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. / Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
+			$this->Cell(0, 0.15, '', 0, 1);
+		} else {
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* Método RT-PCR cuantitativo en tiempo real (qPCR TR) / Quantitative real-time RT-PCR method (qPCR TR).'));
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* Principio del método RT-PCR es la identificación de la presencia de SARS-CoV2 a través de retrotranscripción y posterior monitoreo de la amplificación en tiempo real de las secuencias conservada de los genes E y N del virus COV2. La prueba incluye la amplificación de un control interno (RNase P de Humanos) / Principle of the RT-PCR method is the identification of the presence of SARS-CoV2 through reverse transcription and subsequent monitoring of the real-time amplification of the conserved sequences of the E and N genes of the COV2 virus. The test includes the amplification of an internal control (Human RNase P).'));
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* La Organización Mundial de la Salud (OMS) recomendó que se considerara como caso positivo cuando se detecta la presencia de un solo gen del SARS-CoV-2. / The World Health Organization (WHO) recommended that it be considered a positive case when the presence of a single SARS-CoV-2 gene is detected.'));
+			$this->SetX($currentX + 2.00);
+			$this->MultiCell(5.66, 0.16, utf8_decode('* El estuche de la prueba SARS-CoV2 está validado por el InDRE Oficio DGE DSAT07184-2020 / The SARS-CoV2 test kit is validated by the InDRE Official document DGE DSAT07184-2020.'));
+		}
 
 		$this->Image(dirname(__FILE__) . '/../../media/signature.png', 0.40, $currentY, 1.37);
-		$this->SetY($currentY + 1.0);
+		$this->SetY($currentY + 1.00);
 		$this->SetFont('OpenSans-Light', 'I', 10);
 		$this->Cell(0, 0.30, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 1);
 
-		$this->SetY($currentY + 1.6);
+		$this->SetY($currentY + 2.10);
 		$this->SetFont('OpenSans-Light', '', 9);
 		$this->MultiCell(0, 0.15, utf8_decode('La consulta en línea y/o la impresión de este documento no sustituye al original / Online consultation and/or printing of this document does not replace the original'));
 	}
