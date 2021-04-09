@@ -20,7 +20,7 @@ class formPDF extends FPDF
 		$this->Ln();
 
 		$this->formInformation($formData);
-		$this->formQRS($formData['id']);
+		$this->formQRS($formData['id'], $formData['test_type']);
 		$this->formDisclaimer($formData['test_type']);
 	}
 
@@ -183,7 +183,7 @@ class formPDF extends FPDF
 		$this->Cell(6.90, 0.30, utf8_decode($formData["test_method"]), 0, 1);
 	}
 
-	function formQRS($id)
+	function formQRS($id, $test_type)
 	{
 		$this->SetXY(0.40, 6.0);
 		$this->currentY = $currentY = $this->GetY();
@@ -194,10 +194,18 @@ class formPDF extends FPDF
 
 		$this->pdfFilename = $pdfFilename = 'RIH' . str_pad($id, 7, "0", STR_PAD_LEFT) . '_' . hash("sha256", $id) . '.pdf';
 
-		QRcode::png(
-			'https://www.gob.mx/cms/uploads/attachment/file/604645/SARS-CoV-2_Rapid_Antigen_Test__Productos_Roche__S.A._de_C.V._.pdf',
-			dirname(__FILE__) . '/../../media/' . $qrTest . '.png'
-		);
+		if ($test_type == 'antigen') {
+			QRcode::png(
+				'https://www.gob.mx/cms/uploads/attachment/file/604645/SARS-CoV-2_Rapid_Antigen_Test__Productos_Roche__S.A._de_C.V._.pdf',
+				dirname(__FILE__) . '/../../media/' . $qrTest . '.png'
+			);
+		} else {
+			QRcode::png(
+				'https://www.gob.mx/cms/uploads/attachment/file/590301/FLU-COVID_RT-PCR_KIT__MCD__Servicios_Integrales_de_Diagn_sticos__S.A._de_C.V._.pdf',
+				dirname(__FILE__) . '/../../media/' . $qrTest . '.png'
+			);
+		}
+		
 		QRcode::png(
 			'https://laboratoriosalazar.com.mx',
 			dirname(__FILE__) . '/../../media/' . $qrURL . '.png'
@@ -211,7 +219,7 @@ class formPDF extends FPDF
 		$this->Image(dirname(__FILE__) . '/../../media/' . $qrTest . '.png', 0.40, $currentY, 1.37);
 		$this->SetXY(0.40, $currentY + 1.37 - 0.15);
 		$this->SetFont('OpenSans-Light', 'I', 7);
-		$this->Cell(6.60, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
+		$this->Cell(6.60, 0.30, utf8_decode($test_type == 'antigen' ? 'SARS-CoV-2 Rapid Antigen Test' : 'Flu Covid Rt PCR kit'), 0, 1);
 
 		$this->Image(dirname(__FILE__) . '/../../media/' . $qrURL . '.png', 3.57, $currentY, 1.37);
 		$this->SetXY(3.57, $currentY + 1.37 - 0.15);
