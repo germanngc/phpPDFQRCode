@@ -1,174 +1,322 @@
 <?php
-require 'lib/fpdf/fpdf.php';
-require 'lib/phpqrcode/qrlib.php';
+require_once dirname(__FILE__) . '/config/config.php';
 
-// Data:
-//   Ancho del Doc: 8.5 Pulgadas
-//   Alto del Doc: 11 Pulgadas
-// Notar las posicoones representadas en numeros son en pulgadas
-class PDF extends FPDF
-{
-	// Cabecera de página
-	function Header()
-	{
-		// Logo Zogen (Arriba Derecha)
-		$this->Image('media/zogen-logo.png', 7, 0.4, 1);
+$pageTitle = "Dashboard";
 
-		// Logo Laboratorio Zalasar (Centrado)
-		$this->Image('media/laboratorio-salazar-logo.png', 3, 0.4, 2.4);
-
-		// Arial bold 15
-		$this->SetFont('Helvetica', 'B', 10);
-
-		// Alineamos la posicion de las axis
-		$this->setXY(0.4, 1.4);
-
-		// Título
-		$this->Cell(0, 0.2, utf8_decode('Q.F.B. Clara Barocio Salazar'), 0, 0, 'C');
-		$this->Ln();
-		$this->Cell(0, 0.2, utf8_decode('D.G.P. 1524713'), 0, 0, 'C');
-		$this->Ln();
-		$this->SetLineWidth(0.02);
-		$this->SetDrawColor(150, 150, 150);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->SetDrawColor(0, 0, 0);
-
-		// Salto de línea
-		$this->Ln();
+include dirname(__FILE__) . '/views/body.php';
+?> 
+<style>
+	.dataTables_wrapper .dt-buttons {
+		margin-bottom: .75rem;
 	}
 
-	// Pie de página
-	function Footer()
-	{
-		// Posición: a 1,5 cm del final
-		$this->SetY(-1.1);
+	button.dt-button.buttons-bulk-emails {}
 
-		// Arial italic 8
-		$this->SetFont('Helvetica', 'I', 8);
+	#myTable_filter {visibility: hidden;}
+</style>
 
-		// Número de página
-		$this->SetLineWidth(0.02);
-		$this->SetDrawColor(150, 150, 150);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 'B', 1);
-		$this->Cell(0, 0.1, '', 0, 1);
-		$this->Cell(0, 0.2, utf8_decode('AV. Miguel Hidalgo# 704(Ruta 5) SN.92, MZA. 88 LT. 25, Cancún Q.ROO, C.P 77516, TEL. 888-91-10'), 0, 1, 'C');
-		$this->Cell(0, 0.2, utf8_decode('analisisclinicos@laboratoriosalazar.com.mx / www.laboratoriosalazar.com.mx'), 0, 1, 'C');
-		// $this->Cell(0, 0.2, utf8_decode('Página ' . $this->PageNo() . '/{nb}'), 0, 1, 'C');
-	}
-}
+<main class="container-fluid">
+	<?php $phpPDFQRConfig::flashGet(); ?> 
 
-// Creación del objeto de la clase heredada
-// Data:
-//   Ancho del Doc: 8.5 Pulgadas
-//   Alto del Doc: 11 Pulgadas
-// Notar las posicoones representadas en numeros son en pulgadas
-$pdf = new PDF('P', 'in', 'Letter');
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->AddFont('OpenSans-Light', '', 'OpenSans-Light.php');
-$pdf->AddFont('OpenSans-Light', 'I', 'OpenSans-LightItalic.php');
-$pdf->AddFont('OpenSans-Regular', '', 'OpenSans-Regular.php');
-$pdf->AddFont('OpenSans-Regular', 'B', 'OpenSans-Semibold.php');
-$pdf->Ln();
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Paciente // Patient: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.35, 0.30, utf8_decode('Germán Noé González Cuevas'), 0, 0);
+	<div class="d-flex align-items-center p-3 my-3 mb-0 bg-labsal text-labsal rounded shadow-sm">
+		<div class="lh-1">
+			<h1 class="h2 mb-1 lh-3">zogen | Laboratorio Salazar</h1>
+			<small>Administrador de Pruebas SARS-CoV-2 (COVID 19)</small>
+		</div>
+	</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.00, 0.30, utf8_decode('Sexo // Sex: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.85, 0.30, utf8_decode('Masculino // Male'), 0, 1);
+	<div class="my-3 p-3 bg-body rounded shadow-sm">
+		<table id="myTable" class="dataTable stripe nowrap order-column" data-order='[[ 4, "desc" ]]' style="font-size: 1rem; width: 100%">
+			<thead>
+				<tr>
+					<th><input id="dataTableChecker" type="checkbox"></th>
+					<th><i class="far fa-file-pdf"></i></th>
+					<th><i class="fas fa-envelope-open-text"></i></th>
+					<th><i class="fas fa-edit"></i></th>
+					<th>File</th>
+					<th>Parent File</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Birth date</th>
+					<th>Sex</th>
+					<th>Passport</th>
+					<th>Reservation number</th>
+					<th>Villa</th>
+					<th>Symptoms</th>
+					<th>Book type</th>
+					<th>Test type</th>
+					<th>Patient Day Number</th>
+					<th>Test date taken</th>
+					<th>Test date result</th>
+					<th>Test result</th>
+					<th>Test reference</th>
+					<th>Test sample</th>
+					<th>Test method</th>
+					<th>RT-PCR Observations</th>
+					<th>RT-PCR Observations Reference</th>
+					<th>RT-PCR Interpretation</th>
+					<th>Created at</th>
+					<th>Updated at</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</main>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.45, 0.30, utf8_decode('Expediente // File: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(3.40, 0.30, utf8_decode('RIZ157'), 0, 0);
+<!-- Modal -->
+<div class="modal fade" id="bulkPDFModal" tabindex="-1" aria-labelledby="bulkPDFModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.00, 0.30, utf8_decode('Edad // Age: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.85, 0.30, utf8_decode('33'), 0, 1);
+			<div class="modal-body"></div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(2.75, 0.30, utf8_decode('No. Pasaporte // Passport Number: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(2.10, 0.30, utf8_decode('L898902C'), 0, 0);
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.15, 0.30, utf8_decode('Fecha // Date: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(1.70, 0.30, utf8_decode('3/22/2021'), 0, 1);
+<script>
+	document.addEventListener("DOMContentLoaded", function(event) {
+		let bulkPDFModal = new bootstrap.Modal(document.getElementById('bulkPDFModal'), {
+			keyboard: false
+		});
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.55, 0.30, utf8_decode('Doctor // Physician: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.15, 0.30, utf8_decode('PhD Germán Noé Gonzále Cuevas'), 0, 1);
+		let buttonCommon = {
+			exportOptions: {
+				format: {
+					body: function (data, row, column, node) {
+						if (column == 9) {
+							data = data.replace(/<br\>/g, '');
+						}
 
-$pdf->Ln();
+						return data;
+					}
+				}
+			}
+		};
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(4.85, 0.30, utf8_decode('A quien corresponda // To whom it may concern,'), 0, 1);
+		document
+			.getElementById("dataTableChecker")
+			.addEventListener("change", function() {
+				let inputs = $('.dataTable td.select-checkbox input[type=checkbox]'),
+					isChecked = this.checked;
 
-$pdf->Ln();
+				inputs.each(function(i, o) {
+					if (o.disabled) return;
+					$(o).prop('checked', isChecked);
+				});
+			});
 
-$pdf->SetFont('OpenSans-Light', '', 10);
-$pdf->Cell('2.50', 0.30, utf8_decode('Examen // Test'), 'B', 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Resultado // Result'), 'B', 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Valor de Referencia // Reference Value'), 'B', 1, 'C');
-$pdf->SetFont('OpenSans-Regular', 'B', 10);
-$pdf->Cell('2.50', 0.30, utf8_decode('Antígeno // Antigen'), 0, 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Negativo (-) // Negative (-)'), 0, 0, 'C');
-$pdf->Cell('0.09', 0.30, utf8_decode(''), 0, 0);
-$pdf->Cell('2.50', 0.30, utf8_decode('Negativo (-) // Negative (-)'), 0, 1, 'C');
+		$('.dataTable thead tr').clone(true).appendTo('.dataTable thead');
+		$('.dataTable thead tr:eq(1) th').each(function(i) {
+            let title = $(this).text(),
+				html = '<input class="form-control form-control-sm" type="text" placeholder="Search ' + title + '" style="width:inherit;">';
 
-$pdf->Ln();
+			if (i < 4) {
+				html = '';
+            }
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Muestra // Sample: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('Nasofaringea // Nasopharyngeal'), 0, 1);
+			$(this).html(html);
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode('Método // Method: '), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('Inmuno Ensayo Cromatográfico // Cromotography immunoassay'), 0, 1);
+			$('input', this).on('keyup change', function() {
+				if (dT.column(i).search() !== this.value) {
+					console.log('xGNGCx', this.value);
+					dT.column(i)
+						.search(this.value)
+						.draw();
+				}
+			});
+		});
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->Cell(1.50, 0.30, utf8_decode(''), 0, 0);
-$pdf->SetFont('OpenSans-Regular', 'B', 11);
-$pdf->Cell(6.60, 0.30, utf8_decode('SARS-CoV-2 Rapid Antigen Test'), 0, 1);
+		let dT = $('.dataTable').DataTable({
+			orderCellsTop: true,
+			fixedHeader: true,
+			pageLength: 100,
+			autoWidth: 'false',
+			processing: true,
+			serverSide: true,
+			ajax: {
+				url: "<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=getForms",
+				type: "post",
+				dataSrc: function (json) {
+					if (!json._status) {
+						$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+						$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(json._message);
+						bulkPDFModal.show();
+					}
 
-$pdf->Ln();
+					return json.data;
+				},
+				error: function() {
+					$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+					$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+					$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+					$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado al cargar la lista, contactar con soporte.');
+					bulkPDFModal.show();
+				}
+			},
+			scrollX: 'true',
+			dom: 'Bfrtip',
+			responsive: true,
+			columnDefs: [{
+				orderable: false,
+				className: 'select-checkbox',
+				targets: [0]
+			},{
+				orderable: false,
+				targets: [1, 2, 3]
+			}],
+			buttons: [
+				$.extend(true, {}, buttonCommon, {
+					extend: 'excelHtml5',
+					text: 'Exportar a Excel',
+					className: 'btn',
+					exportOptions: {
+						columns: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+					}
+				}),
+				{
+					text: 'Generar paquete de PDFs',
+					className: 'buttons-bulk-pdf btn btn-labsal',
+					action: function(e, dt, node, config) {
+						$('.loading').show();
+						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
 
-$currentY = $pdf->GetY();
+						if (selected.length <= 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-exclamation-triangle"></i> Advertencia');
+							$('#bulkPDFModal').find('.modal-body').html('Debe seleccionar al menos un checkox en la lista para ejecutar esta función.');
+							$('.loading').hide();
+							bulkPDFModal.show();
+							return;
+						}
 
-// QRCode
-$stamp = 'qr-' . time();
-QRcode::png('https://ninacode.mx/?ref=' . $stamp, 'media/' . $stamp . '.png');
-// Logo Zogen (Arriba Derecha)
-$pdf->Image('media/' . $stamp . '.png', 0.40, $currentY - 0.1, 1.37);
+						let data = [];
 
-if (file_exists('media/' . $stamp . '.png')) {
-	unlink('media/' . $stamp . '.png');
-}
+						selected.each(function(i, o) {
+							data.push(o.value);
+						});
 
-$pdf->SetFont('OpenSans-Light', 'I', 8);
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados de pruebas de Antígeno no deben ser utilizados como la única base para diagnosticar o excluir una infección por SARS-CoV-2. Se debe valorar en conjunto con otras pruebas clínicas y la sintomatología del paciente. // Antigen test results should not be used as the sole basis to diagnose or exclude a SARS-CoV-2 infection. It should be assessed in conjunction with other clinical tests and the patient\'s symptoms.'));
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados positivos sugieren una infección reciente. // Positive results suggest a recent infection.'));
-$pdf->setX(1.77);
-$pdf->MultiCell(0, 0.20, utf8_decode('* Los resultados negativos no descartan una infección por SARS-CoV-2 particularmente en aquellas personas que hayan estado en contacto con el virus. Se debe considerar una prueba de seguimiento. // Negative results do not rule out SARS-CoV-2 infection, particularly in those who have been in contact with the virus. A follow up test should be considered.'));
+						$.ajax({
+							url: '<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=bulkPDF',
+							data: {itemsId: data},
+							method: 'POST',
+							success: function(result, status, xhr) {
+								$('.loading').hide();
 
-$pdf->Ln();
+								if (result.response) {
+									$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-success');
+									$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Generado Correctamente');
+									$('#bulkPDFModal').find('.modal-footer').html('<a class="btn btn-success" href="' + result.filename + '">Descargar</a> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+									$('#bulkPDFModal').find('.modal-body').html(result.message);
+									bulkPDFModal.show();
+								} else {
+									$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+									$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+									$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+									$('#bulkPDFModal').find('.modal-body').html(result.message);
+									bulkPDFModal.show();
+								}
+							},
+							error: function(xhr, status, error) {
+								$('.loading').hide();
 
-$pdf->SetFont('OpenSans-Light', '', 12);
-$pdf->MultiCell(0, 0.30, utf8_decode('La consulta en línea y/o la impresión de este documento no sustituye al original // Online consultation and / or printing of this document does not replace the original'));
+								$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+								$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+								$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+								$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado, contactar con soporte.');
+								bulkPDFModal.show();
+							}
+						});
+					}
+				},
+				{
+					text: 'Envio Masivo de Correos',
+					className: 'buttons-bulk-emails btn btn-labsal',
+					action: function(e, dt, node, config) {
+						$('.loading').show();
+						let selected = $('.dataTable td.select-checkbox input[type=checkbox]:checked');
 
-$pdf->Output();
+						if (selected.length <= 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-exclamation-triangle"></i> Advertencia');
+							$('#bulkPDFModal').find('.modal-body').html('Debe seleccionar al menos un checkox en la lista para ejecutar esta función.');
+							$('.loading').hide();
+							bulkPDFModal.show();
+							return;
+						}
+
+						let data = [];
+
+						selected.each(function(i, o) {
+							data.push(o.value);
+						});
+
+						sendEmailFunction(data);
+					}
+				}
+			]
+		});
+
+		$('body').on('click', '.sendEmail', function(e) {
+			$('.loading').show();
+
+			let itemsId = [$(this).data('id')];
+
+			sendEmailFunction(itemsId);
+		});
+
+		function sendEmailFunction(itemsId)
+		{
+			$.ajax({
+				url: '<?php echo $phpPDFQRConfig::$rootURL; ?>/apis/api.php?action=bulkEmail',
+				data: {itemsId},
+				method: 'POST',
+				success: function(result, status, xhr) {
+					$('.loading').hide();
+
+					if (result.response) {
+						if (result.data_err.length > 0) {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-warning');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Algunos Enviado Correctamente');
+						} else {
+							$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-success');
+							$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-check-circle"></i> Enviado Correctamente');
+						}
+
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(result.message);
+						
+						bulkPDFModal.show();
+					} else {
+						$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+						$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+						$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+						$('#bulkPDFModal').find('.modal-body').html(result.message);
+						bulkPDFModal.show();
+					}
+				},
+				error: function(xhr, status, error) {
+					$('.loading').hide();
+
+					$('#bulkPDFModal').find('.modal-title').attr('class', 'modal-title text-danger');
+					$('#bulkPDFModal').find('.modal-title').html('<i class="fas fa-bug"></i> Error');
+					$('#bulkPDFModal').find('.modal-footer').html('<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>');
+					$('#bulkPDFModal').find('.modal-body').html('Ocurrio un error inesperado, contactar con soporte.');
+					bulkPDFModal.show();
+				}
+			});
+		}
+	});
+</script>
+
+<?php include dirname(__FILE__) . '/views/footer.php'; ?> 
