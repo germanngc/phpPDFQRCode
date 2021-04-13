@@ -219,9 +219,9 @@ class formPDF extends FPDF
 		$this->Image(dirname(__FILE__) . '/../../media/' . $qrTest . '.png', 0.40, $currentY, 1.37);
 		$this->SetXY(0.40, $currentY + 1.37 - 0.15);
 		$this->SetFont('OpenSans-Light', 'I', 7);
-		$this->Cell(6.60, 0.30, utf8_decode($test_type == 'antigen' ? '(Productos Roche, S.A. De C.V.)' : '(MCD, Servicios Integrales De Diagnósticos, S.A. De C.V.)'), 0, 1);
-		$this->SetXY(0.40, $currentY + 1.52 - 0.15);
 		$this->Cell(6.60, 0.30, utf8_decode($test_type == 'antigen' ? 'SARS-CoV-2 Rapid Antigen Test' : 'FLU-COVID RT-PCR KIT'), 0, 1);
+		$this->SetXY(0.40, $currentY + 1.47 - 0.15);
+		$this->Cell(6.60, 0.30, utf8_decode($test_type == 'antigen' ? '(Productos Roche, S.A. De C.V.)' : '(MCD, Servicios Integrales De Diagnósticos, S.A. De C.V.)'), 0, 1);
 
 		$this->Image(dirname(__FILE__) . '/../../media/' . $qrURL . '.png', 3.57, $currentY, 1.37);
 		$this->SetXY(3.57, $currentY + 1.37 - 0.15);
@@ -245,7 +245,7 @@ class formPDF extends FPDF
 			unlink(dirname(__FILE__) . '/../../media/' . $qrPDF . '.png');
 		}
 
-		$this->SetY($currentY + 1.37 + 0.15);
+		$this->SetY($currentY + 1.37 + 0.20);
 	}
 
 	function formDisclaimer($test_type)
